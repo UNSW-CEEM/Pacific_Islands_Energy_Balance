@@ -1,11 +1,19 @@
 from dash import html
+# import dash_core_components as dcc
 from dash import dcc
 import dash_bootstrap_components as dbc
+from app import app
 import pandas as pd
 # import turbineView.Analysis_Tools as AT
 # from page1TurbineView import  *
+import dash
+import os
+import dash_daq as daq
 
+import config
+image_directory =  os.getcwd() + '/Data/Sankey/'
 
+# sankey_PREFIX = '/{}/Data/Sankey/'.format(config.DASH_APP_NAME)
 CONTENT_STYLE = {
     "margin-left": "0rem",
     "margin-right": "1rem",
@@ -39,7 +47,7 @@ def generate_select_country_drpdwn():
             ),
         ],
         inline=True,
-        style={'marginLeft':35,'marginTop':25,'fontSize':30}
+        style={'marginLeft':35,'marginTop':25,'fontSize':25}
     )
     return farm_drpdwn_dbc
 
@@ -211,7 +219,7 @@ TOP_BIGRAM_COMPS = [
                     ),
                     dbc.Row(
                         [
-                            dbc.Col(html.P("Select year and products to update plot:"), md=12),
+                            dbc.Col(html.P("Select year and products to update plot:"), md=2),
                             dbc.Col(
                                 [
                                     dcc.Dropdown(
@@ -221,10 +229,12 @@ TOP_BIGRAM_COMPS = [
                                             for i in Year_List
                                         ],
                                         value=Year_List[0],
-                                        style={'fontSize':15,'color':'black'}
+                                        style={'fontSize':12,'color':'black'},
+                                        clearable=False
+
                                     )
                                 ],
-                                md=1,
+                                md=2,
                             ),
                             dbc.Col(
                                 [
@@ -242,16 +252,14 @@ TOP_BIGRAM_COMPS = [
                                     ),
 
                                 ],
-                                md=11,
+                                md=12,
                             ),
                         ]
                     ),
                     # dcc.Graph(id="bigrams-comps"),
                     # html.Div(id='figure1',style={'margin-top': '15px', 'margin-left': '20px'}),
                     html.Br(),
-                    dcc.Graph(id="figure1",    style = {"border-style": "solid",
-                           'border-color': '#ff4d4d', 'border-width': '1px', 'border-radius': "0.25rem"
-                           }),
+                    dcc.Graph(id="figure1"),
 
                 ],
                 type="default",
@@ -260,18 +268,246 @@ TOP_BIGRAM_COMPS = [
         style={"marginTop": 0, "marginBottom": 0},
     ),
 ]
+
+Sankey = [
+    dbc.CardHeader(html.H5("Sankey Diagram for Energy Flows")),
+    dbc.CardBody(
+        [
+            dcc.Loading(
+                id="loading-sankey",
+                children=[
+                    dbc.Alert(
+                        "Something's gone wrong! Give us a moment, but try loading this page again if problem persists.",
+                        id="no-data-alert-sankey",
+                        color="warning",
+                        style={"display": "none"},
+                    ),
+                    dbc.Row(
+                        [
+                            dbc.Col(html.P("Select year to update Sankey diagram"), md=2),
+                            dbc.Col(
+                                [
+                                    dcc.Dropdown(
+                                        id="year_drpdwn_Sankey",
+                                        options=[
+                                            {"label": i, "value": i}
+                                            for i in Year_List
+                                        ],
+                                        value=Year_List[0],
+                                        style={'fontSize':15,'color':'black'},
+                                        clearable=False
+
+                                    )
+                                ],
+                                md=2,
+                            ),
+                        ]
+                    ),
+                    # dcc.Graph(id="bigrams-comps"),
+                    # html.Div(id='figure1',style={'margin-top': '15px', 'margin-left': '20px'}),
+                    html.Br(),
+                    dcc.Graph(id="Sankey_figure"),
+
+                ],
+                type="default",
+            )
+        ],
+        style={"marginTop": 0, "marginBottom": 0},
+    ),
+]
+
+Decarbonization = [
+    dbc.CardHeader(html.H5("Decarbonization of the electricity sector")),
+    dbc.CardBody(
+        [
+            dcc.Loading(
+                id="loading-decarb",
+                children=[
+                    dbc.Alert(
+                        "Something's gone wrong! Give us a moment, but try loading this page again if problem persists.",
+                        id="no-data-alert-sankey",
+                        color="warning",
+                        style={"display": "none"},
+                    ),
+                    dbc.Row(
+                        [
+                            dbc.Col(html.P("Select year to update Sankey diagram"), md=12),
+                            dbc.Col(
+                                [
+                                    dcc.Dropdown(
+                                        id="year_drpdwn_Sankey",
+                                        options=[
+                                            {"label": i, "value": i}
+                                            for i in Year_List
+                                        ],
+                                        value=Year_List[0],
+                                        style={'fontSize':15,'color':'black'},
+                                        clearable=False
+
+                                    )
+                                ],
+                                md=1,
+                            ),
+                        ]
+                    ),
+                    # dcc.Graph(id="bigrams-comps"),
+                    # html.Div(id='figure1',style={'margin-top': '15px', 'margin-left': '20px'}),
+                    html.Br(),
+                    dcc.Graph(id="Sankey_figure"),
+
+                ],
+                type="default",
+            )
+        ],
+        style={"marginTop": 0, "marginBottom": 0},
+    ),
+]
+
+def generate_gauge(id,title):
+    g = dbc.Card(
+    children=[
+        dbc.CardHeader(
+            title,
+            style={
+                "text-align": "center",
+                "color": "white",
+                "backgroundColor": "black",
+                "border-radius": "1px",
+                "border-width": "5px",
+                "border-top": "1px solid rgb(216, 216, 216)",
+            },
+        ),
+        dbc.CardBody(
+            [
+                html.Div(
+                    daq.LEDDisplay(
+                        id=id,
+                        # min=min(df["WEC: ava. Power"]),
+                        # max=None,  # This one should be the theoretical maximum
+                        # value=100,
+                        # showCurrentValue=True,
+                        color="#fec036",
+                        style={
+                            "align": "center",
+                            "display": "flex",
+                            "marginTop": "5%",
+                            "marginBottom": "0%",
+                        },
+                    ),
+                    className="m-auto",
+                    style={
+                        "display": "flex",
+                        "backgroundColor": "grey",
+                        "border-radius": "1px",
+                        "border-width": "5px",
+                    },
+                )
+            ],
+            className="d-flex",
+            style={
+                "backgroundColor": "grey",
+                "border-radius": "1px",
+                "border-width": "5px",
+                "border-top": "1px solid rgb(216, 216, 216)",
+            },
+        ),
+    ],
+    style={"height": "95%"},
+
+    )
+    return g
+
+
+
+radioitems_diesel_price = html.Div(
+    [
+    dbc.Label("Choose diesel price ($/litre)"),
+    dcc.Slider(0.5, 2, 0.1, value=0.9,marks=None,id='diesel_price_slider',
+    tooltip={"placement": "bottom", "always_visible": True}),
+    ],
+    style={'width':'50%'}
+)
+
+PV_price_slider = html.Div(
+    [
+        dbc.InputGroup(
+            [
+                dbc.InputGroupText("PV: $/W"),
+                dbc.Input(placeholder="Amount",value=3, step=0.1, type="number",id='PV-cost',min=0.5),
+                # dbc.InputGroupText(".00"),
+            ],
+            className="mb-3",
+        ),]
+)
+
+PV_Bat_price_slider = html.Div(
+    [
+        dbc.InputGroup(
+            [
+                dbc.InputGroupText("PV plus Battery: $/W"),
+                dbc.Input(placeholder="Amount",value=7, step=0.1,type="number",id='PV-battery-cost',min=1),
+                # dbc.InputGroupText(".00"),
+            ],
+            className="mb-3",
+        ),]
+)
+
+gauge_year = dcc.Dropdown(
+    id="year_drpdwn_gauge",
+    options=[
+        {"label": i, "value": i}
+        for i in Year_List
+    ],
+    value=Year_List[0],
+    style={'fontSize': 12, 'color': 'black','width':'50%'},
+    clearable=False,
+)
+gauge_size = "auto"
+
 BODY = dbc.Container(
     [
-        dbc.Row([dbc.Col(dbc.Card(TOP_BIGRAM_COMPS)),], style={"marginTop": 30,"marginLeft": 0,"border-style": "solid",
-                           'border-color': '#ff4d4d',}),
-        # dbc.Row([dbc.Col(dbc.Card(TOP_BIGRAM_PLOT)),], style={"marginTop": 30}),
-        # dbc.Row(
-        #     [
-        #         dbc.Col(LEFT_COLUMN, md=4, align="center"),
-        #         dbc.Col(dbc.Card(TOP_BANKS_PLOT), md=8),
-        #     ],
-        #     style={"marginTop": 30},
-        # ),
+        dbc.Row([dbc.Col(dbc.Card(TOP_BIGRAM_COMPS)),], style={"marginTop": 30,
+                           }),
+        dbc.Row([dbc.Col(dbc.Card(Sankey)),], style={"marginTop": 30}),
+        dbc.Row(
+            [
+                dbc.Col([gauge_year,html.Br(),radioitems_diesel_price,html.Br(),PV_price_slider,PV_Bat_price_slider]),
+                dbc.Col(generate_gauge('generation-cost','Diesel cost for power generation [$MM]'),
+                        xs=gauge_size,
+                        md=gauge_size,
+                        lg=gauge_size,
+                        width=gauge_size),
+                dbc.Col(generate_gauge('power-generated','Power Generation from transformation [GWh]'),
+                        xs=gauge_size,
+                        md=gauge_size,
+                        lg=gauge_size,
+                        width=gauge_size),
+                dbc.Col(generate_gauge('lost-cost','Cost of losses through transformation [$MM]'),
+                        xs=gauge_size,
+                        md=gauge_size,
+                        lg=gauge_size,
+                        width=gauge_size),
+                dbc.Col(generate_gauge('generation-efficiency','Transformation efficiency [%]'),
+                        xs=gauge_size,
+                        md=gauge_size,
+                        lg=gauge_size,
+                        width=gauge_size),
+                # dbc.Col(generate_gauge('diesel-price','Diesel Price [$/bbl]'),
+                #         xs=gauge_size,
+                #         md=gauge_size,
+                #         lg=gauge_size,
+                #         width=gauge_size),
+            ],
+            justify='end',
+            style={
+                "marginTop": "3%"
+            },
+        ),
+        dbc.Row([dbc.Col(dcc.Graph(id='required_RE'),md=6),
+                dbc.Col(dcc.Graph(id='oil_to_RE'),md=6)
+                 ], style={"marginTop": 30,
+                }),
+
         # dbc.Card(WORDCLOUD_PLOTS),
         # dbc.Row([dbc.Col([dbc.Card(LDA_PLOTS)])], style={"marginTop": 50}),
     ],
