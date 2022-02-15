@@ -1,8 +1,7 @@
 from app import app
 import dash_bootstrap_components as dbc
 import page1FarmView as F
-import dash_html_components as html
-import dash_core_components as dcc
+from dash import html
 from dash.dependencies import Input, Output, State
 import pandas as pd
 import callbacks

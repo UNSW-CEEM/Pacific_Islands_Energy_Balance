@@ -1,6 +1,6 @@
 from dash.dependencies import Input, Output, ALL, State, MATCH, ALLSMALLER
 from app import app
-import dash_html_components as html
+from dash import html
 import numpy as np
 import pandas as pd
 import figures
