@@ -2,7 +2,7 @@
 venv
 .idea
 /.idea
-Kahak
+
 farmView/Kahak
 turbineview/__pycache__
 __pycache__

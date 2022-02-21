@@ -316,52 +316,7 @@ Sankey = [
     ),
 ]
 
-Decarbonization = [
-    dbc.CardHeader(html.H5("Decarbonization of the electricity sector")),
-    dbc.CardBody(
-        [
-            dcc.Loading(
-                id="loading-decarb",
-                children=[
-                    dbc.Alert(
-                        "Something's gone wrong! Give us a moment, but try loading this page again if problem persists.",
-                        id="no-data-alert-sankey",
-                        color="warning",
-                        style={"display": "none"},
-                    ),
-                    dbc.Row(
-                        [
-                            dbc.Col(html.P("Select year to update Sankey diagram"), md=12),
-                            dbc.Col(
-                                [
-                                    dcc.Dropdown(
-                                        id="year_drpdwn_Sankey",
-                                        options=[
-                                            {"label": i, "value": i}
-                                            for i in Year_List
-                                        ],
-                                        value=Year_List[0],
-                                        style={'fontSize':15,'color':'black'},
-                                        clearable=False
 
-                                    )
-                                ],
-                                md=1,
-                            ),
-                        ]
-                    ),
-                    # dcc.Graph(id="bigrams-comps"),
-                    # html.Div(id='figure1',style={'margin-top': '15px', 'margin-left': '20px'}),
-                    html.Br(),
-                    dcc.Graph(id="Sankey_figure"),
-
-                ],
-                type="default",
-            )
-        ],
-        style={"marginTop": 0, "marginBottom": 0},
-    ),
-]
 
 def generate_gauge(id,title):
     g = dbc.Card(
@@ -427,30 +382,23 @@ radioitems_diesel_price = html.Div(
     ],
     style={'width':'50%'}
 )
-
-PV_price_slider = html.Div(
+def generate_select(id,title,min,max,step,value):
+    content = html.Div(
     [
         dbc.InputGroup(
             [
-                dbc.InputGroupText("PV: $/W"),
-                dbc.Input(placeholder="Amount",value=3, step=0.1, type="number",id='PV-cost',min=0.5),
+                dbc.InputGroupText(title),
+                dbc.Input(placeholder="Amount",value=value, step=step, type="number",id=id,min=min,max=max),
                 # dbc.InputGroupText(".00"),
             ],
             className="mb-3",
         ),]
-)
+        )
+    return content
 
-PV_Bat_price_slider = html.Div(
-    [
-        dbc.InputGroup(
-            [
-                dbc.InputGroupText("PV plus Battery: $/W"),
-                dbc.Input(placeholder="Amount",value=7, step=0.1,type="number",id='PV-battery-cost',min=1),
-                # dbc.InputGroupText(".00"),
-            ],
-            className="mb-3",
-        ),]
-)
+
+
+
 
 gauge_year = dcc.Dropdown(
     id="year_drpdwn_gauge",
@@ -463,52 +411,93 @@ gauge_year = dcc.Dropdown(
     clearable=False,
 )
 gauge_size = "auto"
+figure_border_style = {"border-style": "solid",
+                          'border-color': '#ff4d4d', 'border-width': '1px', 'border-radius': "0.25rem"
+                          }
+
+
+Decarbonization = [
+    dbc.CardHeader(html.H5("Replacing the diesel fleet with renewable energy")),
+    dbc.CardBody(
+        [
+            dcc.Loading(
+                id="loading-decarb",
+                children=[
+                    dbc.Alert(
+                        "Something's gone wrong! Give us a moment, but try loading this page again if problem persists.",
+                        id="no-data-alert-decarb",
+                        color="warning",
+                        style={"display": "none"},
+                    ),
+                    dbc.Row(
+                        [
+                            dbc.Col([gauge_year, html.Br(), radioitems_diesel_price, html.Br(), generate_select('PV-cost',"PV: $/W",0.5,5,0.1,3),
+                                     generate_select('PV-battery-cost',"PV plus Battery: $/W",1,15,0.1,7),
+                                     generate_select('wind-large-cost',"Large scale wind: $/W",1,5,0.1,3),
+                                     generate_select('wind-battery-cost',"Small Wind plus Battery: $/W",2.5,12,0.1,6),
+                                     generate_select('demand-growth', "Demand growth rate: %/year", 0, 100, 1,
+                                                     5),
+                                    generate_select('decarb-rate', "Decarbonization rate: %/year", 0, 100, 1,
+                                                     10),
+                                     generate_select('rooftop-size', "Rooftop PV size: kW", 0.5, 5, 0.1,
+                                                     2.5)
+
+                                     ]),
+                            dbc.Col(generate_gauge('generation-cost', 'Diesel cost for power generation [$MM]'),
+                                    xs=gauge_size,
+                                    md=gauge_size,
+                                    lg=gauge_size,
+                                    width=gauge_size),
+                            dbc.Col(generate_gauge('power-generated', 'Power Generation from transformation [GWh]'),
+                                    xs=gauge_size,
+                                    md=gauge_size,
+                                    lg=gauge_size,
+                                    width=gauge_size),
+                            dbc.Col(generate_gauge('lost-cost', 'Cost of losses through transformation [$MM]'),
+                                    xs=gauge_size,
+                                    md=gauge_size,
+                                    lg=gauge_size,
+                                    width=gauge_size),
+                            dbc.Col(generate_gauge('generation-efficiency', 'Transformation efficiency [%]'),
+                                    xs=gauge_size,
+                                    md=gauge_size,
+                                    lg=gauge_size,
+                                    width=gauge_size),
+                        ],
+                        justify='end',
+                        style={
+                            "marginTop": "3%"
+                        },
+                    ),
+                    dbc.Row([dbc.Col(html.Div(dcc.Graph(id='required_RE'), style=figure_border_style), md=3),
+                             dbc.Col(html.Div(dcc.Graph(id='oil_to_RE'), style=figure_border_style), md=6),
+                            dbc.Col(html.Div(dcc.Graph(id='rooftop_PV_plot'), style=figure_border_style), md=3)
+                             ], style={"marginTop": 30,
+                                       }),
+
+                    html.Br(),
+                    dbc.Row([dbc.Col(html.Div(dcc.Graph(id='annual_demand'), style=figure_border_style), md=6),
+                             dbc.Col(html.Div(dcc.Graph(id='scenarios-plot'), style=figure_border_style), md=6)
+                             ], style={"marginTop": 30,
+                                       }),
+                    # dcc.Graph(id="decarb_figure"),
+
+                ],
+                type="default",
+            )
+        ],
+        style={"marginTop": 0, "marginBottom": 0},
+    ),
+]
 
 BODY = dbc.Container(
     [
         dbc.Row([dbc.Col(dbc.Card(TOP_BIGRAM_COMPS)),], style={"marginTop": 30,
                            }),
         dbc.Row([dbc.Col(dbc.Card(Sankey)),], style={"marginTop": 30}),
-        dbc.Row(
-            [
-                dbc.Col([gauge_year,html.Br(),radioitems_diesel_price,html.Br(),PV_price_slider,PV_Bat_price_slider]),
-                dbc.Col(generate_gauge('generation-cost','Diesel cost for power generation [$MM]'),
-                        xs=gauge_size,
-                        md=gauge_size,
-                        lg=gauge_size,
-                        width=gauge_size),
-                dbc.Col(generate_gauge('power-generated','Power Generation from transformation [GWh]'),
-                        xs=gauge_size,
-                        md=gauge_size,
-                        lg=gauge_size,
-                        width=gauge_size),
-                dbc.Col(generate_gauge('lost-cost','Cost of losses through transformation [$MM]'),
-                        xs=gauge_size,
-                        md=gauge_size,
-                        lg=gauge_size,
-                        width=gauge_size),
-                dbc.Col(generate_gauge('generation-efficiency','Transformation efficiency [%]'),
-                        xs=gauge_size,
-                        md=gauge_size,
-                        lg=gauge_size,
-                        width=gauge_size),
-                # dbc.Col(generate_gauge('diesel-price','Diesel Price [$/bbl]'),
-                #         xs=gauge_size,
-                #         md=gauge_size,
-                #         lg=gauge_size,
-                #         width=gauge_size),
-            ],
-            justify='end',
-            style={
-                "marginTop": "3%"
-            },
-        ),
-        dbc.Row([dbc.Col(dcc.Graph(id='required_RE'),md=6),
-                dbc.Col(dcc.Graph(id='oil_to_RE'),md=6)
-                 ], style={"marginTop": 30,
-                }),
+        dbc.Row([dbc.Col(dbc.Card(Decarbonization)), ], style={"marginTop": 30}),
 
-        # dbc.Card(WORDCLOUD_PLOTS),
+        # dbc.Card(Decarbonization),
         # dbc.Row([dbc.Col([dbc.Card(LDA_PLOTS)])], style={"marginTop": 50}),
     ],
     # className="mt-12",
