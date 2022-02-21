@@ -96,9 +96,9 @@ def sensor_checklist(year,country,diesel_price,PV_cost,PVBatt_cost):
     #44 MJ/kg
     # 0.85 kg/l
     #37.4e-6 TJ/l
-
     df_p = pd.read_excel('Data/Potentials.xlsx')
-    print(df_p.loc[2, country],power_generated_GWh)
+    print('hi22')
+
     Wind_pot = df_p.loc[2, country] #GWh/MW/year
     PV_pot = df_p.loc[0, country] #GWh/MW/year
 
