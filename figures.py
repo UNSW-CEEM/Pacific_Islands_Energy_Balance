@@ -52,25 +52,10 @@ def Generate_Sankey(year,country):
     import plotly.graph_objects as go
 
     df = pd.read_csv("Data/Sankey/csv/{}/{}.csv".format(year,country))
-    # print(df.columns)
-    lst = df[' (from)'].to_list()
-    lst2 = df[' (to)'].to_list()
-    lst.extend(lst2)
-    # lst = set(lst)
-    lst = list(dict.fromkeys(lst))
+    df_elec = df.loc[(df[' (from)']=='PowerStations')|(df[' (from)']=='Other Electricity & Heat')|(df[' (from)']=='Other Electricity & Heat3')|(df[' (from)']=='Electricity & Heat: Supplied')
+                     | (df[' (to)']=='PowerStations')|(df[' (to)']=='Other Electricity & Heat')|(df[' (to)']=='Other Electricity & Heat3')|(df[' (to)']=='Electricity & Heat: Supplied')]
 
-    d = {}
-    for i in range(len(lst)):
-        d[i] = lst[i]
-    d = dict((y, x) for x, y in d.items())
-    df['To'] = df[' (to)'].copy()
-    df['From'] = df[' (from)'].copy()
 
-    df.replace({" (from)": d}, inplace=True)
-    df.replace({" (to)": d}, inplace=True)
-    df.fillna('pink', inplace=True)
-
-    # print(df.columns)
 
     color_dicts = {'Primary Oil: Production': 'grey', 'Primary Oil: Imports': 'grey', 'Oil Products: Imports': 'grey',
                    'Natural Gas: Primary Production': 'blue', 'Electricity: Primary Production': 'red',
@@ -84,8 +69,50 @@ def Generate_Sankey(year,country):
                    'BioFuels: Supplied': 'green',
                    'Other Electricity & Heat': 'red', 'Other Electricity & Heat 3': 'red', }
 
+    lst = df[' (from)'].to_list()
+    lst2 = df[' (to)'].to_list()
+    lst.extend(lst2)
+    lst = list(dict.fromkeys(lst))
+
+    d = {}
+    for i in range(len(lst)):
+        d[i] = lst[i]
+    d = dict((y, x) for x, y in d.items())
+    df['To'] = df[' (to)'].copy()
+    df['From'] = df[' (from)'].copy()
+
+    df.replace({" (from)": d}, inplace=True)
+    df.replace({" (to)": d}, inplace=True)
+    df.fillna('pink', inplace=True)
     for i in color_dicts.keys():
         df.loc[df['From'] == i, ' (color)'] = color_dicts[i]
+
+
+
+
+    lst_e = df_elec[' (from)'].to_list()
+    lst2_e = df_elec[' (to)'].to_list()
+    lst_e.extend(lst2_e)
+    lst_e = list(dict.fromkeys(lst_e))
+
+    d = {}
+    for i in range(len(lst_e)):
+        d[i] = lst_e[i]
+    d = dict((y, x) for x, y in d.items())
+    df_elec['To'] = df_elec[' (to)'].copy()
+    df_elec['From'] = df_elec[' (from)'].copy()
+
+    df_elec.replace({" (from)": d}, inplace=True)
+    df_elec.replace({" (to)": d}, inplace=True)
+    df_elec.fillna('pink', inplace=True)
+    for i in color_dicts.keys():
+        df_elec.loc[df_elec['From'] == i, ' (color)'] = color_dicts[i]
+
+
+
+
+
+
 
     fig = go.Figure(data=[go.Sankey(
         valuesuffix="TJ",
@@ -103,8 +130,27 @@ def Generate_Sankey(year,country):
             color=df[' (color)'].to_list()
 
         ))])
-    df.to_csv('sank.csv')
-    # fig.update_layout(title_text="Basic Sankey Diagram", font_size=15)
+
+    fig2 = go.Figure(data=[go.Sankey(
+        valuesuffix="TJ",
+        node=dict(
+            pad=35,
+            thickness=20,
+            line=dict(color="black", width=0.5),
+            label=lst_e,
+            # color='brown'
+        ),
+        link=dict(
+            source=df_elec[' (from)'].to_list(),  # indices correspond to labels, eg A1, A2, A1, B1, ...
+            target=df_elec[' (to)'].to_list(),
+            value=df_elec[' (weight)'].to_list(),
+            color=df_elec[' (color)'].to_list()
+
+        ))])
+
+
+
+    fig.update_layout(title_text="Sankey Plot for all sectors", font_size=16)
     fig.update_layout(height=900,font=dict(
                           family="Palatino Linotype",
                           size=16,
@@ -112,7 +158,19 @@ def Generate_Sankey(year,country):
                       ))
     fig.update_layout({'plot_bgcolor': 'rgba(0,0,0,0)',
     'paper_bgcolor': 'rgba(0,0,0,0)'},)
-    return fig
+
+
+
+    fig2.update_layout(height=350,font=dict(
+                          family="Palatino Linotype",
+                          size=16,
+                          color="white"
+                      ))
+    fig2.update_layout({'plot_bgcolor': 'rgba(0,0,0,0)',
+    'paper_bgcolor': 'rgba(0,0,0,0)'},)
+    fig2.update_layout(title_text="Sankey Plot for the electricity sector", font_size=16)
+
+    return [fig,fig2]
 
 
 
@@ -369,3 +427,10 @@ def rooftop_PV_plot(Country,PV_size,max_range):
 
 
     return fig
+
+
+def transit_figure(country,year):
+    df = pd.read_csv("Data/{EnergyBalance}/{}/{}.csv".format(year,country))
+    pass
+
+
