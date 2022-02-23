@@ -55,13 +55,14 @@ def update_options(year,country):
 
 
 @app.callback(
-    Output('Sankey_figure', 'figure'),
-    [Input("year_drpdwn_Sankey", "value"),
+    [Output('Sankey_figure', 'figure'),
+     Output('Sankey_elec_figure', 'figure')],
+     [Input("year_drpdwn_Sankey", "value"),
      Input("select-country", "value"),
 ]
 )
 def sensor_checklist(year,country):
-    return figures.Generate_Sankey(year,country)
+    return figures.Generate_Sankey(year,country)[0],figures.Generate_Sankey(year,country)[1]
 
 
 @app.callback(
