@@ -6,6 +6,17 @@ import pandas as pd
 import figures
 
 
+@app.callback(
+    [Output('transit_figure1', 'figure'),
+     Output('transit_figure2', 'figure'),
+     Output('transit_figure3', 'figure')],
+    [Input("year_drpdwn_transit", "value")]
+)
+def update_options(year):
+
+    return figures.UNstats_plots(year)[0],figures.UNstats_plots(year)[1],figures.UNstats_plots(year)[2]
+
+
 
 @app.callback(
     Output('figure1', 'figure'),
@@ -123,7 +134,8 @@ def sensor_checklist(year,country,diesel_price,PV_cost,PVBatt_cost,WindBatt_cost
 
 
     x = max(PV_decarb_MW,wind_decarb_MW,PV_install_with_oil,PV_bat_install_with_oil)
-
+    # figures.Update_UNstats_database(year)
+    figures.UNstats_plots(year)
     return [oil_supplied_cost, power_generated_GWh, transformation_losses_cost,Efficiency,figures.potentials_bar(wind_decarb_MW,PV_decarb_MW,x,year),
             figures.oil_to_RE(PV_install_with_oil,PV_bat_install_with_oil,Wind_install_with_oil,Wind_bat_install_with_oil,x,year),
             figures.annual_demand(power_generated_GWh, demand_growth, decarb_rate),

@@ -314,6 +314,11 @@ Transit = [
                         dbc.Col(html.Div(dcc.Graph(id="transit_figure1"),style=figure_border_style),md=6),
                         dbc.Col(html.Div(dcc.Graph(id="transit_figure2"), style=figure_border_style), md=6),
 
+                    ]),
+                    html.Br(),
+                    dbc.Row([
+                        dbc.Col(html.Div(dcc.Graph(id="transit_figure3"), style=figure_border_style), md=6),
+                        dbc.Col(html.Div(dcc.Graph(id="transit_figure4"), style=figure_border_style), md=6),
                     ])
 
                 ],
@@ -554,6 +559,8 @@ Decarbonization = [
 
 BODY = dbc.Container(
     [
+        dbc.Row([dbc.Col(dbc.Card(Transit)), ], style={"marginTop": 30,
+                                                                }),
         dbc.Row([dbc.Col(dbc.Card(TOP_BIGRAM_COMPS)),], style={"marginTop": 30,
                            }),
         dbc.Row([dbc.Col(dbc.Card(Sankey)),], style={"marginTop": 30}),

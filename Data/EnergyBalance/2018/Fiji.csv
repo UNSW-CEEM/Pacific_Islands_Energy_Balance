@@ -1,54 +1,54 @@
-Country (2018),Transactions(down)/Commodity(right),Primary Coal and Peat,Coal and Peat Products,Primary Oil,Oil Products,Natural Gas,Biofuels and Waste,Nuclear,Electricity,Heat,Total Energy,memo: Of which Renewables,
-Fiji,Primary production,---,---,---,---,---,*4369,---,2084,---,*6452,*6452,
-Fiji,Imports,---,*4,*4,*36266,---,0,---,---,---,*36275,0,
-Fiji,Exports,---,---,---,*-13016,---,-1,---,---,---,*-13017,-1,
-Fiji,International marine bunkers,---,---,---,*-2782,---,---,---,---,---,*-2782,---,
-Fiji,International aviation bunkers,---,---,---,*-1345,---,---,---,---,---,*-1345,---,
-Fiji,Stock changes,---,---,---,*-573,---,---,---,---,---,*-573,---,
-Fiji,Total energy supply,---,*4,*4,*18549,---,*4368,---,2084,---,*25009,*6451,
-Fiji,Statistical differences,---,*0,*0,*26,---,*0,---,0,---,*26,*2084,
-Fiji,Transfers and recycled products,---,---,---,---,---,---,---,---,---,---,---,
-Fiji,Transformation,---,*0,---,*-3942,---,*-63,---,1669,---,*-2336,*-63,
-Fiji,Electricity  CHP & Heat Plants,---,*0,---,*-3942,---,---,---,1669,---,*-2273,---,
-Fiji,Electricity Plants,---,*0,---,*-3942,---,---,---,1669,---,*-2273,---,
-Fiji,CHP plants,---,---,---,---,---,---,---,---,---,---,---,
-Fiji,Heat plants,---,---,---,---,---,---,---,---,---,---,---,
-Fiji,Coke ovens,---,---,---,---,---,---,---,---,---,---,---,
-Fiji,Briquetting plants,---,---,---,---,---,---,---,---,---,---,---,
-Fiji,Liquefaction plants,---,---,---,---,---,---,---,---,---,---,---,
-Fiji,Gas works,---,---,---,---,---,---,---,---,---,---,---,
-Fiji,Blast furnaces,---,---,---,---,---,---,---,---,---,---,---,
-Fiji,NGL & gas blending,---,---,---,---,---,---,---,---,---,---,---,
-Fiji,Oil refineries,---,---,---,---,---,---,---,---,---,---,---,
-Fiji,Other transformation,---,---,---,---,---,*-63,---,---,---,*-63,*-63,
-Fiji,Energy industries own use,---,---,---,---,---,---,---,-178,---,-178,---,
-Fiji,Losses,---,---,---,---,---,---,---,*-310,---,*-310,---,
-Fiji,Final consumption,---,*4,*4,*14582,---,*4305,---,*3265,---,*22160,*4305,
-Fiji,Final Energy Consumption,---,*4,*4,*14373,---,*4305,---,*3265,---,*21951,*4305,
-Fiji,Manufacturing  const. and mining,---,---,*4,*3454,---,*4031,---,*799,---,*8289,*4031,
-Fiji,Iron and steel,---,---,---,---,---,---,---,---,---,---,---,
-Fiji,Chemical and petrochemical,---,---,---,---,---,---,---,---,---,---,---,
-Fiji,Non-ferrous metals,---,---,---,---,---,---,---,---,---,---,---,
-Fiji,Non-metallic minerals,---,---,---,---,---,---,---,---,---,---,---,
-Fiji,Transport equipment,---,---,---,---,---,---,---,---,---,---,---,
-Fiji,Machinery,---,---,---,---,---,---,---,---,---,---,---,
-Fiji,Mining and quarrying,---,---,---,---,---,---,---,---,---,---,---,
-Fiji,Food and tobacco,---,---,---,---,---,---,---,---,---,---,---,
-Fiji,Paper  pulp and printing,---,---,---,---,---,---,---,---,---,---,---,
-Fiji,Wood and wood products,---,---,---,---,---,---,---,---,---,---,---,
-Fiji,Textile and leather,---,---,---,---,---,---,---,---,---,---,---,
-Fiji,Construction,---,---,---,---,---,---,---,---,---,---,---,
-Fiji,Industry n.e.s,---,---,*4,*3454,---,*4031,---,*799,---,*8289,*4031,
-Fiji,Transport,---,---,---,*9361,---,---,---,---,---,*9361,---,
-Fiji,Road,---,---,---,*7949,---,---,---,---,---,*7949,---,
-Fiji,Rail,---,---,---,---,---,---,---,---,---,---,---,
-Fiji,Domestic aviation,---,---,---,*551,---,---,---,---,---,*551,---,
-Fiji,Domestic navigation,---,---,---,*860,---,---,---,---,---,*860,---,
-Fiji,Pipeline transport,---,---,---,---,---,---,---,---,---,---,---,
-Fiji,Transport n.e.s,---,---,---,---,---,---,---,---,---,---,---,
-Fiji,Other Consumption,---,*4,---,*1557,---,*274,---,*2466,---,*4302,*274,
-Fiji,Agriculture  forestry and fishing,---,---,---,---,---,---,---,---,---,---,---,
-Fiji,Commerce and public services,---,---,---,---,---,---,---,*1501,---,*1501,---,
-Fiji,Households,---,---,---,*1416,---,*274,---,*914,---,*2604,*274,
-Fiji,Other consumption n.e.s,---,*4,---,*142,---,---,---,*50,---,*196,---,
-Fiji,Non-energy use,---,---,---,*209,---,---,---,---,---,*209,---,
+Country (2018),Transactions(down)/Commodity(right),Primary Coal and Peat,Coal and Peat Products,Primary Oil,Oil Products,Natural Gas,Biofuels and Waste,Nuclear,Electricity,Heat,Total Energy,memo: Of which Renewables
+Fiji,Primary production,---,---,---,---,---,*4369,---,2084,---,*6452,*6452
+Fiji,Imports,---,*4,*4,*36266,---,0,---,---,---,*36275,0
+Fiji,Exports,---,---,---,*-13016,---,-1,---,---,---,*-13017,-1
+Fiji,International marine bunkers,---,---,---,*-2782,---,---,---,---,---,*-2782,---
+Fiji,International aviation bunkers,---,---,---,*-1345,---,---,---,---,---,*-1345,---
+Fiji,Stock changes,---,---,---,*-573,---,---,---,---,---,*-573,---
+Fiji,Total energy supply,---,*4,*4,*18549,---,*4368,---,2084,---,*25009,*6451
+Fiji,Statistical differences,---,*0,*0,*26,---,*0,---,0,---,*26,*2084
+Fiji,Transfers and recycled products,---,---,---,---,---,---,---,---,---,---,---
+Fiji,Transformation,---,*0,---,*-3942,---,*-63,---,1669,---,*-2336,*-63
+Fiji,Electricity  CHP & Heat Plants,---,*0,---,*-3942,---,---,---,1669,---,*-2273,---
+Fiji,Electricity Plants,---,*0,---,*-3942,---,---,---,1669,---,*-2273,---
+Fiji,CHP plants,---,---,---,---,---,---,---,---,---,---,---
+Fiji,Heat plants,---,---,---,---,---,---,---,---,---,---,---
+Fiji,Coke ovens,---,---,---,---,---,---,---,---,---,---,---
+Fiji,Briquetting plants,---,---,---,---,---,---,---,---,---,---,---
+Fiji,Liquefaction plants,---,---,---,---,---,---,---,---,---,---,---
+Fiji,Gas works,---,---,---,---,---,---,---,---,---,---,---
+Fiji,Blast furnaces,---,---,---,---,---,---,---,---,---,---,---
+Fiji,NGL & gas blending,---,---,---,---,---,---,---,---,---,---,---
+Fiji,Oil refineries,---,---,---,---,---,---,---,---,---,---,---
+Fiji,Other transformation,---,---,---,---,---,*-63,---,---,---,*-63,*-63
+Fiji,Energy industries own use,---,---,---,---,---,---,---,-178,---,-178,---
+Fiji,Losses,---,---,---,---,---,---,---,*-310,---,*-310,---
+Fiji,Final consumption,---,*4,*4,*14582,---,*4305,---,*3265,---,*22160,*4305
+Fiji,Final Energy Consumption,---,*4,*4,*14373,---,*4305,---,*3265,---,*21951,*4305
+Fiji,Manufacturing  const. and mining,---,---,*4,*3454,---,*4031,---,*799,---,*8289,*4031
+Fiji,Iron and steel,---,---,---,---,---,---,---,---,---,---,---
+Fiji,Chemical and petrochemical,---,---,---,---,---,---,---,---,---,---,---
+Fiji,Non-ferrous metals,---,---,---,---,---,---,---,---,---,---,---
+Fiji,Non-metallic minerals,---,---,---,---,---,---,---,---,---,---,---
+Fiji,Transport equipment,---,---,---,---,---,---,---,---,---,---,---
+Fiji,Machinery,---,---,---,---,---,---,---,---,---,---,---
+Fiji,Mining and quarrying,---,---,---,---,---,---,---,---,---,---,---
+Fiji,Food and tobacco,---,---,---,---,---,---,---,---,---,---,---
+Fiji,Paper  pulp and printing,---,---,---,---,---,---,---,---,---,---,---
+Fiji,Wood and wood products,---,---,---,---,---,---,---,---,---,---,---
+Fiji,Textile and leather,---,---,---,---,---,---,---,---,---,---,---
+Fiji,Construction,---,---,---,---,---,---,---,---,---,---,---
+Fiji,Industry n.e.s,---,---,*4,*3454,---,*4031,---,*799,---,*8289,*4031
+Fiji,Transport,---,---,---,*9361,---,---,---,---,---,*9361,---
+Fiji,Road,---,---,---,*7949,---,---,---,---,---,*7949,---
+Fiji,Rail,---,---,---,---,---,---,---,---,---,---,---
+Fiji,Domestic aviation,---,---,---,*551,---,---,---,---,---,*551,---
+Fiji,Domestic navigation,---,---,---,*860,---,---,---,---,---,*860,---
+Fiji,Pipeline transport,---,---,---,---,---,---,---,---,---,---,---
+Fiji,Transport n.e.s,---,---,---,---,---,---,---,---,---,---,---
+Fiji,Other Consumption,---,*4,---,*1557,---,*274,---,*2466,---,*4302,*274
+Fiji,Agriculture  forestry and fishing,---,---,---,---,---,---,---,---,---,---,---
+Fiji,Commerce and public services,---,---,---,---,---,---,---,*1501,---,*1501,---
+Fiji,Households,---,---,---,*1416,---,*274,---,*914,---,*2604,*274
+Fiji,Other consumption n.e.s,---,*4,---,*142,---,---,---,*50,---,*196,---
+Fiji,Non-energy use,---,---,---,*209,---,---,---,---,---,*209,---

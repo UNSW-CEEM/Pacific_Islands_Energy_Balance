@@ -321,7 +321,7 @@ def decarbonization_scenarios(demand,diesel_cost,growth_rate,decarb_rate,PV_cost
     for i, row in demand_df.iterrows():
         if (i>0) :
             demand_df.at[i,'2030-RE'] = demand_df.at[i-1,'2030-RE'] + step
-    demand_df['2030-RE'][demand_df['Year'] > 2030] = demand_df['Demand']
+    demand_df['2030-RE'][demand_df['Year'] > 2030] = demand_df['Demand'].copy()
     demand_df['Annual_RE'] = demand_df['2030-RE'].shift(-1) - demand_df['2030-RE']
     demand_df['Wind_cost'] = Wind_cost * demand_df['2030-RE']
     demand_df['PV_cost'] = PV_cost * demand_df['2030-RE']
@@ -329,7 +329,7 @@ def decarbonization_scenarios(demand,diesel_cost,growth_rate,decarb_rate,PV_cost
 
 
 
-    print(demand_df.head(20), )
+    # print(demand_df.head(20), )
 
     data = [go.Bar(
         x=year_list,
@@ -429,8 +429,172 @@ def rooftop_PV_plot(Country,PV_size,max_range):
     return fig
 
 
-def transit_figure(country,year):
-    df = pd.read_csv("Data/{EnergyBalance}/{}/{}.csv".format(year,country))
-    pass
+def Update_UNstats_database(year):
+    Country_List = ['Samoa', 'Nauru', 'Vanuatu', 'Palau', 'Kiribati', 'Cook Islands', 'Solomon Islands', 'Tonga',
+                    'New Caledonia', 'French Polynesia', 'Micronesia', 'Niue', 'Tuvalu', 'PNG', 'Fiji']
+    all_countries_df = pd.DataFrame()
 
+    for country in Country_List:
+        df = pd.read_csv("Data/EnergyBalance/{}/{}.csv".format(year,country))
+        if country == Country_List[0]:
+            all_countries_df = df
+        elif country != Country_List[0]:
+            # pd.concat([all_countries_df,df],inplace=True)
+            # pass
+            all_countries_df = all_countries_df.append(df,ignore_index=True)
+
+    all_countries_df.replace({"---": 0}, inplace=True)
+    all_countries_df = all_countries_df.replace({'\*': ''},regex=True)
+
+    c_list = all_countries_df.columns
+    for i in c_list[2:]:
+        all_countries_df[i] = all_countries_df[i].astype(float)
+
+    all_countries_df['All Coal'] = all_countries_df['Primary Coal and Peat'] + all_countries_df['Coal and Peat Products']
+
+    all_countries_df['All Oil'] = all_countries_df['Primary Oil'] + all_countries_df['Oil Products']
+
+
+    all_countries_df['All Inputs'] = all_countries_df['All Coal'] + all_countries_df['All Oil'] + all_countries_df['Natural Gas'] +\
+                                     all_countries_df['Biofuels and Waste'] + all_countries_df['Nuclear'] +all_countries_df['Heat']
+
+    all_countries_df.to_csv("Data/EnergyBalance/{}/all_countries_df.csv".format(year))
+
+def UNstats_plots(year):
+    summary_df = pd.DataFrame()
+    df = pd.read_csv("Data/EnergyBalance/{}/all_countries_df.csv".format(year))
+    imports = df[df['Transactions(down)/Commodity(right)']=='Imports']['All Oil'].values
+    Int_marine = df[df['Transactions(down)/Commodity(right)']=='International marine bunkers']['All Oil'].values
+    Int_avi = df[df['Transactions(down)/Commodity(right)']=='International aviation bunkers']['All Oil'].values
+    transformation = -df[df['Transactions(down)/Commodity(right)']=='Transformation']['All Oil'].values
+    transformation_losses = - df[df['Transactions(down)/Commodity(right)']=='Transformation']['Total Energy'].values
+
+    summary_df['Country'] = df. iloc[:, 1].unique()
+    summary_df['Oil imports'] = imports
+    summary_df['int marine'] = -Int_marine
+    summary_df['int aviation'] = -Int_avi
+    summary_df['marine_to_import'] = 100 * summary_df['int marine']/summary_df['Oil imports']
+    summary_df['aviation_to_import'] = 100 * summary_df['int aviation']/summary_df['Oil imports']
+    summary_df['transformation_to_import'] = 100 * transformation/summary_df['Oil imports']
+    summary_df['transformation_losses_to_import'] = 100 * transformation_losses/summary_df['Oil imports']
+    summary_df['road'] = 100 * df[df['Transactions(down)/Commodity(right)']=='Road']['All Oil'].values/summary_df['Oil imports']
+    summary_df['rail'] = 100 * df[df['Transactions(down)/Commodity(right)']=='Rail']['All Oil'].values/summary_df['Oil imports']
+    summary_df['Domestic aviation'] = 100 * df[df['Transactions(down)/Commodity(right)']=='Domestic aviation']['All Oil'].values/summary_df['Oil imports']
+    summary_df['Domestic navigation'] = 100 * df[df['Transactions(down)/Commodity(right)']=='Domestic navigation']['All Oil'].values/summary_df['Oil imports']
+    summary_df['Pipeline transport'] = 100 * df[df['Transactions(down)/Commodity(right)']=='Pipeline transport']['All Oil'].values/summary_df['Oil imports']
+    summary_df['transport n.e.s'] = 100 * df[df['Transactions(down)/Commodity(right)']=='Transport n.e.s']['All Oil'].values/summary_df['Oil imports']
+
+
+
+
+
+
+
+    fig = go.Figure()
+    fig.add_trace(go.Bar(x=summary_df['Country'], y=summary_df['marine_to_import'],name='Int. marine bunkers',marker_color='forestgreen'))
+    fig.add_trace(go.Bar(x=summary_df['Country'], y=summary_df['aviation_to_import'], name='Int. aviation bunkers',marker_color='lightsalmon'))
+
+
+
+    fig.update_layout(#width=1500,
+        # height=500,
+        barmode='relative')
+    fig.update_layout(legend = dict(bgcolor = 'rgba(0,0,0,0)',    yanchor="bottom",orientation="h",
+        y=1.05,
+        xanchor="center",
+        x=0.5),
+                      font=dict(
+                          family="Palatino Linotype",
+                          size=16,
+                          color="white"
+                      )
+                      )
+    fig.update_layout({
+    'plot_bgcolor': 'rgba(0,0,0,0)',
+    'paper_bgcolor': 'rgba(0,0,0,0)',
+    })
+    fig.update_yaxes(title_text="% of imported oil",showline=True)
+    fig.update_xaxes(showline=True)
+
+    fig.update_layout(
+        title="% of imported oil consumed for international transit in {}".format(year))
+    # print(summary_df)
+    fig.update_traces(marker_line_color='white',
+                      marker_line_width=2, opacity=1)
+
+    fig2 = go.Figure()
+    fig2.add_trace(go.Bar(x=summary_df['Country'], y=summary_df['transformation_to_import'], name='Transformation',
+                         marker_color='forestgreen'))
+    fig2.add_trace(go.Bar(x=summary_df['Country'], y=summary_df['aviation_to_import'], name='Transformation losses',
+                         marker_color='lightsalmon'))
+
+    fig2.update_layout(  # width=1500,
+        # height=500,
+        barmode='relative')
+    fig2.update_layout(legend=dict(bgcolor='rgba(0,0,0,0)', yanchor="bottom", orientation="h",
+                                  y=1.05,
+                                  xanchor="center",
+                                  x=0.5),
+                      font=dict(
+                          family="Palatino Linotype",
+                          size=16,
+                          color="white"
+                      )
+                      )
+    fig2.update_layout({
+        'plot_bgcolor': 'rgba(0,0,0,0)',
+        'paper_bgcolor': 'rgba(0,0,0,0)',
+    })
+    fig2.update_yaxes(title_text="% of imported oil", showline=True)
+    fig2.update_xaxes(showline=True)
+
+    fig2.update_layout(
+        title="% of imported oil transformed into electricity and transformation losses in {}".format(year))
+    # print(summary_df)
+    fig2.update_traces(marker_line_color='white',
+                      marker_line_width=2, opacity=1)
+
+
+    fig3 = go.Figure()
+    fig3.add_trace(go.Bar(x=summary_df['Country'], y=summary_df['road'], name='Road',
+                         marker_color='forestgreen'))
+    fig3.add_trace(go.Bar(x=summary_df['Country'], y=summary_df['rail'], name='Rail',
+                         marker_color='lightsalmon'))
+    fig3.add_trace(go.Bar(x=summary_df['Country'], y=summary_df['Domestic aviation'], name='Domestic aviation',
+                         marker_color='greenyellow'))
+    fig3.add_trace(go.Bar(x=summary_df['Country'], y=summary_df['Domestic navigation'], name='Domestic navigation',
+                         marker_color='orangered'))
+    fig3.add_trace(go.Bar(x=summary_df['Country'], y=summary_df['Pipeline transport'], name='Pipeline transport',
+                         marker_color='mediumvioletred'))
+    fig3.add_trace(go.Bar(x=summary_df['Country'], y=summary_df['transport n.e.s'], name='Transport n.e.s',
+                         marker_color='darkturquoise'))
+
+    fig3.update_layout(  # width=1500,
+        # height=500,
+        barmode='relative')
+    fig3.update_layout(legend=dict(bgcolor='rgba(0,0,0,0)', yanchor="bottom", orientation="h",
+                                  y=0.98,
+                                  xanchor="center",
+                                  x=0.5),
+                      font=dict(
+                          family="Palatino Linotype",
+                          size=16,
+                          color="white"
+                      )
+                      )
+    fig3.update_layout({
+        'plot_bgcolor': 'rgba(0,0,0,0)',
+        'paper_bgcolor': 'rgba(0,0,0,0)',
+    })
+    fig3.update_yaxes(title_text="% of imported oil", showline=True)
+    fig3.update_xaxes(showline=True)
+
+    fig3.update_layout(
+        title="Breakdown of imported oil consumed for domestic transport in {}".format(year))
+    # print(summary_df)
+    fig3.update_traces(marker_line_color='white',
+                      marker_line_width=2, opacity=1)
+
+
+    return [fig,fig2,fig3]
 
