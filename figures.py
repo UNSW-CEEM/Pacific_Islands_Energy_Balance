@@ -341,8 +341,9 @@ def decarbonization_scenarios(demand,growth_rate,PV_cost,PVBatt_cost,WindBatt_co
     demand_df["diesel_cost_bs"] = demand_df["diesel_litre_bs"] * diesel_price / 1000000  # $MM
 
     demand_df['Diesel_cost_saving'] = demand_df["diesel_cost_bs"] - demand_df["diesel_cost_dec"] # $MM
-    demand_df['Net_saving'] = demand_df['Diesel_cost_saving'] - demand_df['RE_inst_cost']
-    demand_df['PV_cost'] = PV_cost * demand_df['RE_cumulative']
+    demand_df['Net_saving'] = demand_df['Diesel_cost_saving'] - demand_df['RE_inst_cost'] # $MM
+    demand_df['Net_saving_cumsum'] = demand_df['Net_saving'].cumsum()
+
     # add carbon price
 
 
@@ -350,22 +351,21 @@ def decarbonization_scenarios(demand,growth_rate,PV_cost,PVBatt_cost,WindBatt_co
 
     # print(demand_df.head(20), )
 
-    data = [go.Bar(
-        x=year_list,
-        y=RE_installation,name='Step Change'
-    )]
+
 
     fig = make_subplots(specs=[[{"secondary_y": True}]])
     fig.add_trace(
-        go.Bar(x=year_list, y=RE_installation, name="RE-Step Change"),
+        go.Bar(x=demand_df['Year'][:20], y=demand_df['Net_saving'][:20], name="Annual net saving"),
         secondary_y=False,
     )
     fig.add_trace(
-        go.Scatter(x=year_list, y=demand_list, name="Demand"),
-        secondary_y=False,
+        go.Scatter(x=year_list[:20], y=demand_df['Net_saving_cumsum'][:20], name="Cumulative net saving",line=dict(color="#ff4d4d")),
+        secondary_y=True,
     )
 
-    fig.update_yaxes(title_text="Generation (GWh)", secondary_y=False, showline=True, showgrid=False)
+    fig.update_yaxes(title_text="Annual Saving ($m)", secondary_y=False, showline=True, showgrid=False)
+    fig.update_yaxes(title_text="Cumulative Saving ($m)", secondary_y=True, showline=True, showgrid=False)
+
     # fig.update_yaxes(title_text="Generation (GWh)", secondary_y=True, showline=True, showgrid=False)
     fig.update_xaxes(showgrid=False, showline=True)
 
@@ -387,7 +387,11 @@ def decarbonization_scenarios(demand,growth_rate,PV_cost,PVBatt_cost,WindBatt_co
     # fig.update_layout(yaxis_range=[0, max_range])
 
     fig.update_layout(
-        title="Replacing the non-RE demand by renewable generation")
+        title="Linear decarbonization to achieve 100% RE in {}".format(decarb_year))
+############################################################################################
+    ########################################################################################
+
+
     return fig
 
 

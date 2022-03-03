@@ -295,7 +295,7 @@ Decarbonization = [
 
                                      generate_select('demand-growth', "Demand growth: %/year", 0, 100, 1,
                                                      5),
-                                    generate_select('decarb-year', "Decarbonization target:", 2022, 2060, 1,
+                                    generate_select('decarb-year', "100% RE target:", 2022, 2060, 1,
                                                      2030),
                                      generate_select('rooftop-size', "Rooftop PV size: kW", 0.5, 5, 0.1,
                                                      2.5),
@@ -308,6 +308,11 @@ Decarbonization = [
                                 generate_card_deck(),
                                 html.Br(),
                                 generate_card_deck_2(),
+                                ]),
+                                html.Br(),
+
+                                dbc.Row([
+                                    dbc.Col(html.Div(dcc.Graph(id='scenarios-plot'), style=figure_border_style), md=6)
                                 ])
 
                             ])
@@ -326,7 +331,7 @@ Decarbonization = [
 
                     html.Br(),
                     dbc.Row([dbc.Col(html.Div(dcc.Graph(id='annual_demand'), style=figure_border_style), md=6),
-                             dbc.Col(html.Div(dcc.Graph(id='scenarios-plot'), style=figure_border_style), md=6)
+                             # dbc.Col(html.Div(dcc.Graph(id='scenarios-plot'), style=figure_border_style), md=6)
                              ], style={"marginTop": 30,
                                        }),
                     # dcc.Graph(id="decarb_figure"),
