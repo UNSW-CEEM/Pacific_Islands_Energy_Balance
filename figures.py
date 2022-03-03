@@ -255,7 +255,7 @@ def annual_demand(demand,growth_rate,decarb_rate):
     )]
     fig = go.Figure(data=data)
     fig.update_layout(
-        title="Current and future non-RE electricity demand with {}% growth rate".format(growth_rate))
+        title="Current and future non-RE electricity demand with {}% annual growth rate".format(growth_rate))
 
     fig.update_yaxes(title_text="GWh")
     # fig.update_layout(yaxis_range=[0, max_range])
@@ -277,76 +277,95 @@ def annual_demand(demand,growth_rate,decarb_rate):
     return fig
 
 
-def decarbonization_scenarios(demand,diesel_cost,growth_rate,decarb_rate,PV_cost,PVBatt_cost,WindBatt_cost,Wind_cost):
+def decarbonization_scenarios(demand,growth_rate,PV_cost,PVBatt_cost,WindBatt_cost,Wind_cost,decarb_year,total_wind_share,small_PV_share,small_wind_share,
+                              PV_pot,Wind_pot,diesel_HHV,diesel_price):
+    print('Hi')
+
+    total_wind_share = total_wind_share/100
+    small_PV_share = small_PV_share/100
+    small_wind_share = small_wind_share/100
+    total_PV_share = 1-total_wind_share
+    large_wind_share = 1-small_wind_share
+    large_PV_share = 1-small_PV_share
     demand_df = pd.DataFrame()
     demand_list = []
-    diesel_cost_list=[]
     RE_installation = []
     demand_list.append(demand)
-    diesel_cost_list.append(diesel_cost)
     year_list = []
     year = 2019
     year_list.append(year)
-    for i in range(0, 21):
+    for i in range(0, 31):
         demand += demand * growth_rate / 100
-        diesel_cost += diesel_cost * growth_rate / 100
         demand_list.append(demand)
-        diesel_cost_list.append(diesel_cost)
         year += 1
         year_list.append(year)
 
     demand_list=demand_list[3:]
     year_list=year_list[3:]
-    diesel_cost_list = diesel_cost_list[3:]
     demand_df['Year']=year_list
     demand_df['Demand'] = demand_list
-    demand_df['bs_diesel_cost'] = diesel_cost_list
-    demand_df['2030-RE'] = 0
+    demand_df['RE_cumulative'] = 0
 
-    for i in range(0,len(demand_list)):
-        if i==0:
-            RE_installation.append(demand_list[i]*decarb_rate/100)
-            # non_RE_demand.append((1-decarb_rate/100)*demand_list[i])
-        else:
-            d = demand_list[i]-RE_installation[i-1]
-            RE_installation.append(RE_installation[i-1] + d*decarb_rate/100)
-
+    # for i in range(0,len(demand_list)):
+    #     if i==0:
+    #         RE_installation.append(demand_list[i]*decarb_rate/100)
+    #         # non_RE_demand.append((1-decarb_rate/100)*demand_list[i])
+    #     else:
+    #         d = demand_list[i]-RE_installation[i-1]
+    #         RE_installation.append(RE_installation[i-1] + d*decarb_rate/100)
 
 
-    demand_df['2030-RE'][demand_df['Year']==2030] = demand_df['Demand'][demand_df['Year']==2030]
-    year = 2030
-    years= year-2022
-    step = demand_df['Demand'][demand_df['Year']==2030]/(years+1)
-    demand_df.at[0, '2030-RE'] = step
+
+    demand_df['RE_cumulative'][demand_df['Year']==decarb_year] = demand_df['Demand'][demand_df['Year']==decarb_year]
+    years= decarb_year - 2022
+    step = demand_df['Demand'][demand_df['Year']==decarb_year]/(years+1)
+    demand_df.at[0, 'RE_cumulative'] = step
     for i, row in demand_df.iterrows():
         if (i>0) :
-            demand_df.at[i,'2030-RE'] = demand_df.at[i-1,'2030-RE'] + step
-    demand_df['2030-RE'][demand_df['Year'] > 2030] = demand_df['Demand'].copy()
-    demand_df['Annual_RE'] = demand_df['2030-RE'].shift(-1) - demand_df['2030-RE']
-    demand_df['Wind_cost'] = Wind_cost * demand_df['2030-RE']
-    demand_df['PV_cost'] = PV_cost * demand_df['2030-RE']
-    # demand_df['Non_RE_demand'] = demand_df['Demand'] -
+            demand_df.at[i,'RE_cumulative'] = demand_df.at[i-1,'RE_cumulative'] + step
+    demand_df['RE_cumulative'][demand_df['Year'] > decarb_year] = demand_df['Demand'].copy()
+    demand_df['Annual_RE'] = demand_df['RE_cumulative'].shift(-1) - demand_df['RE_cumulative']
+    # demand_df['RE_cost'] = (total_wind_share * (large_wind_share * Wind_cost + (small_wind_share) * WindBatt_cost)) +\
+    #                         ((1 - wind_share) *((1-small_PV_share)*PV_cost+(small_PV_share)*PVBatt_cost))) \
+    #                        * demand_df['Annual_RE']
+    demand_df['PV_inst'] = (demand_df['Annual_RE'] * total_PV_share)/PV_pot
+    demand_df['wind_inst'] = (demand_df['Annual_RE'] * total_wind_share)/Wind_pot
+
+    demand_df['RE_inst_cost'] = demand_df['PV_inst'] * (small_PV_share*PVBatt_cost+large_PV_share*PV_cost) +\
+                                demand_df['wind_inst'] * (small_wind_share*WindBatt_cost+large_wind_share*Wind_cost)
+    demand_df["non_RE_demand_TJ"] = (demand_df['Demand'] - demand_df['RE_cumulative'])/0.2777
+    demand_df["diesel_litre_dec"] = demand_df["non_RE_demand_TJ"] / diesel_HHV
+    demand_df["diesel_cost_dec"] = demand_df["diesel_litre_dec"] * diesel_price / 1000000  # $MM
+
+    demand_df["diesel_litre_bs"] = (demand_df["Demand"]/0.2777) / diesel_HHV
+    demand_df["diesel_cost_bs"] = demand_df["diesel_litre_bs"] * diesel_price / 1000000  # $MM
+
+    demand_df['Diesel_cost_saving'] = demand_df["diesel_cost_bs"] - demand_df["diesel_cost_dec"] # $MM
+    demand_df['Net_saving'] = demand_df['Diesel_cost_saving'] - demand_df['RE_inst_cost'] # $MM
+    demand_df['Net_saving_cumsum'] = demand_df['Net_saving'].cumsum()
+
+    # add carbon price
+
 
 
 
     # print(demand_df.head(20), )
 
-    data = [go.Bar(
-        x=year_list,
-        y=RE_installation,name='Step Change'
-    )]
+
 
     fig = make_subplots(specs=[[{"secondary_y": True}]])
     fig.add_trace(
-        go.Bar(x=year_list, y=RE_installation, name="RE-Step Change"),
+        go.Bar(x=demand_df['Year'][:20], y=demand_df['Net_saving'][:20], name="Annual net saving"),
         secondary_y=False,
     )
     fig.add_trace(
-        go.Scatter(x=year_list, y=demand_list, name="Demand"),
-        secondary_y=False,
+        go.Scatter(x=year_list[:20], y=demand_df['Net_saving_cumsum'][:20], name="Cumulative net saving",line=dict(color="#ff4d4d")),
+        secondary_y=True,
     )
 
-    fig.update_yaxes(title_text="Generation (GWh)", secondary_y=False, showline=True, showgrid=False)
+    fig.update_yaxes(title_text="Annual Saving ($m)", secondary_y=False, showline=True, showgrid=False)
+    fig.update_yaxes(title_text="Cumulative Saving ($m)", secondary_y=True, showline=True, showgrid=False)
+
     # fig.update_yaxes(title_text="Generation (GWh)", secondary_y=True, showline=True, showgrid=False)
     fig.update_xaxes(showgrid=False, showline=True)
 
@@ -368,7 +387,11 @@ def decarbonization_scenarios(demand,diesel_cost,growth_rate,decarb_rate,PV_cost
     # fig.update_layout(yaxis_range=[0, max_range])
 
     fig.update_layout(
-        title="Replacing the non-RE demand by renewable generation with a constant rate of {}%".format(decarb_rate))
+        title="Linear decarbonization to achieve 100% RE in {}".format(decarb_year))
+############################################################################################
+    ########################################################################################
+
+
     return fig
 
 
@@ -598,3 +621,54 @@ def UNstats_plots(year):
 
     return [fig,fig2,fig3]
 
+def land_use_plot():
+    df = pd.read_excel('Data/Potentials.xlsx')
+    countries = df.columns[2:]
+    arable = df.iloc[4,2:]
+    crops = df.iloc[5, 2:]
+    pasture = df.iloc[6, 2:]
+    forested = df.iloc[7, 2:]
+    other =df.iloc[8, 2:]
+
+    fig = go.Figure()
+    fig.add_trace(go.Bar(x=countries, y=arable, name='Arable',
+                         marker_color='orangered'))
+    fig.add_trace(go.Bar(x=countries, y=crops, name='Crops',
+                         marker_color='lightsalmon'))
+    fig.add_trace(go.Bar(x=countries, y=pasture, name='Pasture',
+                         marker_color='mediumvioletred'))
+    fig.add_trace(go.Bar(x=countries, y=forested, name='Forested',
+                         marker_color='green'))
+    fig.add_trace(go.Bar(x=countries, y=other, name='Other',
+                         marker_color='darkturquoise'))
+
+    fig.update_layout(  # width=1500,
+        # height=500,
+        barmode='relative')
+    fig.update_layout(legend=dict(bgcolor='rgba(0,0,0,0)', yanchor="bottom", orientation="h",
+                                  y=1.05,
+                                  xanchor="center",
+                                  x=0.5),
+                      font=dict(
+                          family="Palatino Linotype",
+                          size=16,
+                          color="white"
+                      )
+                      )
+    fig.update_layout({
+        'plot_bgcolor': 'rgba(0,0,0,0)',
+        'paper_bgcolor': 'rgba(0,0,0,0)',
+    })
+    fig.update_yaxes(title_text="% of imported oil", showline=True)
+    fig.update_xaxes(showline=True)
+
+    fig.update_layout(
+        title="Breakdown of land")
+    # print(summary_df)
+    fig.update_traces(marker_line_color='white',
+                      marker_line_width=2, opacity=1)
+
+    return fig
+
+def decarb_scenario():
+    pass
