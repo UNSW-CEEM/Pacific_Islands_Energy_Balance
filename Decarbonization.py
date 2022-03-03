@@ -294,7 +294,7 @@ Decarbonization = [
                                      generate_select('small-wind-share', "Wind+B to all Wind: %", 0, 100, 5, 40),
 
                                      generate_select('demand-growth', "Demand growth: %/year", 0, 100, 1,
-                                                     5),
+                                                     2),
                                     generate_select('decarb-year', "100% RE target:", 2022, 2060, 1,
                                                      2030),
                                      generate_select('rooftop-size', "Rooftop PV size: kW", 0.5, 5, 0.1,
@@ -312,8 +312,16 @@ Decarbonization = [
                                 html.Br(),
 
                                 dbc.Row([
-                                    dbc.Col(html.Div(dcc.Graph(id='scenarios-plot'), style=figure_border_style), md=6)
-                                ])
+                                    dbc.Col(html.Div(dcc.Graph(id='scenarios-plot'), style=figure_border_style), md=6),
+                                    dbc.Col(html.Div(dcc.Graph(id='scenarios-plot-cum'), style=figure_border_style), md=6)
+                                ]),
+                                html.Br(),
+
+                                dbc.Row([
+                                    dbc.Col(html.Div(dcc.Graph(id='scenarios-annaul-RE'), style=figure_border_style), md=6),
+                                    dbc.Col(html.Div(dcc.Graph(id='scenarios-annual-carbon'), style=figure_border_style),
+                                            md=6)
+                                ]),
 
                             ])
 

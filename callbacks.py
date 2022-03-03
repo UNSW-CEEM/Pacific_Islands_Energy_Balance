@@ -28,6 +28,8 @@ def switch_tab(tab):
     [Input("select-year", "value")]
 )
 def update_options(year):
+    # figures.Update_UNstats_database(year)
+
     return figures.UNstats_plots(year)[0],figures.UNstats_plots(year)[1],figures.UNstats_plots(year)[2],figures.land_use_plot()
 
 
@@ -100,6 +102,9 @@ def sensor_checklist(year,country):
      Output('annual_demand', 'figure'),
      Output('rooftop_PV_plot', 'figure'),
      Output('scenarios-plot', 'figure'),
+     Output('scenarios-plot-cum', 'figure'),
+     Output('scenarios-annaul-RE', 'figure'),
+     Output('scenarios-annual-carbon', 'figure'),
      Output('emission-quantity', 'children'),
      Output('emission-cost', 'children')],
     Input('update-button','n_clicks'),
@@ -127,7 +132,7 @@ def sensor_checklist(n_clicks,year,country,diesel_price,PV_cost,PVBatt_cost,Wind
         df = pd.read_csv("Data/Sankey/csv/{}/{}.csv".format(year,country))
 
         oil_supplied_TJ = df[(df[' (from)'] == 'Oil: Supplied') & (df[' (to)'] == 'PowerStations')][' (weight)'] # Tj- Modifty the units
-
+        Natural_gas_supplied = df[(df[' (from)'] == 'Natural Gas: Supplied') & (df[' (to)'] == 'PowerStations')][' (weight)'] # Tj- Modifty the units
         oil_supplied_litre = oil_supplied_TJ/diesel_HHV
         oil_supplied_cost = int(oil_supplied_litre * diesel_price/1000000)#$MM
 
@@ -136,7 +141,7 @@ def sensor_checklist(n_clicks,year,country,diesel_price,PV_cost,PVBatt_cost,Wind
         power_stations_input_TJ = df[df[' (to)'] == 'PowerStations'][' (weight)'].sum()
         Efficiency = int(100*(power_generated_TJ/power_stations_input_TJ))
 
-        transformation_losses_cost = int(oil_supplied_cost * Efficiency/100)
+        transformation_losses_cost = int(oil_supplied_cost * (1-Efficiency/100))
         #44 MJ/kg
         # 0.85 kg/l
         #37.4e-6 TJ/l
@@ -155,7 +160,6 @@ def sensor_checklist(n_clicks,year,country,diesel_price,PV_cost,PVBatt_cost,Wind
         Wind_install_with_oil = int((oil_supplied_cost * 1000000/Wind_cost)/1000000)
 
         x = max(PV_decarb_MW,wind_decarb_MW,PV_install_with_oil,PV_bat_install_with_oil)
-        # figures.Update_UNstats_database(year)
 
         #Emissions
         emissions_mtonne = float(oil_supplied_litre * emission_kgperlitre/1000000000)
@@ -168,7 +172,17 @@ def sensor_checklist(n_clicks,year,country,diesel_price,PV_cost,PVBatt_cost,Wind
                 figures.annual_demand(power_generated_GWh, demand_growth, decarb_year),
                 figures.rooftop_PV_plot(country, rooftop_size,x),
                 figures.decarbonization_scenarios(power_generated_GWh, demand_growth, PV_cost,PVBatt_cost,
-                                                  WindBatt_cost,Wind_cost,decarb_year,wind_share,small_PV_share,small_wind_share,PV_pot,Wind_pot,diesel_HHV,diesel_price),
+                                                  WindBatt_cost,Wind_cost,decarb_year,wind_share,small_PV_share,
+                                                  small_wind_share,PV_pot,Wind_pot,diesel_HHV,diesel_price)[0],
+                figures.decarbonization_scenarios(power_generated_GWh, demand_growth, PV_cost, PVBatt_cost,
+                                                  WindBatt_cost, Wind_cost, decarb_year, wind_share, small_PV_share,
+                                                  small_wind_share, PV_pot, Wind_pot, diesel_HHV, diesel_price)[1],
+                figures.decarbonization_scenarios(power_generated_GWh, demand_growth, PV_cost, PVBatt_cost,
+                                                  WindBatt_cost, Wind_cost, decarb_year, wind_share, small_PV_share,
+                                                  small_wind_share, PV_pot, Wind_pot, diesel_HHV, diesel_price)[2],
+                figures.decarbonization_scenarios(power_generated_GWh, demand_growth, PV_cost, PVBatt_cost,
+                                                  WindBatt_cost, Wind_cost, decarb_year, wind_share, small_PV_share,
+                                                  small_wind_share, PV_pot, Wind_pot, diesel_HHV, diesel_price)[3],
                 emissions_mtonne, emission_cost_mdollar
                 ]
     else:

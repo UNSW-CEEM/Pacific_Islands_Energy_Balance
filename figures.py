@@ -289,7 +289,7 @@ def decarbonization_scenarios(demand,growth_rate,PV_cost,PVBatt_cost,WindBatt_co
     large_PV_share = 1-small_PV_share
     demand_df = pd.DataFrame()
     demand_list = []
-    RE_installation = []
+
     demand_list.append(demand)
     year_list = []
     year = 2019
@@ -306,14 +306,6 @@ def decarbonization_scenarios(demand,growth_rate,PV_cost,PVBatt_cost,WindBatt_co
     demand_df['Demand'] = demand_list
     demand_df['RE_cumulative'] = 0
 
-    # for i in range(0,len(demand_list)):
-    #     if i==0:
-    #         RE_installation.append(demand_list[i]*decarb_rate/100)
-    #         # non_RE_demand.append((1-decarb_rate/100)*demand_list[i])
-    #     else:
-    #         d = demand_list[i]-RE_installation[i-1]
-    #         RE_installation.append(RE_installation[i-1] + d*decarb_rate/100)
-
 
 
     demand_df['RE_cumulative'][demand_df['Year']==decarb_year] = demand_df['Demand'][demand_df['Year']==decarb_year]
@@ -323,13 +315,19 @@ def decarbonization_scenarios(demand,growth_rate,PV_cost,PVBatt_cost,WindBatt_co
     for i, row in demand_df.iterrows():
         if (i>0) :
             demand_df.at[i,'RE_cumulative'] = demand_df.at[i-1,'RE_cumulative'] + step
+
     demand_df['RE_cumulative'][demand_df['Year'] > decarb_year] = demand_df['Demand'].copy()
     demand_df['Annual_RE'] = demand_df['RE_cumulative'].shift(-1) - demand_df['RE_cumulative']
     # demand_df['RE_cost'] = (total_wind_share * (large_wind_share * Wind_cost + (small_wind_share) * WindBatt_cost)) +\
     #                         ((1 - wind_share) *((1-small_PV_share)*PV_cost+(small_PV_share)*PVBatt_cost))) \
     #                        * demand_df['Annual_RE']
-    demand_df['PV_inst'] = (demand_df['Annual_RE'] * total_PV_share)/PV_pot
-    demand_df['wind_inst'] = (demand_df['Annual_RE'] * total_wind_share)/Wind_pot
+    demand_df['PV_inst'] = (demand_df['Annual_RE'] * total_PV_share)/PV_pot #MW
+    demand_df['wind_inst'] = (demand_df['Annual_RE'] * total_wind_share)/Wind_pot #MW
+
+    demand_df['Small PV+B'] = demand_df['PV_inst'] * small_PV_share #MW
+    demand_df['Large PV'] = demand_df['PV_inst'] * large_PV_share #MW
+    demand_df['Small Wind+B'] = demand_df['wind_inst'] * small_wind_share #MW
+    demand_df['Large Wind'] = demand_df['wind_inst'] * large_wind_share #MW
 
     demand_df['RE_inst_cost'] = demand_df['PV_inst'] * (small_PV_share*PVBatt_cost+large_PV_share*PV_cost) +\
                                 demand_df['wind_inst'] * (small_wind_share*WindBatt_cost+large_wind_share*Wind_cost)
@@ -343,7 +341,11 @@ def decarbonization_scenarios(demand,growth_rate,PV_cost,PVBatt_cost,WindBatt_co
     demand_df['Diesel_cost_saving'] = demand_df["diesel_cost_bs"] - demand_df["diesel_cost_dec"] # $MM
     demand_df['Net_saving'] = demand_df['Diesel_cost_saving'] - demand_df['RE_inst_cost'] # $MM
     demand_df['Net_saving_cumsum'] = demand_df['Net_saving'].cumsum()
-
+    diesel_emission_intensity = 720 # t CO2-e/GWh
+    demand_df['Emission_bs_ton'] = demand_df['Demand'] * diesel_emission_intensity
+    demand_df['Emission_dec_ton'] = (demand_df['Demand'] - demand_df['RE_cumulative']) * diesel_emission_intensity
+    demand_df['Emission_red'] = demand_df['Emission_bs_ton'] - demand_df['Emission_dec_ton']
+    demand_df['Emission_red_cum'] = demand_df['Emission_red'].cumsum()
     # add carbon price
 
 
@@ -355,16 +357,16 @@ def decarbonization_scenarios(demand,growth_rate,PV_cost,PVBatt_cost,WindBatt_co
 
     fig = make_subplots(specs=[[{"secondary_y": True}]])
     fig.add_trace(
-        go.Bar(x=demand_df['Year'][:20], y=demand_df['Net_saving'][:20], name="Annual net saving"),
+        go.Bar(x=demand_df['Year'], y=demand_df['Net_saving'], name="Annual net saving"),
         secondary_y=False,
     )
-    fig.add_trace(
-        go.Scatter(x=year_list[:20], y=demand_df['Net_saving_cumsum'][:20], name="Cumulative net saving",line=dict(color="#ff4d4d")),
-        secondary_y=True,
-    )
+    # fig.add_trace(
+    #     go.Scatter(x=year_list, y=demand_df['Net_saving_cumsum'], name="Cumulative net saving",line=dict(color="#ff4d4d")),
+    #     secondary_y=True,
+    # )
 
     fig.update_yaxes(title_text="Annual Saving ($m)", secondary_y=False, showline=True, showgrid=False)
-    fig.update_yaxes(title_text="Cumulative Saving ($m)", secondary_y=True, showline=True, showgrid=False)
+    # fig.update_yaxes(title_text="Cumulative Saving ($m)", secondary_y=True, showline=True, showgrid=False)
 
     # fig.update_yaxes(title_text="Generation (GWh)", secondary_y=True, showline=True, showgrid=False)
     fig.update_xaxes(showgrid=False, showline=True)
@@ -381,18 +383,128 @@ def decarbonization_scenarios(demand,growth_rate,PV_cost,PVBatt_cost,WindBatt_co
                                   xanchor="center",
                                   x=0.5,
                                   ))
-    fig.update_traces(marker_color='lightsalmon', marker_line_color='white',
-                      marker_line_width=2.5, opacity=1)
+    fig.update_traces(marker_color='forestgreen', marker_line_color='white',
+                      marker_line_width=1.5, opacity=1)
 
     # fig.update_layout(yaxis_range=[0, max_range])
 
     fig.update_layout(
-        title="Linear decarbonization to achieve 100% RE in {}".format(decarb_year))
+        title="Annual savings by achieving 100% RE in {}".format(decarb_year))
 ############################################################################################
     ########################################################################################
 
 
-    return fig
+
+    fig2 = make_subplots(specs=[[{"secondary_y": False}]])
+
+    fig2.add_trace(
+        go.Bar(x=year_list, y=demand_df['Net_saving_cumsum'], name="Cumulative net saving"),
+        secondary_y=False,
+    )
+
+    fig2.update_yaxes(title_text="Cumulative Saving ($m)", secondary_y=False, showline=True, showgrid=False)
+    # fig2.update_yaxes(title_text="Cumulative Saving ($m)", secondary_y=True, showline=True, showgrid=False)
+
+    # fig.update_yaxes(title_text="Generation (GWh)", secondary_y=True, showline=True, showgrid=False)
+    fig2.update_xaxes(showgrid=False, showline=True)
+
+    fig2.update_layout(height=350, font=dict(
+        family="Palatino Linotype",
+        size=16,
+        color="white"
+    ))
+    fig2.update_layout({'plot_bgcolor': 'rgba(0,0,0,0)',
+                       'paper_bgcolor': 'rgba(0,0,0,0)'},
+                      legend=dict(bgcolor='rgba(0,0,0,0)', yanchor="bottom", orientation="h",
+                                  y=1.05,
+                                  xanchor="center",
+                                  x=0.5,
+                                  ))
+    fig2.update_traces(marker_color='forestgreen', marker_line_color='white',
+                      marker_line_width=1.5, opacity=1)
+
+    # fig.update_layout(yaxis_range=[0, max_range])
+
+    fig2.update_layout(
+        title="Cumulative Savings by achieving 100% RE in {}".format(decarb_year))
+
+    fig3 = go.Figure()
+    fig3.add_trace(go.Bar(x=demand_df['Year'], y=demand_df['Small PV+B'], name='Small PV+B',
+                          marker_color='forestgreen'))
+    fig3.add_trace(go.Bar(x=demand_df['Year'], y=demand_df['Large PV'], name='Large PV',
+                          marker_color='lightsalmon'))
+    fig3.add_trace(go.Bar(x=demand_df['Year'], y=demand_df['Small Wind+B'], name='Small Wind+B',
+                          marker_color='greenyellow'))
+    fig3.add_trace(go.Bar(x=demand_df['Year'], y=demand_df['Large Wind'], name='Large Wind',
+                          marker_color='orangered'))
+    # fig3.add_trace(go.Bar(x=summary_df['Country'], y=summary_df['Pipeline transport'], name='Pipeline transport',
+    #                       marker_color='mediumvioletred'))
+    # fig3.add_trace(go.Bar(x=summary_df['Country'], y=summary_df['transport n.e.s'], name='Transport n.e.s',
+    #                       marker_color='darkturquoise'))
+
+    fig3.update_layout(  # width=1500,
+        # height=500,
+        barmode='relative')
+    fig3.update_layout(legend=dict(bgcolor='rgba(0,0,0,0)', yanchor="bottom", orientation="h",
+                                   y=0.98,
+                                   xanchor="center",
+                                   x=0.5),
+                       font=dict(
+                           family="Palatino Linotype",
+                           size=16,
+                           color="white"
+                       )
+                       )
+    fig3.update_layout({
+        'plot_bgcolor': 'rgba(0,0,0,0)',
+        'paper_bgcolor': 'rgba(0,0,0,0)',
+    })
+    fig3.update_yaxes(title_text="Installed Capacity (MW)", showline=True)
+    fig3.update_xaxes(showline=True)
+
+    fig3.update_layout(
+        title="Breakdown of annual RE installation for 100% RE in {}".format(decarb_year))
+    # print(summary_df)
+    fig3.update_traces(marker_line_color='white',
+                       marker_line_width=1.5, opacity=1)
+
+
+    fig4 = make_subplots(specs=[[{"secondary_y": True}]])
+
+    # fig4 = go.Figure()
+    fig4.add_trace(go.Bar(x=demand_df['Year'], y=demand_df['Emission_red'], name='Annual emission reduction',
+                          marker_color='forestgreen'))
+    fig4.add_trace(go.Scatter(x=demand_df['Year'], y=demand_df['Emission_red_cum'], name='Cumulative emission reduction',
+                          marker_color='lightsalmon',),secondary_y=True)
+    fig4.update_layout(  # width=1500,
+        # height=500,
+        barmode='relative')
+    fig4.update_layout(legend=dict(bgcolor='rgba(0,0,0,0)', yanchor="bottom", orientation="h",
+                                   y=0.98,
+                                   xanchor="center",
+                                   x=0.5),
+                       font=dict(
+                           family="Palatino Linotype",
+                           size=16,
+                           color="white"
+                       )
+                       )
+    fig4.update_layout({
+        'plot_bgcolor': 'rgba(0,0,0,0)',
+        'paper_bgcolor': 'rgba(0,0,0,0)',
+    })
+    fig4.update_yaxes(title_text="Emission reduction (t CO2-e)", showline=True)
+    fig4.update_yaxes(title_text="Cumulative emission reduction (t CO2-e)", secondary_y=True, showline=True, showgrid=False)
+
+    fig4.update_xaxes(showline=True)
+
+    fig4.update_layout(
+        title="Annaul CO2-e emission reduction by achieving 100% RE in {}".format(decarb_year))
+    # print(summary_df)
+    fig4.update_traces(marker_line_color='white',
+                       marker_line_width=1.5, opacity=1)
+
+    return [fig,fig2,fig3,fig4]
 
 
 def rooftop_PV_plot(Country,PV_size,max_range):
@@ -441,7 +553,7 @@ def rooftop_PV_plot(Country,PV_size,max_range):
                                   x=0.5,
                       ))
     fig.update_traces(marker_color='lightsalmon', marker_line_color='white',
-                      marker_line_width=2.5, opacity=1)
+                      marker_line_width=1.5, opacity=1)
 
     fig.update_layout(yaxis_range=[0, max_range])
 
@@ -481,6 +593,9 @@ def Update_UNstats_database(year):
     all_countries_df['All Inputs'] = all_countries_df['All Coal'] + all_countries_df['All Oil'] + all_countries_df['Natural Gas'] +\
                                      all_countries_df['Biofuels and Waste'] + all_countries_df['Nuclear'] +all_countries_df['Heat']
     # all_countries_df.applymap(lambda x: 'Micronesia' if "Micronesia" in str(x) else x)
+    all_countries_df.replace('Micronesia (Federated States of)', 'Micronesia',inplace=True)
+    all_countries_df.replace('Papua New Guinea', 'PNG',inplace=True)
+
     all_countries_df.to_csv("Data/EnergyBalance/{}/all_countries_df.csv".format(year))
 
 def UNstats_plots(year):
@@ -543,7 +658,7 @@ def UNstats_plots(year):
         title="% of imported oil consumed for international transit in {}".format(year))
     # print(summary_df)
     fig.update_traces(marker_line_color='white',
-                      marker_line_width=2, opacity=1)
+                      marker_line_width=1.5, opacity=1)
 
     fig2 = go.Figure()
     fig2.add_trace(go.Bar(x=summary_df['Country'], y=summary_df['transformation_to_import'], name='Transformation',
@@ -575,7 +690,7 @@ def UNstats_plots(year):
         title="% of imported oil transformed into electricity and transformation losses in {}".format(year))
     # print(summary_df)
     fig2.update_traces(marker_line_color='white',
-                      marker_line_width=2, opacity=1)
+                      marker_line_width=1.5, opacity=1)
 
 
     fig3 = go.Figure()
@@ -616,7 +731,7 @@ def UNstats_plots(year):
         title="Breakdown of imported oil consumed for domestic transport in {}".format(year))
     # print(summary_df)
     fig3.update_traces(marker_line_color='white',
-                      marker_line_width=2, opacity=1)
+                      marker_line_width=1.5, opacity=1)
 
 
     return [fig,fig2,fig3]
@@ -666,7 +781,7 @@ def land_use_plot():
         title="Breakdown of land")
     # print(summary_df)
     fig.update_traces(marker_line_color='white',
-                      marker_line_width=2, opacity=1)
+                      marker_line_width=1.5, opacity=1)
 
     return fig
 
