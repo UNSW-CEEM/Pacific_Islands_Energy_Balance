@@ -457,7 +457,7 @@ def Update_UNstats_database(year):
 
     all_countries_df['All Inputs'] = all_countries_df['All Coal'] + all_countries_df['All Oil'] + all_countries_df['Natural Gas'] +\
                                      all_countries_df['Biofuels and Waste'] + all_countries_df['Nuclear'] +all_countries_df['Heat']
-
+    # all_countries_df.applymap(lambda x: 'Micronesia' if "Micronesia" in str(x) else x)
     all_countries_df.to_csv("Data/EnergyBalance/{}/all_countries_df.csv".format(year))
 
 def UNstats_plots(year):
