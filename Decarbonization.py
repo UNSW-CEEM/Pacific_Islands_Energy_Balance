@@ -33,7 +33,7 @@ radioitems_diesel_price = html.Div(
 )
 RE_share_slider = html.Div([
     html.Br(),
-    dbc.Label("PV and Wind share for decarbonization"),
+    dbc.Label("RE mix for decarbonization"),
     html.Br(),    html.Br(),html.Br(),
 
     daq.Slider(
@@ -135,6 +135,8 @@ gauge_size = "auto"
 
 def generate_card_deck():
     cards = html.Div([
+        dbc.Label("Statistics for the latest available data in 2019",),
+
         dbc.Row([
             dbc.Col(dbc.Card(
                 [
@@ -170,7 +172,7 @@ def generate_card_deck():
                         [
                             dbc.Row([
                                 dbc.Col(dbc.CardImg(src="/assets/waste-money.png", bottom=True), width=3),
-                                dbc.Col([html.H4(id='lost-cost', className="card-title"), html.H6("Losses Cost, $m")])
+                                dbc.Col([html.H4(id='lost-cost', className="card-title"), html.H6("Lost diesel Cost, $m")])
                             ]),
                         ],style={'padding':'0.25rem'}
                     )
@@ -194,7 +196,7 @@ def generate_card_deck():
 
             ))
         ])
-    ])
+    ],style={'padding':'1rem'})
     return cards
 
 def generate_card_deck_2():
@@ -234,8 +236,8 @@ def generate_card_deck_2():
                     dbc.CardBody(
                         [
                             dbc.Row([
-                                dbc.Col(dbc.CardImg(src="/assets/electricity.png", bottom=True), width=3),
-                                dbc.Col([html.H4(id='adada-cosadat', className="card-title"), html.H6("empty")])
+                                dbc.Col(dbc.CardImg(src="/assets/rooftop.png", bottom=True), width=3),
+                                dbc.Col([html.H4(id='rooftop-MW', className="card-title"), html.H6("Potential Rooftop PV Capacity, MW")])
 
                             ]),
                         ],style={'padding':'0.25rem'}
@@ -249,8 +251,8 @@ def generate_card_deck_2():
                     dbc.CardBody(
                         [
                             dbc.Row([
-                                dbc.Col(dbc.CardImg(src="/assets/power-plant.png", bottom=True, ), width=3),
-                                dbc.Col([html.H4(id='Unknown2',className="card-title"), html.H6("Empty")])
+                                dbc.Col(dbc.CardImg(src="/assets/rooftop.png", bottom=True, ), width=3),
+                                dbc.Col([html.H4(id='rooftop-GWh',className="card-title"), html.H6("Potential Rooftop PV Generation, GWh")])
                             ]),
                         ],style={'padding':'0.25rem'}
                     )
@@ -259,7 +261,7 @@ def generate_card_deck_2():
 
             ))
         ])
-    ])
+    ],style={'padding':'1rem'})
     return cards
 
 
@@ -279,26 +281,33 @@ Decarbonization = [
                     dbc.Row(
                         [
                             dbc.Col([radioitems_diesel_price, html.Br(),
-                                    RE_share_slider,
                                     html.Br(),
                                      html.Br(),
+                                     dbc.Label("Emission Parameters"),
 
                                      generate_select('emissions-rate',"Emissions: kg/l",0.5,5,0.1,2.7),
                                      generate_select('carbon-price', "Carbon price: $/ton", 1, 100, 0.1, 30),
+                                     dbc.Label("RE size and installation cost"),
 
                                      generate_select('PV-cost',"Large scale PV: $/W",0.5,5,0.1,3),
                                      generate_select('PV-battery-cost',"Small PV+B: $/W",1,15,0.1,7),
                                      generate_select('wind-large-cost',"Large scale wind: $/W",1,5,0.1,3),
                                      generate_select('wind-battery-cost',"Small Wind+B: $/W",2.5,12,0.1,6),
+                                     generate_select('rooftop-size', "Rooftop PV size: kW", 0.5, 5, 0.1,
+                                                     2.5),
+                                     RE_share_slider,
+                                     html.Br(),
+                                     html.Br(),
                                      generate_select('small-PV-share', "PV+B to all PV: %", 0, 100, 5, 40),
                                      generate_select('small-wind-share', "Wind+B to all Wind: %", 0, 100, 5, 40),
 
                                      generate_select('demand-growth', "Demand growth: %/year", 0, 100, 1,
                                                      2),
-                                    generate_select('decarb-year', "100% RE target:", 2022, 2060, 1,
+                                     generate_select('decarb-year', "100% RE target:", 2022, 2060, 1,
                                                      2030),
-                                     generate_select('rooftop-size', "Rooftop PV size: kW", 0.5, 5, 0.1,
-                                                     2.5),
+
+
+
                                      dbc.Button("Update", color="danger", id='update-button',n_clicks=1,className="me-1"),
 
                                      ],md=2),
@@ -310,7 +319,11 @@ Decarbonization = [
                                 generate_card_deck_2(),
                                 ]),
                                 html.Br(),
-
+                                dbc.Row(
+                                    [dbc.Col(html.Div(dcc.Graph(id='annual_demand'), style=figure_border_style), md=6),
+                                     dbc.Col(html.Div(dcc.Graph(id='scenarios-annaul-RE'), style=figure_border_style), md=6)
+                                     ], style={"marginTop": 30,
+                                               }),
                                 dbc.Row([
                                     dbc.Col(html.Div(dcc.Graph(id='scenarios-plot'), style=figure_border_style), md=6),
                                     dbc.Col(html.Div(dcc.Graph(id='scenarios-plot-cum'), style=figure_border_style), md=6)
@@ -318,7 +331,7 @@ Decarbonization = [
                                 html.Br(),
 
                                 dbc.Row([
-                                    dbc.Col(html.Div(dcc.Graph(id='scenarios-annaul-RE'), style=figure_border_style), md=6),
+                                    dbc.Col(html.Div(dcc.Graph(id='scenarios-annaul-diesel'), style=figure_border_style), md=6),
                                     dbc.Col(html.Div(dcc.Graph(id='scenarios-annual-carbon'), style=figure_border_style),
                                             md=6)
                                 ]),
@@ -338,10 +351,7 @@ Decarbonization = [
                                        }),
 
                     html.Br(),
-                    dbc.Row([dbc.Col(html.Div(dcc.Graph(id='annual_demand'), style=figure_border_style), md=6),
-                             # dbc.Col(html.Div(dcc.Graph(id='scenarios-plot'), style=figure_border_style), md=6)
-                             ], style={"marginTop": 30,
-                                       }),
+
                     # dcc.Graph(id="decarb_figure"),
 
                 ],

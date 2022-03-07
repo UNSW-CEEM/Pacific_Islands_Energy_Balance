@@ -242,7 +242,7 @@ def annual_demand(demand,growth_rate,decarb_rate):
     year_list = []
     year = 2019
     year_list.append(year)
-    for i in range(0,11):
+    for i in range(0,31):
         demand += demand * growth_rate/100
         demand_list.append(demand)
 
@@ -255,7 +255,7 @@ def annual_demand(demand,growth_rate,decarb_rate):
     )]
     fig = go.Figure(data=data)
     fig.update_layout(
-        title="Current and future non-RE electricity demand with {}% annual growth rate".format(growth_rate))
+        title="Current and future non-RE electricity demand with {}% annual growth".format(growth_rate))
 
     fig.update_yaxes(title_text="GWh")
     # fig.update_layout(yaxis_range=[0, max_range])
@@ -263,7 +263,8 @@ def annual_demand(demand,growth_rate,decarb_rate):
     fig.update_layout({'plot_bgcolor': 'rgba(0,0,0,0)',
                        'paper_bgcolor': 'rgba(0,0,0,0)'})
 
-    fig.update_layout(height=350, font=dict(
+    fig.update_layout(#height=500,
+                      font=dict(
         family="Palatino Linotype",
         size=16,
         color="white"
@@ -272,21 +273,18 @@ def annual_demand(demand,growth_rate,decarb_rate):
                       marker_line_width=2.5, opacity=1)
     fig.update_xaxes(showgrid=False,showline=True)
     fig.update_yaxes(showgrid=True,showline=True)
-
-
     return fig
 
 
-def decarbonization_scenarios(demand,growth_rate,PV_cost,PVBatt_cost,WindBatt_cost,Wind_cost,decarb_year,total_wind_share,small_PV_share,small_wind_share,
+def decarbonization_scenarios(Efficiency,oil_imports_2019,demand,growth_rate,PV_cost,PVBatt_cost,WindBatt_cost,Wind_cost,decarb_year,total_wind_share,small_PV_share,small_wind_share,
                               PV_pot,Wind_pot,diesel_HHV,diesel_price):
-    print('Hi')
-
     total_wind_share = total_wind_share/100
     small_PV_share = small_PV_share/100
     small_wind_share = small_wind_share/100
     total_PV_share = 1-total_wind_share
     large_wind_share = 1-small_wind_share
     large_PV_share = 1-small_PV_share
+
     demand_df = pd.DataFrame()
     demand_list = []
 
@@ -303,7 +301,7 @@ def decarbonization_scenarios(demand,growth_rate,PV_cost,PVBatt_cost,WindBatt_co
     demand_list=demand_list[3:]
     year_list=year_list[3:]
     demand_df['Year']=year_list
-    demand_df['Demand'] = demand_list
+    demand_df['Demand'] = demand_list #GWh
     demand_df['RE_cumulative'] = 0
 
 
@@ -318,9 +316,7 @@ def decarbonization_scenarios(demand,growth_rate,PV_cost,PVBatt_cost,WindBatt_co
 
     demand_df['RE_cumulative'][demand_df['Year'] > decarb_year] = demand_df['Demand'].copy()
     demand_df['Annual_RE'] = demand_df['RE_cumulative'].shift(-1) - demand_df['RE_cumulative']
-    # demand_df['RE_cost'] = (total_wind_share * (large_wind_share * Wind_cost + (small_wind_share) * WindBatt_cost)) +\
-    #                         ((1 - wind_share) *((1-small_PV_share)*PV_cost+(small_PV_share)*PVBatt_cost))) \
-    #                        * demand_df['Annual_RE']
+
     demand_df['PV_inst'] = (demand_df['Annual_RE'] * total_PV_share)/PV_pot #MW
     demand_df['wind_inst'] = (demand_df['Annual_RE'] * total_wind_share)/Wind_pot #MW
 
@@ -331,11 +327,12 @@ def decarbonization_scenarios(demand,growth_rate,PV_cost,PVBatt_cost,WindBatt_co
 
     demand_df['RE_inst_cost'] = demand_df['PV_inst'] * (small_PV_share*PVBatt_cost+large_PV_share*PV_cost) +\
                                 demand_df['wind_inst'] * (small_wind_share*WindBatt_cost+large_wind_share*Wind_cost)
+
     demand_df["non_RE_demand_TJ"] = (demand_df['Demand'] - demand_df['RE_cumulative'])/0.2777
-    demand_df["diesel_litre_dec"] = demand_df["non_RE_demand_TJ"] / diesel_HHV
+    demand_df["diesel_litre_dec"] = demand_df["non_RE_demand_TJ"] / (diesel_HHV*Efficiency) # where is efficiency of transformation?
     demand_df["diesel_cost_dec"] = demand_df["diesel_litre_dec"] * diesel_price / 1000000  # $MM
 
-    demand_df["diesel_litre_bs"] = (demand_df["Demand"]/0.2777) / diesel_HHV
+    demand_df["diesel_litre_bs"] = (demand_df["Demand"]/0.2777) / (diesel_HHV * Efficiency)
     demand_df["diesel_cost_bs"] = demand_df["diesel_litre_bs"] * diesel_price / 1000000  # $MM
 
     demand_df['Diesel_cost_saving'] = demand_df["diesel_cost_bs"] - demand_df["diesel_cost_dec"] # $MM
@@ -347,7 +344,7 @@ def decarbonization_scenarios(demand,growth_rate,PV_cost,PVBatt_cost,WindBatt_co
     demand_df['Emission_red'] = demand_df['Emission_bs_ton'] - demand_df['Emission_dec_ton']
     demand_df['Emission_red_cum'] = demand_df['Emission_red'].cumsum()
     # add carbon price
-
+    demand_df['Diesel_import_reduction'] = (demand_df["diesel_litre_bs"] - demand_df["diesel_litre_dec"])/1000000 #Million Litre
 
 
 
@@ -493,8 +490,8 @@ def decarbonization_scenarios(demand,growth_rate,PV_cost,PVBatt_cost,WindBatt_co
         'plot_bgcolor': 'rgba(0,0,0,0)',
         'paper_bgcolor': 'rgba(0,0,0,0)',
     })
-    fig4.update_yaxes(title_text="Emission reduction (t CO2-e)", showline=True)
-    fig4.update_yaxes(title_text="Cumulative emission reduction (t CO2-e)", secondary_y=True, showline=True, showgrid=False)
+    fig4.update_yaxes(title_text="Annual (t CO2-e)", showline=True)
+    fig4.update_yaxes(title_text="Cumulative (t CO2-e)", secondary_y=True, showline=True, showgrid=False)
 
     fig4.update_xaxes(showline=True)
 
@@ -504,7 +501,51 @@ def decarbonization_scenarios(demand,growth_rate,PV_cost,PVBatt_cost,WindBatt_co
     fig4.update_traces(marker_line_color='white',
                        marker_line_width=1.5, opacity=1)
 
-    return [fig,fig2,fig3,fig4]
+
+    fig5 = make_subplots(specs=[[{"secondary_y": True}]])
+
+    # fig4 = go.Figure()
+    fig5.add_trace(go.Bar(x=demand_df['Year'], y=demand_df['Diesel_import_reduction'], name='Annual',
+                          marker_color='forestgreen'))
+    fig5.add_trace(go.Scatter(x=demand_df['Year'], y=demand_df['Diesel_import_reduction'].cumsum(), name='Cumulative',
+                          marker_color='lightsalmon',),secondary_y=True)
+    fig5.add_trace(go.Scatter(x=demand_df['Year'], y=[oil_imports_2019]*len(demand_df['Year']), name='Oil products import in 2019',
+                          marker_color='red'),secondary_y=False)
+    # fig5.add_hline(y=oil_imports_2019, line_dash="dot",line=dict(color='Red',),
+    #               annotation_text="2019 oil product imports",
+    #               annotation_position="bottom left")
+    # [z0] * len(seconds)
+
+    fig5.update_layout(  # width=1500,
+        # height=500,
+        barmode='relative')
+    fig5.update_layout(legend=dict(bgcolor='rgba(0,0,0,0)', yanchor="bottom", orientation="h",
+                                   y=0.98,
+                                   xanchor="center",
+                                   x=0.5),
+                       font=dict(
+                           family="Palatino Linotype",
+                           size=16,
+                           color="white"
+                       )
+                       )
+    fig5.update_layout({
+        'plot_bgcolor': 'rgba(0,0,0,0)',
+        'paper_bgcolor': 'rgba(0,0,0,0)',
+    })
+    fig5.update_yaxes(title_text="Annual (million Litre)", showline=True)
+    fig5.update_yaxes(title_text="Cumulative (million Litre)", secondary_y=True, showline=True, showgrid=False)
+    fig5.update_yaxes(title_text="Cumulative (million Litre)", secondary_y=True, showline=True, showgrid=False)
+
+    fig5.update_xaxes(showline=True)
+
+    fig5.update_layout(
+        title="Diesel import reduction by achieving 100% RE in {}".format(decarb_year))
+    # print(summary_df)
+    fig5.update_traces(marker_line_color='white',
+                       marker_line_width=1.5, opacity=1)
+
+    return [fig,fig2,fig3,fig4,fig5]
 
 
 def rooftop_PV_plot(Country,PV_size,max_range):
@@ -561,7 +602,7 @@ def rooftop_PV_plot(Country,PV_size,max_range):
         title="Rooftop PV potential")
 
 
-    return fig
+    return [fig,rooftop_capacity_MW,rooftop_PV_generation_GWh]
 
 
 def Update_UNstats_database(year):
