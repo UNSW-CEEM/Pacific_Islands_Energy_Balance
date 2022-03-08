@@ -26,10 +26,11 @@ radioitems_diesel_price = html.Div(
     handleLabel={"showCurrentValue": True,"label": "$/litre"},
     step=0.1,
     marks={'0.5': '0.5','2.5': '2.5'},
-    id='diesel_price_slider'
+    id='diesel_price_slider',
+    size=200
 )
     ],
-    style={"margin-bottom": "15px","margin-top": "0px"}
+    style={"margin-bottom": "15px","margin-top": "0px",}
 )
 RE_share_slider = html.Div([
     html.Br(),
@@ -44,6 +45,7 @@ RE_share_slider = html.Div([
     step=5,
     marks={'0': '100% PV','25': '75% PV', '50': '50-50','75': '75% Wind','100': '100% Wind'},
     id = 'Wind_PV_share',
+    size=200
 )
 ])
 def generate_select(id,title,min,max,step,value):
@@ -310,7 +312,7 @@ Decarbonization = [
 
                                      dbc.Button("Update", color="danger", id='update-button',n_clicks=1,className="me-1"),
 
-                                     ],md=2),
+                                     ],md=2,sm=3),
                             dbc.Col([
 
                                 dbc.Row([
