@@ -7,36 +7,41 @@ from app import app
 import pandas as pd
 import dash
 import os
-import dash_daq as daq
+# import dash_daq as daq
 from page1FarmView import figure_border_style
 from page1FarmView import Year_List
 from page1FarmView import CONTENT_STYLE
 from dash import dash_table
+import plotly.figure_factory as ff
 
 summary_df = pd.read_csv('Data/SummaryTable.csv')
-table = dbc.Table.from_dataframe(summary_df, striped=True, bordered=True, hover=True,style={'color':'red'},responsive=True)
+table = dbc.Table.from_dataframe(summary_df, striped=False, bordered=True, hover=True,style={'color':'white','fontSize':'18'},responsive=True)
+# table = dbc.Table(summary_df, striped=False, bordered=True, hover=True,style={'color':'white'},responsive=True)
+# table = ff.create_table(summary_df, height_constant=1500)
+
 
 dataTable = dash_table.DataTable(
     data=summary_df.to_dict('records'),
     columns=[{'id': c, 'name': c} for c in summary_df.columns],
-    style_cell={'textAlign': 'center','padding': '5px',
+    style_cell={'textAlign': 'left','padding': '5px',
                     'backgroundColor': 'rgb(50, 50, 50)',
                     'color': 'white'
                 },
     style_as_list_view=False,
     style_header={
-        'backgroundColor': 'rgb(30, 30, 30)',
+        'padding': '5px',
+        'backgroundColor': 'forestgreen',
         'fontWeight': 'bold',
         'border': '1px solid grey',
-        # 'textAlign': 'left',
+        'textAlign': 'right',
     },
-    style_data={ 'border': '1px solid grey' },
-    style_cell_conditional=[            # style_cell_c. refers to the whole table
-        {
-            'if': {'column_id': 'Country / Territory'},
-            'textAlign': 'left'
-        }
-    ],
+    style_data={ 'border': '0.15px solid #ff4d4d' },
+    # style_cell_conditional=[            # style_cell_c. refers to the whole table
+    #     {
+    #         'if': {'column_id': 'Country / Territory'},
+    #         'textAlign': 'left'
+    #     }
+    # ],
 
 
     # style_header={'backgroundColor': },
@@ -56,7 +61,14 @@ Transit = [
                         style={"display": "none"},
                     ),
                     dbc.Row([
-                        dbc.Col(dataTable)
+                        dbc.Col(table)
+                    ]),
+                    html.Br(),
+                    page1FarmView.generate_single_year_drpdwn(),
+                    html.Br(),
+                    dbc.Row([
+                        dbc.Col(html.Div(dcc.Graph(id="generation_mix_GWh"), style=figure_border_style), md=6),
+                        dbc.Col(html.Div(dcc.Graph(id="generation_mix_MW"), style=figure_border_style), md=6),
                     ]),
                     html.Br(),
                     dbc.Row([
@@ -68,7 +80,7 @@ Transit = [
                     dbc.Row([
                         dbc.Col(html.Div(dcc.Graph(id="transit_figure3"), style=figure_border_style), md=6),
                         dbc.Col(html.Div(dcc.Graph(id="transit_figure4"), style=figure_border_style), md=6),
-                    ])
+                    ]),
 
                 ],
                 type="default",
@@ -91,4 +103,4 @@ BODY = dbc.Container(
 )
 
 
-content = [page1FarmView.generate_single_year_drpdwn(),BODY]
+content = [BODY]

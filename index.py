@@ -2,19 +2,18 @@ from app import app
 import dash_bootstrap_components as dbc
 import page1FarmView as F
 from dash import html
-from dash import dcc
 from page1FarmView import CONTENT_STYLE
-from dash.dependencies import Input, Output, State
-import pandas as pd
 import callbacks
-# import page1FarmView
-# import callbacksPage1FarmView
-# import callbacksPage1TurbineView
-# import callbacksDbManager
-# import callbacksTrendmonitoring
 
+import dash_auth
 
-
+VALID_USERNAME_PASSWORD_PAIRS = {
+    'hello': 'world'
+}
+auth = dash_auth.BasicAuth(
+    app,
+    VALID_USERNAME_PASSWORD_PAIRS
+)
 
 app.layout = dbc.Container([
 
@@ -24,6 +23,8 @@ app.layout = dbc.Container([
         [
             dbc.Tab(label="Summary",active_tab_style={"textTransform": "uppercase"},active_label_style={"color": '#FF0000'},tab_id='summary-tab'),
             dbc.Tab(label="Energy and financial flows", active_tab_style={"textTransform": "uppercase"},active_label_style={"color": '#FF0000'},tab_id='flows-tab'),
+            dbc.Tab(label="Geothermal potential", active_tab_style={"textTransform": "uppercase"},
+            active_label_style={"color": '#FF0000'}, tab_id='geothermal-tab'),
             dbc.Tab(label="Decarbonization scenarios", active_tab_style={"textTransform": "uppercase"},active_label_style={"color": '#FF0000'},tab_id='decrb-tab'),
         ],
         id="tabs",

@@ -3,6 +3,11 @@ venv
 .idea
 /.idea
 
+.env
+.DS_Store
+*.pyc
+
+
 turbineview/__pycache__
 __pycache__
 

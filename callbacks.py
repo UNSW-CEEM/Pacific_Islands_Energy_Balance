@@ -7,6 +7,8 @@ import figures
 import Summary
 import page1FarmView
 import Decarbonization
+import Geothermal
+
 
 @app.callback(
     Output('Visible-content', 'children'),
@@ -19,18 +21,41 @@ def switch_tab(tab):
         return page1FarmView.content
     elif tab == 'decrb-tab':
         return Decarbonization.content
+    elif tab == 'geothermal-tab':
+        return Geothermal.content
 
 @app.callback(
     [Output('transit_figure1', 'figure'),
      Output('transit_figure2', 'figure'),
      Output('transit_figure3', 'figure'),
-     Output('transit_figure4', 'figure')],
+     Output('transit_figure4', 'figure'),
+     Output('generation_mix_GWh', 'figure'),
+     Output('generation_mix_MW', 'figure')],
     [Input("select-year", "value")]
 )
 def update_options(year):
     # figures.Update_UNstats_database(year)
+    figures.validation()
+    return figures.UNstats_plots(year)[0],figures.UNstats_plots(year)[1],figures.UNstats_plots(year)[2],\
+           figures.land_use_plot()[0],\
+           figures.generation_mix_plot()[0],figures.generation_mix_plot()[1]
 
-    return figures.UNstats_plots(year)[0],figures.UNstats_plots(year)[1],figures.UNstats_plots(year)[2],figures.land_use_plot()
+# @app.callback(
+#     [Output('land-use', 'figure'),
+#      Output('wind_to_non_RE', 'figure'),
+#      Output('Wind_to_final', 'figure'),
+#      # Output('transit_figure4', 'figure'),
+#      # Output('generation_mix_GWh', 'figure'),
+#      # Output('generation_mix_MW', 'figure')
+#      ],
+#     [Input("select-year", "value")]
+# )
+# def update_options(year):
+#     # figures.Update_UNstats_database(year)
+#     figures.validation()
+#     return figures.UNstats_plots(year)[0],figures.UNstats_plots(year)[1],figures.UNstats_plots(year)[2],\
+#            ,\
+#            figures.generation_mix_plot()[0],figures.generation_mix_plot()[1]
 
 
 
@@ -81,6 +106,7 @@ def update_options(year,country):
 
 
 
+
 @app.callback(
     [Output('Sankey_figure', 'figure'),
      Output('Sankey_elec_figure', 'figure')],
@@ -97,10 +123,10 @@ def sensor_checklist(year,country):
      Output('power-generated', 'children'),
      Output('lost-cost', 'children'),
      Output('generation-efficiency', 'children'),
-     Output('required_RE', 'figure'),
-     Output('oil_to_RE', 'figure'),
+     # Output('required_RE', 'figure'),
+     # Output('oil_to_RE', 'figure'),
      Output('annual_demand', 'figure'),
-     Output('rooftop_PV_plot', 'figure'),
+     # Output('rooftop_PV_plot', 'figure'),
      Output('scenarios-plot', 'figure'),
      Output('scenarios-plot-cum', 'figure'),
      Output('scenarios-annaul-RE', 'figure'),
@@ -109,7 +135,8 @@ def sensor_checklist(year,country):
      Output('emission-quantity', 'children'),
      Output('emission-cost', 'children'),
      Output('rooftop-MW', 'children'),
-     Output('rooftop-GWh', 'children')],
+     Output('rooftop-GWh', 'children')
+     ],
     Input('update-button','n_clicks'),
     [State("select-year", "value"),
      State("select-country", "value"),
@@ -126,12 +153,20 @@ def sensor_checklist(year,country):
      State('Wind_PV_share', "value"),
      State('small-PV-share', "value"),
      State('small-wind-share', "value"),
+    State('switches-geothermal', "value"),
+     State('geothermal-completion', "value"),
+     State('geothermal-MW', "value"),
+     State('geothermal-CF', "value"),
+     State('geothermal-cost', "value"),
+     State('discount-rate', "value"),
+     State('inflation-rate', "value"),
 
      ])
-def sensor_checklist(n_clicks,year,country,diesel_price,PV_cost,PVBatt_cost,WindBatt_cost,Wind_cost,demand_growth,decarb_year,rooftop_size,emission_kgperlitre,
-                     emission_dollarpertonne,wind_share, small_PV_share,small_wind_share):
+def sensor_checklist(n_clicks,year,country,diesel_price,PV_cost,PVBatt_cost,WindBatt_cost,Wind_cost,demand_growth,decarb_year,rooftop_size,
+                     emission_tonneperMWh, emission_dollarpertonne,wind_share, small_PV_share,small_wind_share,
+                     geothermal_switch,geothermal_completion_year,geothermal_MW,geothermal_CF,geothermal_CAPEX,
+                     discount_rate,inflation_rate):
     if n_clicks:
-        print(country)
         diesel_HHV = 3.74/1000000
         df = pd.read_csv("Data/Sankey/csv/{}/{}.csv".format(year,country))
 
@@ -141,7 +176,18 @@ def sensor_checklist(n_clicks,year,country,diesel_price,PV_cost,PVBatt_cost,Wind
         oil_supplied_cost = int(oil_supplied_litre * diesel_price/1000000)#$MM
         oil_import_TJ = df[df[' (from)'] == 'Oil Products: Imports'][' (weight)'].values[0] # Tj-
         oil_import_litre = oil_import_TJ/diesel_HHV
-        oil_import_mlitre= oil_import_litre/1000000
+        oil_import_mlitre = oil_import_litre/1000000
+
+        oil_export_TJ = df[(df[' (from)'] == 'Oil: Supplied') & (df[' (to)'] == 'Exports: Secondary')][' (weight)'] # Tj- Modifty the units
+        oil_export_litre = oil_export_TJ/diesel_HHV
+        oil_export_mlitre= oil_export_litre/1000000
+        if len(oil_export_mlitre)>0:
+            net_oil_product_import_ml = oil_import_mlitre - oil_export_mlitre
+            net_oil_product_import_ml = net_oil_product_import_ml.values[0]
+        else:
+            net_oil_product_import_ml = oil_import_mlitre
+
+
 
         power_generated_TJ = df[(df[' (from)'] == 'PowerStations') & (df[' (to)'] == 'Electricity & Heat: Supplied')][' (weight)'] #TJ
         power_generated_GWh = int(power_generated_TJ * 0.2777)
@@ -169,14 +215,18 @@ def sensor_checklist(n_clicks,year,country,diesel_price,PV_cost,PVBatt_cost,Wind
         x = max(PV_decarb_MW,wind_decarb_MW,PV_install_with_oil,PV_bat_install_with_oil)
 
         #Emissions
-        emissions_mtonne = float(oil_supplied_litre * emission_kgperlitre/1000000000)
+        emissions_mtonne = power_generated_GWh * emission_tonneperMWh/1000
+        # emissions_mtonne = float(oil_supplied_litre * emission_tonneperMWh/1000000000)
         emission_cost_mdollar = float(emission_dollarpertonne * emissions_mtonne)
-        emissions_mtonne = round(emissions_mtonne, 2)
+        emissions_mtonne = round(emissions_mtonne, 3)
         emission_cost_mdollar = round(emission_cost_mdollar, 2)
 
-        fig_lists = figures.decarbonization_scenarios(Efficiency/100,oil_import_mlitre,power_generated_GWh, demand_growth, PV_cost, PVBatt_cost,
+        fig_lists = figures.decarbonization_scenarios(Efficiency/100,net_oil_product_import_ml,power_generated_GWh, demand_growth, PV_cost, PVBatt_cost,
                                                   WindBatt_cost, Wind_cost, decarb_year, wind_share, small_PV_share,
-                                                  small_wind_share, PV_pot, Wind_pot, diesel_HHV, diesel_price)
+                                                  small_wind_share, PV_pot, Wind_pot, diesel_HHV, diesel_price,
+                                                  geothermal_switch,geothermal_completion_year,geothermal_MW,geothermal_CF,geothermal_CAPEX,
+                                                  discount_rate,inflation_rate,
+                                                      emission_tonneperMWh)
 
         rooftop_capacity_MW = round(figures.rooftop_PV_plot(country, rooftop_size,x)[1],1)
         rooftop_PV_generation_GWh = round(figures.rooftop_PV_plot(country, rooftop_size,x)[2],1)
@@ -185,10 +235,10 @@ def sensor_checklist(n_clicks,year,country,diesel_price,PV_cost,PVBatt_cost,Wind
                 f'{power_generated_GWh:,}',
                 f'{transformation_losses_cost:,}',
                 Efficiency,
-                figures.potentials_bar(wind_decarb_MW,PV_decarb_MW,x,year),
-                figures.oil_to_RE(PV_install_with_oil,PV_bat_install_with_oil,Wind_install_with_oil,Wind_bat_install_with_oil,x,year),
+                # figures.potentials_bar(wind_decarb_MW,PV_decarb_MW,x,year),
+                # figures.oil_to_RE(PV_install_with_oil,PV_bat_install_with_oil,Wind_install_with_oil,Wind_bat_install_with_oil,x,year),
                 figures.annual_demand(power_generated_GWh, demand_growth, decarb_year),
-                figures.rooftop_PV_plot(country, rooftop_size,x)[0],
+                # figures.rooftop_PV_plot(country, rooftop_size,x)[0],
                 fig_lists[0],
                 fig_lists[1],
                 fig_lists[2],
@@ -199,4 +249,7 @@ def sensor_checklist(n_clicks,year,country,diesel_price,PV_cost,PVBatt_cost,Wind
                 ]
     else:
         pass
+
+
+
 

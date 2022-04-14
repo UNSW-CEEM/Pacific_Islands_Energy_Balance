@@ -1,19 +1,11 @@
 from dash import html
-# import dash_core_components as dcc
 from dash import dcc
 import dash_bootstrap_components as dbc
-from app import app
 import pandas as pd
-# import turbineView.Analysis_Tools as AT
-# from page1TurbineView import  *
-import dash
 import os
-import dash_daq as daq
 
-import config
 image_directory =  os.getcwd() + '/Data/Sankey/'
 
-# sankey_PREFIX = '/{}/Data/Sankey/'.format(config.DASH_APP_NAME)
 CONTENT_STYLE = {
     "margin-left": "0rem",
     "margin-right": "1rem",
@@ -41,7 +33,7 @@ def generate_select_country_drpdwn():
                 options=[
                     {"label": i, "value": i} for i in Country_List
                 ],
-                value='PNG',
+                value='Solomon Islands',
                 style={'width': "15%", 'margin-left': "15px"}
 
             ),
@@ -76,7 +68,6 @@ def generate_single_year_drpdwn():
                 ],
                 value=Year_List[0],
                 style={'width': "15%", 'margin-left': "15px"}
-
             ),
         ],
         inline=True,
@@ -91,9 +82,10 @@ def generate_navbar(app):
     MAPNAlogo = dbc.Row(
         [
             dbc.Col(
-                html.Img(src=app.get_asset_url("CEEMLogo.png"), height="80px"),
+                html.Img(src=app.get_asset_url("CEEMLogo.png"), height="120px"),
                 md=4,
             ),
+
         ],
         no_gutters=True,
         className="ml-auto flex-nowrap mt-3 mt-md-0",
@@ -106,8 +98,17 @@ def generate_navbar(app):
             html.A(
                 dbc.Row(
                     [
-                        dbc.Col(html.Img(src=app.get_asset_url("UNSWLogo.png"), height="80px"), md=6),
-                        dbc.Col(dbc.NavbarBrand("Pacific Islands Energy Balance", className="ml-2",style={'fontSize':35}), md=4),
+                        dbc.Col([html.Img(src=app.get_asset_url("UNSWLogo.png"), height="120px"),
+                                 html.Br(),
+
+                                     html.Label(['Developed by: ', html.A(' Shayan Naderi', href='https://www.linkedin.com/in/shayan-naderi-461aa097/')]),
+                                 # html.Br(),
+                                 # html.A('s.naderi@unsw.edu.au')
+                                 ], md=6),
+
+                        dbc.Col([dbc.NavbarBrand("Pacific Islands Energy Balance",
+                                                className="ml-2",style={'fontSize':34}),
+                                 ], md=4),
                     ],
                     align="center",
                     no_gutters=True,
@@ -115,6 +116,7 @@ def generate_navbar(app):
 
                 ),
             ),
+
             MAPNAlogo,
         ],
         color="dark",
