@@ -2,6 +2,72 @@ import pandas as pd
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 import plotly.express as px
+from page1FarmView import Country_List
+
+
+
+def imports_to_GDP():
+    net_imp_list= []
+    interest_list = ['Refined Petroleum']
+    for c in Country_List:
+        df_exp= pd.read_csv("Data/{}/Exports-{}---Click-to-Select-a-Product.csv".format(c,2019))
+        df_imp = pd.read_csv("Data/{}/Imports-{}---Click-to-Select-a-Product.csv".format(c,2019))
+
+        df_imp['Trade Value'] = df_imp['Trade Value']/1000000 #to million $
+        df_exp['Trade Value'] = df_exp['Trade Value']/1000000 #to million $
+
+        df_GDP = pd.read_csv('Data/Economic Indicators.csv')
+
+
+        imp = df_imp[df_imp['HS4'].isin(interest_list)]['Trade Value']
+        exp = df_exp[df_exp['HS4'].isin(interest_list)]['Trade Value']
+
+        net_imp = imp.values[0]
+        if len(exp) > 0:
+            net_imp = imp.values[0]-exp.values[0]
+
+        net_imp_list.append(net_imp)
+    df_GDP['Imp'] = net_imp_list
+    df_GDP['net_imp_to_GDP'] = 100 * df_GDP['Imp']/df_GDP['GDP(million$)2019']
+    # df_GDP.to_csv('GDPPPPP.csv')
+
+    fig = go.Figure()
+    fig.add_trace(go.Bar(x=df_GDP['Country'], y=df_GDP['net_imp_to_GDP'],name='dasdsa',marker_color='forestgreen'))
+    # fig.add_trace(go.Bar(x=summary_df['Country'], y=summary_df['aviation_to_import'], name='Int. aviation bunkers',marker_color='lightsalmon'))
+
+    a = df_GDP['Country']
+    b = df_GDP['net_imp_to_GDP']
+
+
+    fig.update_layout(#width=1500,
+        # height=500,
+        barmode='relative')
+    fig.update_layout(legend = dict(bgcolor = 'rgba(0,0,0,0)',    yanchor="bottom",orientation="h",
+        y=1.05,
+        xanchor="center",
+        x=0.5),
+                      font=dict(
+                          family="Calibri",
+                          size=16,
+                          color="white"
+                      )
+                      )
+    fig.update_layout({
+    'plot_bgcolor': 'rgba(0,0,0,0)',
+    'paper_bgcolor': 'rgba(0,0,0,0)',
+    })
+    fig.update_yaxes(title_text="% of GDP",showline=True)
+    fig.update_xaxes(showline=True,
+                     title_text="<a href=\"https://oec.world/en/home-b\"><sub>Source: The Observatory of Economic Complexity (OEC)<sub></a>")
+
+    fig.update_layout(
+        title="% imported petroleum products to GDP")
+    # print(summary_df)
+    fig.update_traces(marker_line_color='white',
+                      marker_line_width=1.5, opacity=1)
+
+    return fig
+
 
 
 
@@ -27,7 +93,7 @@ def import_export_figure(df_imp,df_exp,Interest_list,year):
         xanchor="center",
         x=1.07),
                       font=dict(
-                          family="Palatino Linotype",
+                          family="Calibri",
                           size=18,
                           color="white"
                       )
@@ -153,7 +219,7 @@ def Generate_Sankey(year,country):
     fig.update_layout(title_text="Sankey Plot for all sectors <br><a href=\"http://unstats.un.org/unsd/energystats/pubs/balance\"><sub>Source: Energy Balances, United Nations<sub></a>",
                       font_size=16)
     fig.update_layout(height=900,font=dict(
-                          family="Palatino Linotype",
+                          family="Calibri",
                           size=16,
                           color="white"
                       ))
@@ -163,7 +229,7 @@ def Generate_Sankey(year,country):
 
 
     fig2.update_layout(height=350,font=dict(
-                          family="Palatino Linotype",
+                          family="Calibri",
                           size=16,
                           color="white"
                       ))
@@ -197,7 +263,7 @@ def potentials_bar(wind_pot,PV_pot,max_range,year):
     fig.update_layout(yaxis_range=[0, max_range])
 
     fig.update_layout(height=350,font=dict(
-                          family="Palatino Linotype",
+                          family="Calibri",
                           size=15,
                           color="white"
                       ))
@@ -227,7 +293,7 @@ def oil_to_RE(PV,PV_batt,wind,wind_bat,max_range,year):
     'paper_bgcolor': 'rgba(0,0,0,0)'})
 
     fig.update_layout(height=350,font=dict(
-                          family="Palatino Linotype",
+                          family="Calibri",
                           size=16,
                           color="white"
                       ))
@@ -267,7 +333,7 @@ def annual_demand(demand,growth_rate,decarb_rate):
 
     fig.update_layout(#height=500,
                       font=dict(
-        family="Palatino Linotype",
+        family="Calibri",
         size=16,
         color="white"
     ))
@@ -411,19 +477,14 @@ def decarbonization_scenarios(Efficiency,oil_imports_2019,demand,growth_rate,PV_
         go.Bar(x=demand_df['Year'], y=demand_df['Net_saving_discounted'], name="Annual net saving",),
         secondary_y=False,
     )
-    # fig.add_trace(
-    #     go.Scatter(x=year_list, y=demand_df['Net_saving_cumsum'], name="Cumulative net saving",line=dict(color="#ff4d4d")),
-    #     secondary_y=True,
-    # )
+
 
     fig.update_yaxes(title_text="Annual Saving ($m)", secondary_y=False, showline=True, showgrid=False)
-    # fig.update_yaxes(title_text="Cumulative Saving ($m)", secondary_y=True, showline=True, showgrid=False)
 
-    # fig.update_yaxes(title_text="Generation (GWh)", secondary_y=True, showline=True, showgrid=False)
     fig.update_xaxes(showgrid=False, showline=True)
 
     fig.update_layout(height=350, font=dict(
-        family="Palatino Linotype",
+        family="Calibri",
         size=16,
         color="white"
     ))
@@ -461,7 +522,7 @@ def decarbonization_scenarios(Efficiency,oil_imports_2019,demand,growth_rate,PV_
     fig2.update_xaxes(showgrid=False, showline=True)
 
     fig2.update_layout(height=350, font=dict(
-        family="Palatino Linotype",
+        family="Calibri",
         size=16,
         color="white"
     ))
@@ -502,7 +563,7 @@ def decarbonization_scenarios(Efficiency,oil_imports_2019,demand,growth_rate,PV_
                                    xanchor="center",
                                    x=0.5),
                        font=dict(
-                           family="Palatino Linotype",
+                           family="Calibri",
                            size=16,
                            color="white"
                        )
@@ -536,7 +597,7 @@ def decarbonization_scenarios(Efficiency,oil_imports_2019,demand,growth_rate,PV_
                                    xanchor="center",
                                    x=0.5),
                        font=dict(
-                           family="Palatino Linotype",
+                           family="Calibri",
                            size=16,
                            color="white"
                        )
@@ -579,7 +640,7 @@ def decarbonization_scenarios(Efficiency,oil_imports_2019,demand,growth_rate,PV_
                                    xanchor="center",
                                    x=0.5),
                        font=dict(
-                           family="Palatino Linotype",
+                           family="Calibri",
                            size=16,
                            color="white"
                        )
@@ -637,7 +698,7 @@ def rooftop_PV_plot(Country,PV_size,max_range):
 
 
     fig.update_layout(height=350,font=dict(
-                          family="Palatino Linotype",
+                          family="Calibri",
                           size=16,
                           color="white"
                       ))
@@ -742,7 +803,7 @@ def UNstats_plots(year):
         xanchor="center",
         x=0.5),
                       font=dict(
-                          family="Palatino Linotype",
+                          family="Calibri",
                           size=16,
                           color="white"
                       )
@@ -774,7 +835,7 @@ def UNstats_plots(year):
                                   xanchor="center",
                                   x=0.5),
                       font=dict(
-                          family="Palatino Linotype",
+                          family="Calibri",
                           size=16,
                           color="white"
                       )
@@ -816,7 +877,7 @@ def UNstats_plots(year):
                                   xanchor="center",
                                   x=0.5),
                       font=dict(
-                          family="Palatino Linotype",
+                          family="Calibri",
                           size=16,
                           color="white"
                       )
@@ -849,10 +910,12 @@ def land_use_plot():
     pasture = df.iloc[6, 2:]
     forested = df.iloc[7, 2:]
     other =df.iloc[8, 2:]
-
-    coastline = df.iloc[13,2:]
     non_RE_demand = df.iloc[10,2:]
     final_demand = df.iloc[12,2:]
+    coastline = df.iloc[13,2:]
+    area = df.iloc[14,2:]
+
+
 
     Wind_MW_non_RE = 1.2 * non_RE_demand/Wind_pot
     Wind_MW_final = 1.2 * final_demand/Wind_pot
@@ -863,6 +926,11 @@ def land_use_plot():
     PV_non_RE = 1.2 * non_RE_demand/PV_pot
     PV_final_demand = 1.2 * final_demand/PV_pot
 
+    PV_area_non_RE = PV_non_RE/(100) #0.1kw/m2
+    PV_area_non_RE_per = 100 * PV_area_non_RE/area
+
+    PV_area_final_demand = PV_final_demand/(100) #0.1kw/m2
+    PV_area_final_demand_per = 100 * PV_area_final_demand/area
     fig = make_subplots(specs=[[{"secondary_y": False}]])
 
     fig.add_trace(go.Bar(x=countries, y=Wind_MW_non_RE, name='Wind for non RE demand',
@@ -875,12 +943,12 @@ def land_use_plot():
     fig.update_layout(  # width=1500,
         # height=500,
         barmode='group')
-    fig.update_layout(legend=dict(bgcolor='rgba(0,0,0,0)', yanchor="bottom", orientation="h",
+    fig.update_layout(legend=dict(bgcolor='rgba(0,0,0,0)', yanchor="bottom", orientation="v",
                                    y=0.98,
                                    xanchor="center",
                                    x=0.5),
                        font=dict(
-                           family="Palatino Linotype",
+                           family="Calibri",
                            size=16,
                            color="white"
                        )
@@ -903,13 +971,13 @@ def land_use_plot():
 
     fig1 = make_subplots(specs=[[{"secondary_y": True}]])
 
-    fig1.add_trace(go.Scatter(x=countries, y=percentage_of_coastline_final, name='Final demand',
+    fig1.add_trace(go.Scatter(x=countries, y=percentage_of_coastline_final, name='% coastline for final demand',
                           marker_color='forestgreen'))
     fig1.add_trace(
-        go.Scatter(x=countries, y=percentage_of_coastline_non_RE, name='non RE demand',
+        go.Scatter(x=countries, y=percentage_of_coastline_non_RE, name='% coastline for decarbonization',
                    marker_color='red', ), secondary_y=False)
     fig1.add_trace(
-        go.Bar(x=countries, y=Wind_CF, name='Wind capacity factor',
+        go.Bar(x=countries, y=Wind_CF, name='Capacity factor',
                    marker_color='lightsalmon', ), secondary_y=True,)
     fig1.update_layout(  # width=1500,
         # height=500,
@@ -919,16 +987,17 @@ def land_use_plot():
                                    xanchor="center",
                                    x=0.5),
                        font=dict(
-                           family="Palatino Linotype",
+                           family="Calibri",
                            size=16,
                            color="white"
-                       )
+                       ),
+                       hovermode="x"
                        )
     fig1.update_layout({
         'plot_bgcolor': 'rgba(0,0,0,0)',
         'paper_bgcolor': 'rgba(0,0,0,0)',
     })
-    fig1.update_yaxes(title_text="% of coastline (MW)", showline=True)
+    fig1.update_yaxes(title_text="% of coastline", showline=True)
     fig1.update_yaxes(title_text="Capacity Factor (%)", secondary_y=True, showline=True, showgrid=False)
 
     fig1.update_xaxes(showline=True)
@@ -944,8 +1013,9 @@ def land_use_plot():
 
     fig2 = make_subplots(specs=[[{"secondary_y": False}]])
 
-    fig2.add_trace(go.Scatter(x=countries, y=PV_non_RE, name='Final demand',
-                          marker_color='forestgreen'))
+    fig2.add_trace(go.Bar(x=countries, y=PV_non_RE, name='non RE',
+                          marker_color='forestgreen',text = PV_non_RE,
+                      textposition="outside"))
     # fig2.add_trace(
     #     go.Scatter(x=countries, y=percentage_of_coastline_non_RE, name='non RE demand',
     #                marker_color='red', ), secondary_y=False)
@@ -960,7 +1030,7 @@ def land_use_plot():
                                    xanchor="center",
                                    x=0.5),
                        font=dict(
-                           family="Palatino Linotype",
+                           family="Calibri",
                            size=16,
                            color="white"
                        )
@@ -975,12 +1045,12 @@ def land_use_plot():
     fig2.update_xaxes(showline=True)
 
     fig2.update_layout(
-        title="PV capacity for decarbonizing electricity sector")
+        title="PV capacity required to decarbonize the electricity sector")
     # print(summary_df)
     fig2.update_traces(marker_line_color='white',
                        marker_line_width=1.5, opacity=0.3,secondary_y=True)
     fig2.update_yaxes(rangemode='tozero')
-    # fig1.update_traces(texttemplate='%{text:.2s}', textposition='outside')
+    fig2.update_traces(texttemplate='%{text:.1s}')
 
 
     fig3 = go.Figure()
@@ -994,25 +1064,29 @@ def land_use_plot():
                          marker_color='green'))
     fig3.add_trace(go.Bar(x=countries, y=other, name='Other',
                          marker_color='darkturquoise'))
+    fig3.add_trace(go.Scatter(x=countries, y=PV_area_non_RE_per, name='PV for decarbonization',
+                         marker_color='red'))
+    fig3.add_trace(go.Scatter(x=countries, y=PV_area_final_demand_per, name='PV for final demand',
+                         marker_color='black'))
 
     fig3.update_layout(  # width=1500,
         # height=500,
         barmode='relative')
     fig3.update_layout(legend=dict(bgcolor='rgba(0,0,0,0)', yanchor="bottom", orientation="h",
-                                  y=1.05,
-                                  xanchor="center",
-                                  x=0.5),
+                                  y=0.95,
+                                  xanchor="left",
+                                  x=0),
                       font=dict(
-                          family="Palatino Linotype",
-                          size=16,
+                          family="Calibri",
+                          size=13,
                           color="white"
-                      )
+                      ),
                       )
     fig3.update_layout({
         'plot_bgcolor': 'rgba(0,0,0,0)',
         'paper_bgcolor': 'rgba(0,0,0,0)',
     })
-    fig3.update_yaxes(title_text="% of imported oil", showline=True)
+    fig3.update_yaxes(title_text="% land", showline=True)
     fig3.update_xaxes(showline=True,title_text="<a href=\"https://www.cia.gov/the-world-factbook/countries\"><sub>Source: The World Factbook, CIA<sub></a>")
 
     fig3.update_layout(
@@ -1049,7 +1123,7 @@ def generation_mix_plot():
                                   xanchor="center",
                                   x=0.5),
                       font=dict(
-                          family="Palatino Linotype",
+                          family="Calibri",
                           size=16,
                           color="white"
                       )
@@ -1089,7 +1163,7 @@ def generation_mix_plot():
                                   xanchor="center",
                                   x=0.5),
                       font=dict(
-                          family="Palatino Linotype",
+                          family="Calibri",
                           size=16,
                           color="white"
                       )

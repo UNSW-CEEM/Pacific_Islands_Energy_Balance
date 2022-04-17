@@ -19,12 +19,13 @@ dataTable = dash_table.DataTable(
         'backgroundColor': 'rgb(30, 30, 30)',
         'fontWeight': 'bold',
         'marginLeft': 0,
-        'textAlign': 'left'
+        'textAlign': 'left',
+        'font-family':'Calibri'
     },
     style_cell={
         'backgroundColor': 'rgb(50, 50, 50)',
         'color': 'white',
-        'textAlign': 'center','fontSize':20, 'font-family':'sans-serif','fontWeight': 'bold',
+        'textAlign': 'center','fontSize':18, 'font-family':'Calibri',
     },
 
     fixed_rows={'headers': True, 'data': 0},
@@ -134,7 +135,7 @@ dataTable = dash_table.DataTable(
 
 
 RE = [
-    dbc.CardHeader(html.H5("Summary of geothermal potential")),
+    dbc.CardHeader(html.H5("Summary of wind and solar potentials")),
     dbc.CardBody(
         [
             dcc.Loading(
@@ -156,9 +157,7 @@ RE = [
 
                         dbc.Col(html.Div(dcc.Graph(id="land-use",figure=figures.land_use_plot()[3]), style=figure_border_style), md=6),
                     ]),
-                    dbc.Row([
-                        dbc.Col(dataTable)
-                    ]),
+
                     html.Br(),
 
                     # html.Br(),
@@ -182,7 +181,32 @@ RE = [
 ]
 
 
+geo = [
+    dbc.CardHeader(html.H5("Geothermal Potential")),
+    dbc.CardBody(
+        [
+            dcc.Loading(
+                id="loading-sankey",
+                children=[
+                    dbc.Alert(
+                        "Something's gone wrong! Give us a moment, but try loading this page again if problem persists.",
+                        id="no-data-alert-sankey",
+                        color="warning",
+                        style={"display": "none"},
+                    ),
 
+
+                    dbc.Row([
+                        dbc.Col(dataTable)
+                    ]),
+
+                ],
+                type="default",
+            )
+        ],
+        style={"marginTop": 0, "marginBottom": 0},
+    ),
+]
 
 BODY = dbc.Container(
 
@@ -190,6 +214,8 @@ BODY = dbc.Container(
 
         dbc.Row([dbc.Col(dbc.Card(RE)),], style={"marginTop": 30,
                                                                 }),
+        dbc.Row([dbc.Col(dbc.Card(geo)), ], style={"marginTop": 30,
+                                                  }),
     ],
     # className="mt-12",
     fluid=True

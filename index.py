@@ -7,13 +7,13 @@ import callbacks
 
 import dash_auth
 
-VALID_USERNAME_PASSWORD_PAIRS = {
-    'hello': 'world'
-}
-auth = dash_auth.BasicAuth(
-    app,
-    VALID_USERNAME_PASSWORD_PAIRS
-)
+# VALID_USERNAME_PASSWORD_PAIRS = {
+#     'hello': 'world'
+# }
+# auth = dash_auth.BasicAuth(
+#     app,
+#     VALID_USERNAME_PASSWORD_PAIRS
+# )
 
 app.layout = dbc.Container([
 
@@ -23,7 +23,7 @@ app.layout = dbc.Container([
         [
             dbc.Tab(label="Summary",active_tab_style={"textTransform": "uppercase"},active_label_style={"color": '#FF0000'},tab_id='summary-tab'),
             dbc.Tab(label="Energy and financial flows", active_tab_style={"textTransform": "uppercase"},active_label_style={"color": '#FF0000'},tab_id='flows-tab'),
-            dbc.Tab(label="Geothermal potential", active_tab_style={"textTransform": "uppercase"},
+            dbc.Tab(label="Renewable energy potential", active_tab_style={"textTransform": "uppercase"},
             active_label_style={"color": '#FF0000'}, tab_id='geothermal-tab'),
             dbc.Tab(label="Decarbonization scenarios", active_tab_style={"textTransform": "uppercase"},active_label_style={"color": '#FF0000'},tab_id='decrb-tab'),
         ],

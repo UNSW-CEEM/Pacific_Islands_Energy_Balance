@@ -28,7 +28,6 @@ def switch_tab(tab):
     [Output('transit_figure1', 'figure'),
      Output('transit_figure2', 'figure'),
      Output('transit_figure3', 'figure'),
-     Output('transit_figure4', 'figure'),
      Output('generation_mix_GWh', 'figure'),
      Output('generation_mix_MW', 'figure')],
     [Input("select-year", "value")]
@@ -37,7 +36,6 @@ def update_options(year):
     # figures.Update_UNstats_database(year)
     figures.validation()
     return figures.UNstats_plots(year)[0],figures.UNstats_plots(year)[1],figures.UNstats_plots(year)[2],\
-           figures.land_use_plot()[0],\
            figures.generation_mix_plot()[0],figures.generation_mix_plot()[1]
 
 # @app.callback(
@@ -79,8 +77,8 @@ def sensor_checklist(year,country,selected_products):
 
     df_exp= pd.read_csv("Data/{}/Exports-{}---Click-to-Select-a-Product.csv".format(country,year))
     df_imp = pd.read_csv("Data/{}/Imports-{}---Click-to-Select-a-Product.csv".format(country,year))
-    df_imp['Trade Value'] = -df_imp['Trade Value']/1000000
-    df_exp['Trade Value'] = df_exp['Trade Value']/1000000
+    df_imp['Trade Value'] = -df_imp['Trade Value']/1000000 #to million $
+    df_exp['Trade Value'] = df_exp['Trade Value']/1000000 #to million $
 
 
     return figures.import_export_figure(df_imp,df_exp,selected_products,year)

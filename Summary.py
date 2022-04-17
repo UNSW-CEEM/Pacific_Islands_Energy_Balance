@@ -1,7 +1,7 @@
 from dash import html
 from dash import dcc
 import dash_bootstrap_components as dbc
-
+import figures
 import page1FarmView
 from app import app
 import pandas as pd
@@ -79,7 +79,7 @@ Transit = [
                     html.Br(),
                     dbc.Row([
                         dbc.Col(html.Div(dcc.Graph(id="transit_figure3"), style=figure_border_style), md=6),
-                        dbc.Col(html.Div(dcc.Graph(id="transit_figure4"), style=figure_border_style), md=6),
+                        dbc.Col(html.Div(dcc.Graph(id="transit_figure4",figure=figures.imports_to_GDP()), style=figure_border_style), md=6),
                     ]),
 
                 ],
@@ -90,7 +90,7 @@ Transit = [
     ),
 ]
 
-
+figures.imports_to_GDP()
 
 
 BODY = dbc.Container(

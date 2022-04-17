@@ -125,14 +125,9 @@ def generate_navbar(app):
     return navbar
 
 
-
-
-
-
 figure_border_style = {"border-style": "solid",
                           'border-color': '#ff4d4d', 'border-width': '1px', 'border-radius': "0.25rem"
                           }
-
 TOP_BIGRAM_COMPS = [
     dbc.CardHeader(html.H5("Import and export flows")),
     dbc.CardBody(
@@ -181,8 +176,6 @@ TOP_BIGRAM_COMPS = [
     ),
 ]
 
-
-
 Sankey = [
     dbc.CardHeader(html.H5("Sankey Diagram for Energy Flows")),
     dbc.CardBody(
@@ -228,8 +221,7 @@ BODY = dbc.Container(
         dbc.Row([dbc.Col(dbc.Card(TOP_BIGRAM_COMPS)),], style={"marginTop": 30,
                            }),
         dbc.Row([dbc.Col(dbc.Card(Sankey)),], style={"marginTop": 30}),
-        # dbc.Card(Decarbonization),
-        # dbc.Row([dbc.Col([dbc.Card(LDA_PLOTS)])], style={"marginTop": 50}),
+
     ],
     # className="mt-12",
     fluid=True
