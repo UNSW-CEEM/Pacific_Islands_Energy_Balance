@@ -2,15 +2,15 @@ from dash import html
 from dash import dcc
 import dash_bootstrap_components as dbc
 import figures
-import page1FarmView
+import EnergyFlows
 from app import app
 import pandas as pd
 import dash
 import os
 # import dash_daq as daq
-from page1FarmView import figure_border_style
-from page1FarmView import Year_List
-from page1FarmView import CONTENT_STYLE
+from EnergyFlows import figure_border_style
+from EnergyFlows import Year_List
+from EnergyFlows import CONTENT_STYLE
 from dash import dash_table
 import plotly.figure_factory as ff
 
@@ -48,7 +48,7 @@ dataTable = dash_table.DataTable(
 
 )
 Transit = [
-    dbc.CardHeader(html.H5("Summary of energy status in all countries")),
+    dbc.CardHeader(html.H5("Status of all countries")),
     dbc.CardBody(
         [
             dcc.Loading(
@@ -61,25 +61,27 @@ Transit = [
                         style={"display": "none"},
                     ),
                     dbc.Row([
+                        # figures.Update_UNstats_database(20),
+                        # figures.validation(),
                         dbc.Col(table)
                     ]),
                     html.Br(),
-                    page1FarmView.generate_single_year_drpdwn(),
-                    html.Br(),
+                    # EnergyFlows.generate_single_year_drpdwn(),
+                    # html.Br(),
                     dbc.Row([
-                        dbc.Col(html.Div(dcc.Graph(id="generation_mix_GWh"), style=figure_border_style), md=6),
-                        dbc.Col(html.Div(dcc.Graph(id="generation_mix_MW"), style=figure_border_style), md=6),
+                        dbc.Col(html.Div(dcc.Graph(id="generation_mix_GWh",figure=figures.generation_mix_plot()[0]), style=figure_border_style), md=6),
+                        dbc.Col(html.Div(dcc.Graph(id="generation_mix_MW",figure=figures.generation_mix_plot()[1]), style=figure_border_style), md=6),
                     ]),
                     html.Br(),
                     dbc.Row([
-                        dbc.Col(html.Div(dcc.Graph(id="transit_figure1"),style=figure_border_style),md=6),
-                        dbc.Col(html.Div(dcc.Graph(id="transit_figure2"), style=figure_border_style), md=6),
+                        dbc.Col(html.Div(dcc.Graph(id="transit_figure1",figure=figures.UNstats_plots(2019)[0]),style=figure_border_style),md=6),
+                        dbc.Col(html.Div(dcc.Graph(id="transit_figure2",figure=figures.UNstats_plots(2019)[1]), style=figure_border_style), md=6),
 
                     ]),
                     html.Br(),
                     dbc.Row([
-                        dbc.Col(html.Div(dcc.Graph(id="transit_figure3"), style=figure_border_style), md=6),
-                        dbc.Col(html.Div(dcc.Graph(id="transit_figure4",figure=figures.imports_to_GDP()), style=figure_border_style), md=6),
+                        dbc.Col(html.Div(dcc.Graph(id="transit_figure3",figure=figures.UNstats_plots(2019)[2]), style=figure_border_style), md=6),
+                        dbc.Col(html.Div(dcc.Graph(id="transit_figure4",figure=figures.imports_to_GDP(2019)), style=figure_border_style), md=6),
                     ]),
 
                 ],
@@ -90,7 +92,6 @@ Transit = [
     ),
 ]
 
-figures.imports_to_GDP()
 
 
 BODY = dbc.Container(

@@ -6,10 +6,10 @@ import pandas as pd
 import dash
 import os
 import dash_daq as daq
-from page1FarmView import figure_border_style
-from page1FarmView import Year_List
-from page1FarmView import CONTENT_STYLE
-from page1FarmView import generate_select_country_drpdwn
+from EnergyFlows import figure_border_style
+from EnergyFlows import Year_List
+from EnergyFlows import CONTENT_STYLE
+from EnergyFlows import generate_select_country_drpdwn
 
 
 
@@ -290,7 +290,7 @@ Decarbonization = [
                                      dbc.Label("Emission Parameters"),
 
                                      generate_select('emissions-rate',"Emission intensity: t/MWh",0.2,7,0.1,0.8),
-                                     generate_select('carbon-price', "Carbon price: $/ton", 1, 100, 0.1, 30),
+                                     generate_select('carbon-price', "Carbon price: $/ton", 0, 100, 0.1, 30),
                                      dbc.Label("RE size and installation cost"),
 
                                      generate_select('PV-cost',"Large scale PV: $/W",0.5,5,0.1,3),
@@ -299,6 +299,23 @@ Decarbonization = [
                                      generate_select('wind-battery-cost',"Small Wind+B: $/W",2.5,12,0.1,6),
                                      generate_select('rooftop-size', "Rooftop PV size: kW", 0.5, 5, 0.1,
                                                      2.5),
+                                     html.Div(
+                                         [
+                                             dbc.Label("Community Battery "),
+                                             dbc.Checklist(
+                                                 options=[
+                                                     {"label": "Community Battery", "value": 1},
+                                                 ],
+                                                 value=[1],
+                                                 id="switches-communityBattery",
+                                                 switch=True,
+                                             ),
+                                         ]
+                                     ),
+                                     generate_select('ComBattery-MWh', "Battery size (MWh):", 0, 50, 0.5, 3),
+                                     generate_select('ComBattery-cost', "Cost(M$/MWh):", 0, 10, 0.05, 1.3),
+                                     generate_select('ComBattery-installationYear', "Installation year:", 2022, 2050, 1,
+                                                     2024),
 
                                      html.Div(
                                 [
@@ -319,6 +336,7 @@ Decarbonization = [
                                      generate_select('geothermal-cost', "Geothermal cost (M$/MW):", 0.5, 10,
                                                      0.1, 5),
                                      generate_select('geothermal-CF', "Geothermal CF (%):", 0, 100, 1, 80),
+
 
                                      RE_share_slider,
                                      html.Br(),
