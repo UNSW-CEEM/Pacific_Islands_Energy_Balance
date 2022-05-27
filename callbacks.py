@@ -9,7 +9,7 @@ import EnergyFlows
 import Decarbonization
 import Geothermal
 import FinancialFlows
-
+import BioEnergy
 Country_List = ['Samoa','Nauru','Vanuatu','Palau','Kiribati','Cook Islands','Solomon Islands','Tonga','New Caledonia','French Polynesia','Micronesia','Niue','Tuvalu','PNG','Fiji']
 
 @app.callback(
@@ -27,6 +27,8 @@ def switch_tab(tab):
         return Geothermal.content
     elif tab == 'financial-flows-tab':
         return FinancialFlows.content
+    elif tab == 'bioenergy-tab':
+        return BioEnergy.content
 
 @app.callback(
     [Output('transit_figure1', 'figure'),
@@ -45,51 +47,6 @@ def update_options(year):
            figures.generation_mix_plot()[0],figures.generation_mix_plot()[1]
 
 
-
-
-@app.callback(
-    Output('figure1', 'figure'),
-    [Input("select-year", "value"),
-     Input("select-country", "value"),
-     Input("product_drpdwn", "value")]
-)
-def sensor_checklist(year,country,selected_products):
-
-    Interest_list = ['Crude Petroleum', 'Refined Petroleum', 'Petroleum', 'Petroleum Gas', 'Coal Briquettes',
-                     'Petroleum Coke', 'Fuel Wood', 'Coconut Oil', 'Ferroalloys', 'Nickel Mattes', 'Nickel Ore',
-                     'Aluminium Ore', 'Non-Petroleum Gas', 'Hydrogen', 'Tug Boats', 'Fishing Ships',
-                     'Non-fillet Frozen Fish',
-                     'Cars', 'Busses', 'Delivery Trucks', 'Motorcycles', 'Bicycles',
-                     'Combustion Engines', 'Engine Parts', 'Gas Turbines', 'Spark-Ignition Engines',
-                     'Planes, Helicopters, and/or Spacecraft', 'Aircraft Parts',
-                     'Passenger and Cargo Ships']
-
-
-    df_exp= pd.read_csv("Data/{}/Exports-{}---Click-to-Select-a-Product.csv".format(country,year))
-    df_imp = pd.read_csv("Data/{}/Imports-{}---Click-to-Select-a-Product.csv".format(country,year))
-    df_imp['Trade Value'] = -df_imp['Trade Value']/1000000 #to million $
-    df_exp['Trade Value'] = df_exp['Trade Value']/1000000 #to million $
-
-
-    return figures.import_export_figure(df_imp,df_exp,selected_products,year)
-
-
-
-@app.callback(
-    Output('product_drpdwn', 'options'),
-    [Input("select-year", "value"),
-     Input("select-country", "value")]
-)
-def update_options(year,country):
-    items = []
-    df_exp= pd.read_csv("Data/{}/Exports-{}---Click-to-Select-a-Product.csv".format(country,year))
-    df_imp = pd.read_csv("Data/{}/Imports-{}---Click-to-Select-a-Product.csv".format(country,year))
-
-    for i in df_exp['HS4']:
-        items.append(i)
-
-    product_list = set(items)
-    return [{"label": i, "value": i} for i in product_list]
 
 
 

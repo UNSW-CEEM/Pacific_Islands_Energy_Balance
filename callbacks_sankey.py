@@ -17,90 +17,6 @@ Country_List = ['Samoa','Nauru','Vanuatu','Palau','Kiribati','Cook Islands','Sol
 def sensor_checklist(year,country):
     return figures.Generate_Sankey(year,country)[0],figures.Generate_Sankey(year,country)[1]
 
-#
-# @app.callback(
-#     Output('checklist-to-selection', 'options'),
-#     [Input("from-list-radio", "value")]
-# )
-# def sensor_checklist(component_name):
-#     df = pd.read_csv("Data/Sankey/csv/{}/{}.csv".format(2019, 'PNG'))
-#     df = df[df[' (from)']==component_name]
-#     to_list = df[' (to)'].tolist()
-#     ops = to_list
-#     options = [{'label': "{}".format(str(i)), 'value': "{}".format(str(i))} for i in ops]
-#     return options
-#
-#
-#
-#
-# @app.callback(
-#     [Output('dynamic_callback_container', 'children'),
-#      Output('textarea', 'children'),
-#      Output('Hidden-Div_trend', "children"),
-#      ],
-#     [Input('add-chart', 'n_clicks'),
-#      Input('clear-canvas-button', 'n_clicks')],
-#     [State('dynamic_callback_container', 'children'),
-#      State('checklist-to-selection', 'value'),
-#      State('Hidden-Div_trend', "children"),
-#
-#      ]
-# )
-# def display_graphs(n_clicks, clear_canvas, from_,to_,hidden_div):
-#     try:
-#         if n_clicks != hidden_div[0]:
-#             if not to_:
-#                 status = "Error! " \
-#                          "Select at least one unit and one sensor because they cannot be left empty"
-#             else:
-#                 div_children = []
-#                 for s in to_:
-#                     values = []
-#                     df_cross_country = pd.DataFrame()
-#                     # to_ = to_['label']
-#                     # print('Final ',from_,to_)
-#
-#                     for country in Country_List:
-#                         df = pd.read_csv("Data/Sankey/csv/{}/{}.csv".format(2019, country))
-#                         df = df[(df[' (from)'] == from_) & (df[' (to)'] == to_)]
-#                         a = df[' (weight)']
-#                         if len(a) == 0:
-#                             a = 0
-#                         else:
-#                             a = a[0]
-#                         values.append(a)
-#                     df_cross_country['Country'] = Country_List
-#                     df_cross_country['Values'] = values
-#
-#                     fig = figures.cross_country_sankey()
-#
-#
-#                     new_child = html.Div(
-#                         style={'display': 'inline-block', 'outline': 'thin lightgrey solid', 'padding': 10},
-#                         children=[
-#                             dcc.Graph(
-#                                 id={
-#                                     'type': 'dynamic-graph',
-#                                     'index': n_clicks
-#                                 },
-#                                 figure=fig,
-#                             ),
-#                         ]
-#                     )
-#                     # if s in df.columns:
-#                     div_children.append(new_child)
-#         if clear_canvas != hidden_div[1]:
-#             div_children = []
-#             status = "Canvas has been cleared"
-#
-#         hidden_div = [n_clicks, clear_canvas]
-#     except (RuntimeError, TypeError, KeyError, NameError) as err:
-#         status = err
-#         status = "OOOOOOps"
-#
-#     return div_children, status, hidden_div
-
-
 
 @app.callback(
     [Output('select-to', 'options'),
@@ -115,7 +31,8 @@ def update_options3(from_):
 
     items = []
     df = pd.read_csv("Data/Sankey/csv/{}/{}.csv".format(2019, 'PNG'))
-    df = df[df[' (from)']==from_]
+    df = df[df[' (from)'] == from_]
+
     #     to_list = df[' (to)'].tolist()
 
     for i in df[' (to)']:
@@ -123,15 +40,14 @@ def update_options3(from_):
 
     product_list = set(items)
     options = [{"label": i, "value": i} for i in product_list]
-    # print(options[0]['label'])
-    print("Hi")
     return options,options[0]['label']
 
 
 
 
 @app.callback(
-    [Output('cross_country_sankey_figure', 'figure'),
+    [
+        # Output('cross_country_sankey_figure', 'figure'),
     Output('Hidden-Div_trend', "children"),
     Output('dynamic_callback_container', 'children')],
     [Input('update-button-cross-country-figure', 'n_clicks'),
@@ -143,8 +59,6 @@ def update_options3(from_):
      ]
 )
 def update_cross_country_comparison(n_clicks,clear_canvas,from_,to_,hidden_div,div_children):
-    # print(from_,"           ",to_)
-    print("Here ", hidden_div, "N_clicks", n_clicks, " Canvas", clear_canvas)
     if n_clicks != hidden_div[0]:
         values = []
         df_cross_country = pd.DataFrame()
@@ -180,13 +94,8 @@ def update_cross_country_comparison(n_clicks,clear_canvas,from_,to_,hidden_div,d
 
     elif clear_canvas != hidden_div[1]:
         div_children = []
-        print("Canvas has been cleared")
 
-    print("are u here?",clear_canvas, type(clear_canvas),type(n_clicks))
-    a=clear_canvas
-    hidden_div[0] = n_clicks
-    hidden_div[1] = a
-    print("Final    ",hidden_div)
-    print(div_children)
-    return fig,hidden_div,div_children
+    hidden_div = [n_clicks,clear_canvas]
+
+    return hidden_div,div_children
 

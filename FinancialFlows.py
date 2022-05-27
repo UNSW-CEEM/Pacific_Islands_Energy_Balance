@@ -81,12 +81,91 @@ TOP_BIGRAM_COMPS = [
 ]
 
 
+def select_product():
+    df = pd.read_csv("Data/Sankey/csv/{}/{}.csv".format(2019,'PNG'))
+    from_ = df[' (from)'].tolist()
+    from_ = list(set(from_))
+    to = df[' (to)'].tolist()
+    product_list = []
+    for country in Country_List:
+        df_exp= pd.read_csv("Data/{}/Exports-{}---Click-to-Select-a-Product.csv".format(country,2019))
+        df_imp = pd.read_csv("Data/{}/Imports-{}---Click-to-Select-a-Product.csv".format(country,2019))
+        for i in df_exp['HS4']:
+            product_list.append(i)
+        for i in df_imp['HS4']:
+            product_list.append(i)
+
+    product_list = list(set(product_list))
+
+
+    flow_list=[]
+    farm_drpdwn_dbc = dbc.FormGroup(
+        [
+            # dbc.Label("Product"),
+            dcc.Dropdown(
+                id="select-product-dynamic",
+                options=[
+                    {"label": i, "value": i} for i in product_list
+                ],
+                value=product_list[0],
+                style={'width': "40%", 'margin-left': "0px",'fontColor':'black','fontSize':15,'color':'black'},
+                multi=False,
+                searchable=True,
+                clearable=False,
+            ),
+            dbc.Button("Add Figure", color="danger", id='update-button-cross-country-products', n_clicks=0, className="me-1"),
+            dbc.Button("Clear Canvas", color="primary", id='update-button-products-clear-canvas', n_clicks=0,
+                       className="me-1"),
+
+        ],
+        inline=True,
+        style={'marginLeft':35,'marginTop':25,'fontSize':25}
+    )
+    return farm_drpdwn_dbc
+
+Cross_country_financial_flows = [
+
+    dbc.CardHeader(html.H5("User-defined cross-country comparison of Sankey diagrams")),
+    dbc.CardBody(
+        [
+            dcc.Loading(
+                id="loading-sankey",
+                children=[
+                    dbc.Alert(
+                        "Something's gone wrong! Give us a moment, but try loading this page again if problem persists.",
+                        id="no-data-alert-sankey",
+                        color="warning",
+                        style={"display": "none"},
+                    ),
+                    select_product(),
+                    html.Br(),
+                    # html.Div(dcc.Graph(id="cross_country_sankey_figure"),style=figure_border_style),
+                    html.Div(id='Hidden-Div_trend_financial_flows', children=[0, 0], style={'display': 'none'}),
+                    html.Div(id='dynamic_callback_container_financial_flows', children=[],
+                             style={'margin-top': '15px', 'margin-left': '20px','margin-right': '20px'}),
+                    html.Br(),
+                    # html.Div(dcc.Graph(id="Sankey_elec_figure"),style=figure_border_style)
+                ],
+                type="default",
+            )
+        ],
+        style={"marginTop": 0, "marginBottom": 0},
+    ),
+]
+
+
+style = {'border': 'solid', 'padding-top': '10px', 'align': 'center', 'justify': 'center', 'padding-left': '1px',
+         'padding-right': '1px', }#'margin': "2px"
+
+
 
 
 BODY = dbc.Container(
     [
         dbc.Row([dbc.Col(dbc.Card(TOP_BIGRAM_COMPS)),], style={"marginTop": 30,
                            }),
+        dbc.Row([dbc.Col(dbc.Card(Cross_country_financial_flows)), ], style={"marginTop": 30,
+                                                                }),
     ],
     # className="mt-12",
     fluid=True

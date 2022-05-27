@@ -6,6 +6,8 @@ from EnergyFlows import Country_List
 
 
 
+
+
 def imports_to_GDP(year):
     net_imp_list= []
     interest_list = ['Refined Petroleum']
@@ -82,8 +84,8 @@ def import_export_figure(df_imp,df_exp,Interest_list,year):
 
 
     fig = go.Figure()
-    fig.add_trace(go.Bar(x=df_imp[df_imp['HS4'].isin(Interest_list)]['HS4'], y=df_imp[df_imp['HS4'].isin(Interest_list)]['Trade Value'],marker_pattern_shape=".",name='Imports',marker_color='red'))
-    fig.add_trace(go.Bar(x=df_exp[df_exp['HS4'].isin(Interest_list)]['HS4'], y=df_exp[df_exp['HS4'].isin(Interest_list)]['Trade Value'], marker_pattern_shape="+",name='Exports',marker_color='green'))
+    fig.add_trace(go.Bar(x=df_imp[df_imp['HS4'].isin(Interest_list)]['HS4'], y=df_imp[df_imp['HS4'].isin(Interest_list)]['Trade Value'],name='Imports',marker_color='red'))
+    fig.add_trace(go.Bar(x=df_exp[df_exp['HS4'].isin(Interest_list)]['HS4'], y=df_exp[df_exp['HS4'].isin(Interest_list)]['Trade Value'], name='Exports',marker_color='green'))
 
     fig.update_layout(#width=1500,
         height=500,
@@ -107,7 +109,8 @@ def import_export_figure(df_imp,df_exp,Interest_list,year):
 
     fig.update_layout(
         title="{}, Total Imports = {}, Total Exports = {} ($million)".format(year,totalImports,totalExports))
-
+    fig.update_traces(marker_line_color='white',
+                      marker_line_width=1.5, opacity=1)
     return fig
 
 
@@ -603,7 +606,6 @@ def decarbonization_scenarios(Efficiency,oil_imports_2019,demand,growth_rate,PV_
 
     fig3.update_layout(
         title="Breakdown of annual RE installation for 100% RE in {}".format(decarb_year))
-    # print(summary_df)
     fig3.update_traces(marker_line_color='white',
                        marker_line_width=1.5, opacity=1)
 
@@ -1298,13 +1300,13 @@ def validation():
 
 def cross_country_sankey(df,from_,to_):
     fig = go.Figure()
-    fig.add_trace(go.Bar(x=df['Country'], y=df['Values'],name='dasdsa',marker_color='forestgreen'))
+    fig.add_trace(go.Bar(x=df['Country'], y=df['Values'],name='dasdsa',marker_color='forestgreen',text = df['Values']))
     # fig.add_trace(go.Bar(x=summary_df['Country'], y=summary_df['aviation_to_import'], name='Int. aviation bunkers',marker_color='lightsalmon'))
 
 
 
 
-    fig.update_layout(#width=1500,
+    fig.update_layout(width=800,
         # height=500,
         barmode='relative')
     fig.update_layout(legend = dict(bgcolor = 'rgba(0,0,0,0)',    yanchor="bottom",orientation="h",
@@ -1320,6 +1322,7 @@ def cross_country_sankey(df,from_,to_):
     fig.update_layout({
     'plot_bgcolor': 'rgba(0,0,0,0)',
     'paper_bgcolor': 'rgba(0,0,0,0)',
+
     })
     fig.update_yaxes(title_text="TJ",showline=True)
     fig.update_xaxes(showline=True,
@@ -1330,5 +1333,51 @@ def cross_country_sankey(df,from_,to_):
     # print(summary_df)
     fig.update_traces(marker_line_color='white',
                       marker_line_width=1.5, opacity=1)
+    fig.update_traces(texttemplate='%{text:.1s}')
+
+
+    return fig
+
+
+
+def import_export_figure_dynamic(df,product):
+
+    fig = go.Figure()
+    min = df['import_values'].min()
+    min = min + 0.2 * min
+    max = df['export_values'].max()
+    max = max + 0.2 * max
+
+    print(df)
+    fig.add_trace(go.Bar(x=df['Country'], y=df['import_values'], name='Imports', marker_color='red',text = df['import_values'].round(decimals=2)))
+    fig.add_trace(go.Bar(x=df['Country'], y=df['export_values'], name='Exports', marker_color='green',text = df['export_values'].round(decimals=2)))
+    fig.update_layout(width=800,
+        # height=500,
+        barmode='relative')
+    fig.update_layout(legend = dict(bgcolor = 'rgba(0,0,0,0)',    yanchor="bottom",orientation="v",
+        y=0.5,
+        xanchor="center",
+        x=1.07),
+                      font=dict(
+                          family="Calibri",
+                          size=16,
+                          color="white"
+                      )
+                      )
+    fig.update_layout({
+    'plot_bgcolor': 'rgba(0,0,0,0)',
+    'paper_bgcolor': 'rgba(0,0,0,0)',
+    })
+    fig.update_yaxes(title_text="Value ($MM)",showline=True)
+    fig.update_xaxes(showline=True,title_text = "<a href=\"https://oec.world/en/home-b\"><sub>Source: The Observatory of Economic Complexity (OEC)<sub></a>")
+
+    fig.update_layout(
+        title="Cross Country Comparison for {}".format(product))
+    fig.update_traces(marker_line_color='white',
+                      marker_line_width=1.5, opacity=1)
+    # fig.update_traces(texttemplate='%{text:.1s}')
+    fig.update_layout(
+        yaxis_range=[min-2, max+2]
+    )
 
     return fig
