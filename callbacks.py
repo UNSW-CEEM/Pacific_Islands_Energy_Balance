@@ -7,9 +7,10 @@ import figures
 import Summary
 import EnergyFlows
 import Decarbonization
-import Geothermal
+import WindSolar
 import FinancialFlows
 import BioEnergy
+import Geothermal
 Country_List = ['Samoa','Nauru','Vanuatu','Palau','Kiribati','Cook Islands','Solomon Islands','Tonga','New Caledonia','French Polynesia','Micronesia','Niue','Tuvalu','PNG','Fiji']
 
 @app.callback(
@@ -23,6 +24,8 @@ def switch_tab(tab):
         return EnergyFlows.content
     elif tab == 'decrb-tab':
         return Decarbonization.content
+    elif tab == 'windSolar-tab':
+        return WindSolar.content
     elif tab == 'geothermal-tab':
         return Geothermal.content
     elif tab == 'financial-flows-tab':

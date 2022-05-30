@@ -85,7 +85,6 @@ bio_table = dash_table.DataTable(
             # 'textDecoration': 'underline',
             'backgroundColor': 'tomato',
             'color': 'black',
-
         },
         {
             'if': {
@@ -144,7 +143,7 @@ bio = [
                         dbc.Col(bio_table)
                     ]),
                     html.Label(['', html.A(
-                        'Source: Country Profiles',
+                        'Source: Country Profiles, IRENA',
                         href='https://www.irena.org/Statistics/Statistical-Profiles')]),
                     html.Br(),
 

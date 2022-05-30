@@ -247,34 +247,7 @@ def Generate_Sankey(year,country):
 
 
 
-def potentials_bar(wind_pot,PV_pot,max_range,year):
-    import plotly.graph_objs as go
-    names = ['Wind', 'PV']
-    values = [wind_pot,PV_pot]
-    data = [go.Bar(
-        x=names,
-        y=values,
 
-    )]
-    fig = go.Figure(data=data)
-    fig.update_layout(
-        title="RE for Decarbonization with 20% losses")
-    fig.update_yaxes(title_text="MW",showline=True)
-    fig.update_xaxes(showline=True)
-
-    fig.update_layout({'plot_bgcolor': 'rgba(0,0,0,0)',
-    'paper_bgcolor': 'rgba(0,0,0,0)'})
-    fig.update_layout(yaxis_range=[0, max_range])
-
-    fig.update_layout(height=350,font=dict(
-                          family="Calibri",
-                          size=15,
-                          color="white"
-                      ))
-    fig.update_traces(marker_color='lightsalmon', marker_line_color='white',
-                      marker_line_width=2.5, opacity=1)
-
-    return fig
 
 def oil_to_RE(PV,PV_batt,wind,wind_bat,max_range,year):
     import plotly.graph_objs as go
@@ -749,7 +722,6 @@ def rooftop_PV_plot(available_buildings,PV_size):
         go.Bar(x=Countries, y=number_of_homes, name="Number of homes available for rooftop PV",marker_color='forestgreen'),
         secondary_y=False,
     )
-
     fig2.add_trace(
         go.Scatter(x=Countries, y=rooftop_capacity_MW, name="Potential rooftop PV generation",marker_color='red'),
         secondary_y=True,
@@ -779,18 +751,12 @@ def rooftop_PV_plot(available_buildings,PV_size):
         title="Number of homes available for rooftop PV and potential rooftop PV capacity")
 
 
-    fig3 = make_subplots(specs=[[{"secondary_y": True}]])
-    fig3.add_trace(
-        go.Bar(x=Countries, y=solar_radiation, name="Available solar radiation",marker_color='forestgreen'),
-        secondary_y=False,
-    )
 
+    fig3 = make_subplots(specs=[[{"secondary_y": False}]])
     fig3.add_trace(
-        go.Scatter(x=Countries, y=rooftop_PV_generation_GWh, name="Potential rooftop PV generation (GWh)",marker_color='red'),
-        secondary_y=True,
+        go.Bar(x=Countries, y=rooftop_PV_generation_GWh, name="Potential rooftop PV generation (GWh)",marker_color='forestgreen'),
     )
-    fig3.update_yaxes(title_text="Potential solar energy (GWh/MW/year)", secondary_y=False,showline=True,showgrid=True)
-    fig3.update_yaxes(title_text="Potential rooftop PV generation (GWh)", secondary_y=True,showline=True, showgrid=False)
+    fig3.update_yaxes(title_text="Rooftop PV generation (GWh/year)", showline=True, showgrid=True)
     fig3.update_xaxes(showgrid=False,showline=True)
 
     fig3.update_layout(#height=350,
@@ -811,7 +777,7 @@ def rooftop_PV_plot(available_buildings,PV_size):
     fig3.update_traces(marker_line_color='white',
                       marker_line_width=1.5, opacity=1)
     fig3.update_layout(
-        title="Potential solar radiation and the achievable generation via rooftop PV")
+        title="Potential rooftop PV generation")
     return [fig,fig2,fig3]
 
 
@@ -1018,27 +984,25 @@ def land_use_plot():
     percentage_of_coastline_final = ((Wind_MW_final * 100/1.5)*0.25)/coastline
     percentage_of_coastline_non_RE = ((Wind_MW_non_RE * 100/1.5)*0.25)/coastline
 
-    PV_non_RE = 1.2 * non_RE_demand/PV_pot
-    PV_final_demand = 1.2 * final_demand/PV_pot
+    PV_non_RE = 1.2 * non_RE_demand/PV_pot #MW
+    PV_final_demand = 1.2 * final_demand/PV_pot #MW
 
-    PV_area_non_RE = PV_non_RE/(100) #0.1kw/m2
+    PV_area_non_RE = PV_non_RE/(100) #0.1kw/m2 # Converted to km2
     PV_area_non_RE_per = 100 * PV_area_non_RE/area
-
     PV_area_final_demand = PV_final_demand/(100) #0.1kw/m2
     PV_area_final_demand_per = 100 * PV_area_final_demand/area
     fig = make_subplots(specs=[[{"secondary_y": False}]])
 
-    fig.add_trace(go.Bar(x=countries, y=Wind_MW_non_RE, name='Wind for non RE demand',
-                          marker_color='forestgreen',offsetgroup=1, text = Wind_MW_non_RE,
-                      textposition="outside"),secondary_y=False)
-    # fig.add_trace(
-    #     go.Bar(x=countries, y=Wind_MW_final, name='Wind for final demand',
-    #                marker_color='lightsalmon', offsetgroup=2,text = Wind_MW_final,
-    #                   textposition="outside",), secondary_y=False)
+    fig.add_trace(go.Scatter(x=countries, y=Wind_MW_non_RE, name='Decarbonizing the electricity sector',
+                          marker_color='red', text = Wind_MW_non_RE,
+                      ))
+    fig.add_trace(go.Scatter(x=countries, y=Wind_MW_final, name='Meeting the final demand',
+                          marker_color='black', text = Wind_MW_final,
+                      ))
     fig.update_layout(  # width=1500,
         # height=500,
         barmode='group')
-    fig.update_layout(legend=dict(bgcolor='rgba(0,0,0,0)', yanchor="bottom", orientation="v",
+    fig.update_layout(legend=dict(bgcolor='rgba(0,0,0,0)', yanchor="bottom", orientation="h",
                                    y=0.98,
                                    xanchor="center",
                                    x=0.5),
@@ -1046,17 +1010,15 @@ def land_use_plot():
                            family="Calibri",
                            size=16,
                            color="white"
-                       )
-                       )
+                       ),
+                      hovermode="x"
+                      )
     fig.update_layout({
         'plot_bgcolor': 'rgba(0,0,0,0)',
         'paper_bgcolor': 'rgba(0,0,0,0)',
     })
-    fig.update_yaxes(title_text="Capacity (MW)", showline=True)
-    # fig.update_yaxes(title_text="Wind for final demand (MW)", secondary_y=True, showline=True, showgrid=False)
-
-    fig.update_xaxes(showline=True)
-
+    fig.update_yaxes(title_text="Wind capacity (MW)", showline=True,rangemode='tozero')
+    fig.update_xaxes(showline=True,showgrid=False)
     fig.update_layout(
         title="Wind capacity required to decarbonize the electricity sector")
     # print(summary_df)
@@ -1064,19 +1026,16 @@ def land_use_plot():
                        marker_line_width=1.5, opacity=1)
     fig.update_traces(texttemplate='%{text:.1s}',)
 
-    fig1 = make_subplots(specs=[[{"secondary_y": True}]])
 
-    fig1.add_trace(
-        go.Bar(x=countries, y=Wind_CF, name='Capacity factor',
-                   marker_color='forestgreen', ), secondary_y=False,)
+
+    fig1 = make_subplots(specs=[[{"secondary_y": False}]])
+
+
     fig1.add_trace(go.Scatter(x=countries, y=percentage_of_coastline_final, name='% coastline for final demand',
-                          marker_color='black'), secondary_y=True)
+                          marker_color='black'))
     fig1.add_trace(
-        go.Scatter(x=countries, y=percentage_of_coastline_non_RE, name='% coastline for decarbonization',
-                   marker_color='red', ), secondary_y=True)
-    fig1.update_layout(  # width=1500,
-        # height=500,
-        barmode='relative')
+        go.Scatter(x=countries, y=percentage_of_coastline_non_RE, name='% coastline for decarbonizing the electricity sector',
+                   marker_color='red'))
     fig1.update_layout(legend=dict(bgcolor='rgba(0,0,0,0)', yanchor="bottom", orientation="h",
                                    y=0.98,
                                    xanchor="center",
@@ -1092,25 +1051,25 @@ def land_use_plot():
         'plot_bgcolor': 'rgba(0,0,0,0)',
         'paper_bgcolor': 'rgba(0,0,0,0)',
     })
-    fig1.update_yaxes(title_text="% of coastline", showline=True,secondary_y=True)
-    fig1.update_yaxes(title_text="Capacity Factor (%)", secondary_y=False, showline=True, showgrid=False)
+    fig1.update_yaxes(title_text="% of coastline", showline=True, showgrid=True)
 
-    fig1.update_xaxes(showline=True)
+    fig1.update_xaxes(showline=True,showgrid=False)
 
     fig1.update_layout(
         title="% of coastline to meet the demand via wind energy")
-    # print(summary_df)
     fig1.update_traces(marker_line_color='white',
                        marker_line_width=1.5, opacity=1)
     fig1.update_yaxes(rangemode='tozero')
-    # fig1.update_traces(texttemplate='%{text:.2s}', textposition='outside')
 
 
     fig2 = make_subplots(specs=[[{"secondary_y": False}]])
 
-    fig2.add_trace(go.Bar(x=countries, y=PV_non_RE, name='non RE',
-                          marker_color='forestgreen',text = PV_non_RE,
-                      textposition="outside"))
+    fig2.add_trace(go.Scatter(x=countries, y=PV_non_RE, name='Decarbonizing the electricity sector',
+                          marker_color='red',text = PV_non_RE,
+                      ))
+    fig2.add_trace(go.Scatter(x=countries, y=PV_final_demand, name='Meeting the final demand',
+                          marker_color='black',text = PV_final_demand,
+                      ))
 
     fig2.update_layout(  # width=1500,
         # height=500,
@@ -1123,16 +1082,18 @@ def land_use_plot():
                            family="Calibri",
                            size=16,
                            color="white"
-                       )
+                       ),
+                       hovermode="x"
+
                        )
     fig2.update_layout({
         'plot_bgcolor': 'rgba(0,0,0,0)',
         'paper_bgcolor': 'rgba(0,0,0,0)',
     })
-    fig2.update_yaxes(title_text="PV capacity (MW)", showline=True)
+    fig2.update_yaxes(title_text="PV capacity (MW)", showline=True,rangemode='tozero')
     # fig2.update_yaxes(title_text="Capacity Factor (%)", secondary_y=True, showline=True, showgrid=False)
 
-    fig2.update_xaxes(showline=True)
+    fig2.update_xaxes(showline=True,showgrid=False)
 
     fig2.update_layout(
         title="PV capacity required to decarbonize the electricity sector")
@@ -1141,6 +1102,7 @@ def land_use_plot():
                        marker_line_width=1.5, opacity=1)
     fig2.update_yaxes(rangemode='tozero')
     fig2.update_traces(texttemplate='%{text:.1s}')
+
 
 
     fig3 = go.Figure()
@@ -1154,21 +1116,23 @@ def land_use_plot():
                          marker_color='green'))
     fig3.add_trace(go.Bar(x=countries, y=other, name='Other',
                          marker_color='darkturquoise'))
-    fig3.add_trace(go.Scatter(x=countries, y=PV_area_non_RE_per, name='PV for decarbonization',
+    fig3.add_trace(go.Scatter(x=countries, y=PV_area_non_RE_per, name='% of land for decarbonizing the electricity sector',
                          marker_color='red'))
-    fig3.add_trace(go.Scatter(x=countries, y=PV_area_final_demand_per, name='PV for final demand',
+    fig3.add_trace(go.Scatter(x=countries, y=PV_area_final_demand_per, name='% of land for final demand',
                          marker_color='black'))
 
     fig3.update_layout(  # width=1500,
-        # height=500,
+        # height=600,
+        # autosize = True,
         barmode='relative')
+
     fig3.update_layout(legend=dict(bgcolor='rgba(0,0,0,0)', yanchor="bottom", orientation="h",
-                                  y=0.95,
+                                  y=0.94,
                                   xanchor="left",
                                   x=0),
                       font=dict(
                           family="Calibri",
-                          size=13,
+                          size=14,
                           color="white"
                       ),
                       )
@@ -1176,14 +1140,19 @@ def land_use_plot():
         'plot_bgcolor': 'rgba(0,0,0,0)',
         'paper_bgcolor': 'rgba(0,0,0,0)',
     })
-    fig3.update_yaxes(title_text="% land", showline=True)
+    fig3.update_yaxes(title_text="% land", showline=True,rangemode='tozero')
     fig3.update_xaxes(showline=True,title_text="<a href=\"https://www.cia.gov/the-world-factbook/countries\"><sub>Source: The World Factbook, CIA<sub></a>")
 
-    fig3.update_layout(
-        title="Breakdown of land")
-    # print(summary_df)
     fig3.update_traces(marker_line_color='white',
                       marker_line_width=1.5, opacity=1)
+    fig3.update_layout(margin=dict(t=130))
+    fig3.update_layout(
+        title={
+            'text': "Breakdown of  and area required for PV installation to meet the demand",
+            'y': 0.95,
+            # 'x': 0,
+            'xanchor': 'left',
+            'yanchor': 'top'})
 
     return fig, fig1,fig2,fig3
 
@@ -1372,7 +1341,7 @@ def import_export_figure_dynamic(df,product):
     fig.update_xaxes(showline=True,title_text = "<a href=\"https://oec.world/en/home-b\"><sub>Source: The Observatory of Economic Complexity (OEC)<sub></a>")
 
     fig.update_layout(
-        title="Cross Country Comparison for {}".format(product))
+        title="{}".format(product))
     fig.update_traces(marker_line_color='white',
                       marker_line_width=1.5, opacity=1)
     # fig.update_traces(texttemplate='%{text:.1s}')
@@ -1381,3 +1350,61 @@ def import_export_figure_dynamic(df,product):
     )
 
     return fig
+
+
+def Solar_physical_resources():
+    import plotly.graph_objs as go
+    names = ['Wind', 'PV']
+    df = pd.read_excel('Data/Potentials.xlsx')
+
+    countries = Country_List
+    Wind_pot = df.iloc[2, 2:]  # GWh/MW/year
+    PV_pot = df.iloc[0, 2:]  # GWh/MW/year
+    fig = go.Figure(data=[go.Bar(
+        x=countries,
+        y=PV_pot,
+
+    )])
+    fig.update_layout(
+        title="Available solar resources")
+    fig.update_yaxes(title_text="GWh/MW/year",showline=True)
+    fig.update_xaxes(showline=True)
+
+    fig.update_layout({'plot_bgcolor': 'rgba(0,0,0,0)',
+    'paper_bgcolor': 'rgba(0,0,0,0)'})
+    # fig.update_layout(yaxis_range=[0, max_range])
+
+    fig.update_layout(#height=350,
+                      font=dict(
+                          family="Calibri",
+                          size=15,
+                          color="white"
+                      ))
+    fig.update_traces(marker_color='Yellow', marker_line_color='white',
+                      marker_line_width=2, opacity=1)
+
+
+    fig2 = go.Figure(data=[go.Bar(
+        x=countries,
+        y=Wind_pot,
+
+    )])
+    fig2.update_layout(
+        title="Available wind resources")
+    fig2.update_yaxes(title_text="GWh/MW/year",showline=True)
+    fig2.update_xaxes(showline=True)
+
+    fig2.update_layout({'plot_bgcolor': 'rgba(0,0,0,0)',
+    'paper_bgcolor': 'rgba(0,0,0,0)'})
+    # fig.update_layout(yaxis_range=[0, max_range])
+
+    fig2.update_layout(#height=350,
+                       font=dict(
+                          family="Calibri",
+                          size=15,
+                          color="white"
+                      ))
+    fig2.update_traces(marker_color='lightblue', marker_line_color='white',
+                      marker_line_width=2, opacity=1)
+
+    return fig,fig2

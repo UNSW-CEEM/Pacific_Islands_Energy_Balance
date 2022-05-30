@@ -20,9 +20,9 @@ radioitems_diesel_price = html.Div(
     # dcc.Slider(0.5, 2, 0.1, value=0.9,marks=None,id='diesel_price_slider',
     # tooltip={"placement": "bottom", "always_visible": True}),
     daq.Slider(
-    min=0.5,
-    max=2.5,
-    value=0.9,
+    min=0.4,
+    max=8,
+    value=1.5,
     handleLabel={"showCurrentValue": True,"label": "$/litre"},
     step=0.1,
     marks={'0.5': '0.5','2.5': '2.5'},
