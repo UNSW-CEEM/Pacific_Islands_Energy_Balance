@@ -3,6 +3,8 @@ from dash import dcc
 import dash_bootstrap_components as dbc
 import pandas as pd
 import os
+
+import figures
 from EnergyFlows import generate_select_country_drpdwn
 
 Country_List = ['Samoa','Nauru','Vanuatu','Palau','Kiribati','Cook Islands','Solomon Islands','Tonga','New Caledonia','French Polynesia','Micronesia','Niue','Tuvalu','PNG','Fiji']
@@ -26,6 +28,40 @@ Interest_list = ['Crude Petroleum', 'Refined Petroleum', 'Petroleum', 'Petroleum
                  'Combustion Engines', 'Engine Parts', 'Gas Turbines', 'Spark-Ignition Engines',
                  'Planes, Helicopters, and/or Spacecraft', 'Aircraft Parts',
                  'Passenger and Cargo Ships']
+
+Fuel_Price = [
+    dbc.CardHeader(html.H5("Regional retail fuel and electricity prices")),
+    dbc.CardBody(
+        [
+            dcc.Loading(
+                id="loading-bigrams-comps",
+                children=[
+                    dbc.Alert(
+                        "Something's gone wrong! Give us a moment, but try loading this page again if problem persists.",
+                        id="no-data-alert-bigrams_comp",
+                        color="warning",
+                        style={"display": "none"},
+                    ),
+                    dbc.Row([
+                        dbc.Col(html.Div(dcc.Graph(id="Diesel_price", figure=figures.diesel_petrol_price("Diesel")),
+                                         style=figure_border_style), md=6),
+                        dbc.Col(html.Div(dcc.Graph(id="Petrol_price", figure=figures.diesel_petrol_price("Petrol")),
+                                         style=figure_border_style), md=6),
+
+                    ]),
+                    html.Br(),
+                    dbc.Row([
+                        dbc.Col(html.Div(dcc.Graph(id="Petrol_price", figure=figures.elec_price_plot()),
+                                         style=figure_border_style), md=12),
+                    ]),
+                ],
+                type="default",
+            )
+        ],
+        style={"marginTop": 0, "marginBottom": 0},
+    ),
+]
+
 
 TOP_BIGRAM_COMPS = [
     dbc.CardHeader(html.H5("Import and export flows")),
@@ -162,6 +198,8 @@ style = {'border': 'solid', 'padding-top': '10px', 'align': 'center', 'justify':
 
 BODY = dbc.Container(
     [
+        dbc.Row([dbc.Col(dbc.Card(Fuel_Price)), ], style={"marginTop": 30,
+                                                                }),
         dbc.Row([dbc.Col(dbc.Card(TOP_BIGRAM_COMPS)),], style={"marginTop": 30,
                            }),
         dbc.Row([dbc.Col(dbc.Card(Cross_country_financial_flows)), ], style={"marginTop": 30,

@@ -5,9 +5,6 @@ import plotly.express as px
 from EnergyFlows import Country_List
 
 
-
-
-
 def imports_to_GDP(year):
     net_imp_list= []
     interest_list = ['Refined Petroleum']
@@ -727,7 +724,7 @@ def rooftop_PV_plot(available_buildings,PV_size):
         secondary_y=True,
     )
     fig2.update_yaxes(title_text="Number of homes available for rooftop PV", secondary_y=False,showline=True,showgrid=True)
-    fig2.update_yaxes(title_text="Potential rooftop PV capacity (MW)", secondary_y=True,showline=True, showgrid=False)
+    fig2.update_yaxes(title_text="Potential rooftop PV capacity (MW)", secondary_y=True,showline=True, showgrid=False,rangemode='tozero')
     fig2.update_xaxes(showgrid=False,showline=True)
 
     fig2.update_layout(#height=350,
@@ -1020,7 +1017,7 @@ def land_use_plot():
     fig.update_yaxes(title_text="Wind capacity (MW)", showline=True,rangemode='tozero')
     fig.update_xaxes(showline=True,showgrid=False)
     fig.update_layout(
-        title="Wind capacity required to decarbonize the electricity sector")
+        title="Required wind capacity")
     # print(summary_df)
     fig.update_traces(marker_line_color='white',
                        marker_line_width=1.5, opacity=1)
@@ -1056,7 +1053,7 @@ def land_use_plot():
     fig1.update_xaxes(showline=True,showgrid=False)
 
     fig1.update_layout(
-        title="% of coastline to meet the demand via wind energy")
+        title="Coastline required for wind turbine installation")
     fig1.update_traces(marker_line_color='white',
                        marker_line_width=1.5, opacity=1)
     fig1.update_yaxes(rangemode='tozero')
@@ -1096,7 +1093,7 @@ def land_use_plot():
     fig2.update_xaxes(showline=True,showgrid=False)
 
     fig2.update_layout(
-        title="PV capacity required to decarbonize the electricity sector")
+        title="Required PV capacity")
     # print(summary_df)
     fig2.update_traces(marker_line_color='white',
                        marker_line_width=1.5, opacity=1)
@@ -1346,7 +1343,7 @@ def import_export_figure_dynamic(df,product):
                       marker_line_width=1.5, opacity=1)
     # fig.update_traces(texttemplate='%{text:.1s}')
     fig.update_layout(
-        yaxis_range=[min-2, max+2]
+        yaxis_range=[min-5, max+5]
     )
 
     return fig
@@ -1408,3 +1405,80 @@ def Solar_physical_resources():
                       marker_line_width=2, opacity=1)
 
     return fig,fig2
+
+
+
+def diesel_petrol_price(Fuel):
+    import plotly.graph_objs as go
+    df = pd.read_csv("Data/{}.csv".format(Fuel)) #USD c/Litre
+
+
+
+    fig = go.Figure()
+    fig.add_trace(go.Bar(x=df['Country'], y=df['Tax excluded'],name='Tax excluded',marker_color='forestgreen'))
+    fig.add_trace(go.Bar(x=df['Country'], y=df['Tax'],name='Tax',marker_color='red'))
+
+
+    fig.update_layout(
+        title="Regional {} retail price for quarter 1, 2022 ".format(Fuel))
+    fig.update_yaxes(title_text="US cents/Litre",showline=True)
+    # fig.update_xaxes(showline=True)
+
+    fig.update_layout({'plot_bgcolor': 'rgba(0,0,0,0)',
+    'paper_bgcolor': 'rgba(0,0,0,0)'})
+    # fig.update_layout(yaxis_range=[0, max_range])
+
+    fig.update_layout(#height=350,
+                      font=dict(
+                          family="Calibri",
+                          size=15,
+                          color="white"
+                      ),
+                        barmode='relative')
+    fig.update_traces(marker_line_color='white',
+                      marker_line_width=2, opacity=1)
+    fig.update_layout(legend = dict(bgcolor = 'rgba(0,0,0,0)',    yanchor="bottom",orientation="h",
+        y=1.05,
+        xanchor="center",
+        x=0.5))
+    fig.update_xaxes(showline=True,title_text = "<a href=\"https://www.haletwomey.co.nz/\"><sub>Source: Pacific Islands fuel supply, demand and comparison of regional prices 2022, Hale&Twomey <sub></a>")
+
+    return fig
+
+
+def elec_price_plot():
+    import plotly.graph_objs as go
+    df = pd.read_csv("Data/elec Price and subsidies.csv") #USD c/Litre
+
+
+
+    fig = go.Figure()
+    fig.add_trace(go.Bar(x=df['Country'], y=df['small res'],name='Residential consumer, 1.1 kVA, 60 kWh/month',marker_color='forestgreen'))
+    fig.add_trace(go.Bar(x=df['Country'], y=df['res'],name='Residential consumer, 3.3 kVA, 300 kWh/month',marker_color='yellow'))
+    fig.add_trace(go.Bar(x=df['Country'], y=df['res'],name='Business consumer, 100 kVA, 10,000 kWh/month',marker_color='red'))
+
+
+
+    fig.update_layout(
+        title="Regional electricity retail price in 2019")
+    fig.update_yaxes(title_text="USD/kWh",showline=True)
+    fig.update_xaxes(showline=True)
+
+    fig.update_layout({'plot_bgcolor': 'rgba(0,0,0,0)',
+    'paper_bgcolor': 'rgba(0,0,0,0)'})
+    fig.update_layout(#height=350,
+                      font=dict(
+                          family="Calibri",
+                          size=15,
+                          color="white"
+                      ),
+                        )
+    fig.update_traces(marker_line_color='white',
+                      marker_line_width=2, opacity=1)
+    fig.update_layout(legend = dict(bgcolor = 'rgba(0,0,0,0)',    yanchor="bottom",orientation="h",
+        y=1.05,
+        xanchor="center",
+        x=0.5))
+    fig.update_xaxes(showline=True,title_text = "<a href=\"chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/http://ura.gov.vu/attachments/article/67/Comparative%20Report%20-%20Pacific%20Region%20Electricity%20Bills%20June%202016.pdf\"><sub>Source: Pacific Region Electricity Bills 2019, Utilities Regulatory Authority (URA) <sub></a>")
+
+    return fig

@@ -21,7 +21,7 @@ bio_table = dash_table.DataTable(
     style_cell={
         'backgroundColor': 'rgb(50, 50, 50)',
         'color': 'white',
-        'textAlign': 'center','fontSize':18, 'font-family':'Calibri',
+        'textAlign': 'left','fontSize':18, 'font-family':'Calibri',
         'height': 'auto',
         'overflow': 'hidden',
         'textOverflow': 'ellipsis',

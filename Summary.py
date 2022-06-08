@@ -30,21 +30,30 @@ dataTable = dash_table.DataTable(
     style_as_list_view=False,
     style_header={
         'padding': '5px',
-        'backgroundColor': 'forestgreen',
+        'backgroundColor': 'rgb(30, 30, 30)',
         'fontWeight': 'bold',
         'border': '1px solid grey',
-        'textAlign': 'right',
+        'textAlign': 'left',
+        'height': 'auto',
+        'overflow': 'hidden',
+        'textOverflow': 'ellipsis',
+        'whiteSpace': 'normal',
+
     },
-    style_data={ 'border': '0.15px solid #ff4d4d' },
-    # style_cell_conditional=[            # style_cell_c. refers to the whole table
-    #     {
-    #         'if': {'column_id': 'Country / Territory'},
-    #         'textAlign': 'left'
-    #     }
-    # ],
-
-
-    # style_header={'backgroundColor': },
+    style_data={ 'border': '0.15px solid white' },#ff4d4d
+    # style_cell_conditional=([
+    #     {'if': {'column_id': 'Population density (Person/km2)'},
+    #      'width': '5%'},
+    #     {'if': {'column_id': 'Youngest volcanism'},
+    #      'width': '20%'},
+    #     {'if': {'column_id': 'Known geothermal locations'},
+    #      'width': '20%'},
+    #     {'if': {'column_id': 'Geothermal investigations'},
+    #      'width': '15%'},
+    #     {'if': {'column_id': 'Observed hot spring temperature'},
+    #      'width': '20%'},
+    #     {'if': {'column_id': 'Potentials'},
+    #      'width': '17.5%'}]),
 
 )
 Transit = [
@@ -63,7 +72,7 @@ Transit = [
                     dbc.Row([
                         # figures.Update_UNstats_database(20),
                         # figures.validation(),
-                        dbc.Col(table)
+                        dbc.Col(dataTable)
                     ]),
                     html.Br(),
                     # EnergyFlows.generate_single_year_drpdwn(),
