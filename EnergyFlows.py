@@ -43,7 +43,7 @@ def generate_select_country_drpdwn():
             ),
         ],
         inline=True,
-        style={'marginLeft':35,'marginTop':25,'fontSize':25}
+        style={'marginLeft':35,'marginTop':25,'fontSize':20}
     )
     return farm_drpdwn_dbc
 
@@ -107,6 +107,7 @@ def generate_single_year_drpdwn():
         style={'marginLeft':35,'marginTop':25,'fontSize':25}
     )
     return farm_drpdwn_dbc
+
 
 
 def generate_navbar(app):

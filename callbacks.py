@@ -49,7 +49,12 @@ def update_options(year):
             figures.imports_to_GDP(year),\
            figures.generation_mix_plot()[0],figures.generation_mix_plot()[1]
 
-
+@app.callback(
+    Output('PV-map', 'figure'),
+    Input("select-justcountry", "value")
+)
+def update_options(Country):
+    return figures.mapboxplot(Country)
 
 
 

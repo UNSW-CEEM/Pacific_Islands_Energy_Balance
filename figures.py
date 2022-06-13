@@ -1042,7 +1042,9 @@ def land_use_plot():
                            size=16,
                            color="white"
                        ),
-                       hovermode="x"
+                       hovermode="x",
+
+
                        )
     fig1.update_layout({
         'plot_bgcolor': 'rgba(0,0,0,0)',
@@ -1151,7 +1153,134 @@ def land_use_plot():
             'xanchor': 'left',
             'yanchor': 'top'})
 
+
+
+
+
+
+
+
     return fig, fig1,fig2,fig3
+
+
+def mapboxplot(Country):
+    import math
+    df = pd.read_excel('Data/Potentials.xlsx')
+    countries = df.columns[2:]
+    # PV_pot = df.iloc[0, 2:] #GWh/MW/year
+    PV_pot = df.iloc[0][Country] #GWh/MW/year
+
+    Wind_CF = df.iloc[1][Country]
+    Wind_pot = df.iloc[2][Country]#GWh/MW/year
+
+    non_RE_demand = df.iloc[10][Country]
+    final_demand = df.iloc[12][Country]
+    coastline = df.iloc[13][Country]
+    area = df.iloc[14][Country] #km2
+
+
+
+    Wind_MW_non_RE = 1.2 * non_RE_demand/Wind_pot
+    Wind_MW_final = 1.2 * final_demand/Wind_pot
+
+    percentage_of_coastline_final = ((Wind_MW_final * 100/1.5)*0.25)/coastline
+    percentage_of_coastline_non_RE = ((Wind_MW_non_RE * 100/1.5)*0.25)/coastline
+
+    PV_non_RE = 1.2 * non_RE_demand/PV_pot #MW
+    PV_final_demand = 1.2 * final_demand/PV_pot #MW
+
+    PV_area_non_RE = PV_non_RE/(100) #0.1kw/m2 # Converted to km2
+    PV_area_non_RE_per = 100 * PV_area_non_RE/area
+    PV_area_final_demand = PV_final_demand/(100) #0.1kw/m2
+    PV_area_final_demand_per = 100 * PV_area_final_demand/area
+
+    width_decarb = math.sqrt(PV_area_non_RE) * 1000/2
+    width_final_demand = math.sqrt(PV_area_final_demand) * 1000/2
+
+    import plotly.graph_objects as go
+    from math import sqrt, atan, pi
+    import pyproj
+    geod = pyproj.Geod(ellps='WGS84')
+    # Country = "Samoa"
+
+    Coordinates = {"Samoa": [-13.597336, -172.457458], "Nauru": [-0.5228, 166.9315], "Vanuatu": [-15.3767, 166.9592],
+                   "Palau": [7.5150, 134.5825], "Kiribati": [1.780915, -157.304505],
+                   "Cook Islands": [-21.2367, -159.7777],
+                   "Solomon Islands": [-9.6457, 160.1562], "Tonga": [-21.1790, -175.1982],
+                   "New Caledonia": [-21.222232, 165.251540],
+                   "French Polynesia": [-17.622779, -149.457556], "Micronesia": [6.881990, 158.220540],
+                   "Niue": [-19.0544, -169.8672],
+                   "Tuvalu": [-8.519814, 179.19750], "PNG": [-6.3150, 143.9555], "Fiji": [-17.7134, 178.0650]}
+
+    width = width_decarb  # m
+    height = width_decarb  # m
+
+    rect_diag = sqrt(width ** 2 + height ** 2)
+
+    center_lon = Coordinates[Country][1]
+    center_lat = Coordinates[Country][0]
+    azimuth1 = atan(width / height)
+    azimuth2 = atan(-width / height)
+    azimuth3 = atan(width / height) + pi  # first point + 180 degrees
+    azimuth4 = atan(-width / height) + pi  # second point + 180 degrees
+    pt1_lon, pt1_lat, _ = geod.fwd(center_lon, center_lat, azimuth1 * 180 / pi, rect_diag)
+    pt2_lon, pt2_lat, _ = geod.fwd(center_lon, center_lat, azimuth2 * 180 / pi, rect_diag)
+    pt3_lon, pt3_lat, _ = geod.fwd(center_lon, center_lat, azimuth3 * 180 / pi, rect_diag)
+    pt4_lon, pt4_lat, _ = geod.fwd(center_lon, center_lat, azimuth4 * 180 / pi, rect_diag)
+
+
+
+
+    fig = go.Figure(go.Scattermapbox(
+        mode="lines+text", fill="toself",
+        marker=dict(size=16, color='red'),
+        textposition='top right',
+        # name = "asdsadad"
+        textfont=dict(size=16, color='red'),
+        hovertemplate="<b>{}</b><br><br>".format(Country) +
+                      "PV area for decarbonizing the electricity sector: {} km2</b><br>".format(round(PV_area_non_RE,2)) +
+                      "% of land: {}<extra></extra>".format(round(PV_area_non_RE_per,2)),
+        lon=[pt1_lon, pt2_lon, pt3_lon, pt4_lon, pt1_lon, ],
+        lat=[pt1_lat, pt2_lat, pt3_lat, pt4_lat, pt1_lat],
+    ))
+    width = width_final_demand  # m
+    height = width_final_demand  # m
+    rect_diag = sqrt(width ** 2 + height ** 2)
+    center_lon = Coordinates[Country][1]
+    center_lat = Coordinates[Country][0]
+    azimuth1 = atan(width / height)
+    azimuth2 = atan(-width / height)
+    azimuth3 = atan(width / height) + pi  # first point + 180 degrees
+    azimuth4 = atan(-width / height) + pi  # second point + 180 degrees
+    pt1_lon, pt1_lat, _ = geod.fwd(center_lon, center_lat, azimuth1 * 180 / pi, rect_diag)
+    pt2_lon, pt2_lat, _ = geod.fwd(center_lon, center_lat, azimuth2 * 180 / pi, rect_diag)
+    pt3_lon, pt3_lat, _ = geod.fwd(center_lon, center_lat, azimuth3 * 180 / pi, rect_diag)
+    pt4_lon, pt4_lat, _ = geod.fwd(center_lon, center_lat, azimuth4 * 180 / pi, rect_diag)
+
+    fig.add_trace(go.Scattermapbox(
+        mode="lines+text", fill="toself",
+        marker=dict(size=16, color='grey'),
+        textposition='top left',
+        # name = "asdsadad"
+        textfont=dict(size=16, color='black'),
+        hovertemplate="<b>{}</b><br><br>".format(Country) +
+                      "PV area for final demand: {} km2</b><br>".format(round(PV_area_final_demand,2)) +
+                      "% of land: {}<extra></extra>".format(round(PV_area_final_demand_per,2)),
+        lon=[pt1_lon, pt2_lon, pt3_lon, pt4_lon, pt1_lon, ],
+        lat=[pt1_lat, pt2_lat, pt3_lat, pt4_lat, pt1_lat],
+    ))
+
+
+    styles = ["open-street-map", "carto-positron", "carto-darkmatter", "stamen-terrain", "stamen-toner",
+              "stamen-watercolor"]
+    fig.update_layout(
+        mapbox={'style': styles[3], 'center': {'lon': center_lon, 'lat': center_lat}, 'zoom': 6},
+        # add zoom as a slider
+        showlegend=False,
+        margin={'l': 0, 'r': 0, 'b': 0, 't': 0},
+    )
+    print(width_decarb , width_final_demand)
+    return fig
 
 def generation_mix_plot():
     df = pd.read_csv('Data/Energy Pofiles.csv')
