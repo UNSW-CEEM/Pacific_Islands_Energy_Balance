@@ -26,7 +26,7 @@ def generate_select_country_drpdwn():
                 options=[
                     {"label": i, "value": i} for i in Country_List
                 ],
-                value='Solomon Islands',
+                value='New Caledonia',
                 style={'width': "15%", 'margin-left': "15px"}
 
             ),
@@ -64,19 +64,26 @@ def select_sankey_flows():
                     {"label": i, "value": i} for i in from_
                 ],
                 value=from_[0],
-                style={'width': "25%", 'margin-left': "15px"}
+                style={'width': "20%", 'margin-left': "15px"}
             ),
             dbc.Label("to",style={'margin-left': "15px"}
 ),
             dbc.Select(
                 id="select-to",
-                # options=[
-                #     {"label": i, "value": i}
-                #     for i in to
-                # ],
-                # value=to[1],
-                style={'width': "25%", 'margin-left': "15px"}
+                style={'width': "20%", 'margin-left': "15px"}
             ),
+            html.Div([
+            dbc.RadioItems(
+                    id="radio-normalization-sankey",
+                    options=[
+                        {"label": "Real values", "value": 1},
+                        {"label": "Normalize with destination", "value": ' (to)'},
+                        {"label": "Normalize with origin", "value": ' (from)'},
+                    ],
+                value=1,
+                inline=True,
+                style={"fontSize":14}
+                )]),
             dbc.Button("Add Figure", color="danger", id='update-button-cross-country-figure', n_clicks=0, className="me-1"),
             dbc.Button("Clear Canvas", color="primary", id='update-button-sankey-clear-canvas', n_clicks=0,
                        className="me-1"),
@@ -147,7 +154,6 @@ def generate_navbar(app):
 
                 ),
             ),
-
             MAPNAlogo,
         ],
         color="dark",
@@ -210,7 +216,6 @@ Cross_country_sankey = [
                              style={'margin-top': '15px', 'margin-left': '20px','margin-right': '20px'}),
 
                     html.Br(),
-                    # html.Div(dcc.Graph(id="Sankey_elec_figure"),style=figure_border_style)
 
                 ],
                 type="default",
@@ -220,18 +225,8 @@ Cross_country_sankey = [
     ),
 ]
 
-
-# buttons = html.Div(
-#     [
-#         dbc.Button("Clear Canvas", color="info", id='clear-canvas-button', n_clicks=0, className="mr-1"),
-#         dbc.Button("Update", id='add-chart', color="danger", n_clicks=0, className="mr-1"),
-#         # dbc.Button("Export Plots",id='export-plot-button', color="success", n_clicks=0, className="mr-1"),
-#     ]
-# )
-
 style = {'border': 'solid', 'padding-top': '10px', 'align': 'center', 'justify': 'center', 'padding-left': '1px',
          'padding-right': '1px', }#'margin': "2px"
-
 
 BODY = dbc.Container(
     [

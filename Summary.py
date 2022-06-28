@@ -83,15 +83,53 @@ Transit = [
                     ]),
                     html.Br(),
                     dbc.Row([
-                        dbc.Col(html.Div(dcc.Graph(id="transit_figure1",figure=figures.UNstats_plots(2019)[0]),style=figure_border_style),md=6),
-                        dbc.Col(html.Div(dcc.Graph(id="transit_figure2",figure=figures.UNstats_plots(2019)[1]), style=figure_border_style), md=6),
-
+                        dbc.Col(html.Div(dcc.Graph(id="final-demand", figure=figures.UNstats_plots(2019)[4]),
+                                         style=figure_border_style), md=6),
+                        dbc.Col(html.Div(dcc.Graph(id="transit_figure1", figure=figures.UNstats_plots(2019)[7]),
+                                         style=figure_border_style), md=6),
                     ]),
                     html.Br(),
                     dbc.Row([
-                        dbc.Col(html.Div(dcc.Graph(id="transit_figure3",figure=figures.UNstats_plots(2019)[2]), style=figure_border_style), md=6),
-                        dbc.Col(html.Div(dcc.Graph(id="transit_figure4",figure=figures.imports_to_GDP(2019)), style=figure_border_style), md=6),
+                        dbc.Col(html.Div(dcc.Graph(id="Oil-imports", figure=figures.UNstats_plots(2019)[3]),
+                                         style=figure_border_style), md=6),
+
+                        dbc.Col(html.Div(dcc.Graph(id="transit_figure4", figure=figures.imports_to_GDP(2019)[0]),
+                                         style=figure_border_style), md=6),
                     ]),
+                    html.Br(),
+                    dbc.Row([
+                        dbc.Col(html.Div(dcc.Graph(id="import-per-capita", figure=figures.imports_to_GDP(2019)[1]),
+                                         style=figure_border_style), md=6),
+                        dbc.Col(html.Div(dcc.Graph(id="renewables-per-capita", figure=figures.UNstats_plots(2019)[8]),
+                                         style=figure_border_style), md=6),
+                    ]),
+                    dbc.Row([
+                        dbc.Col(html.Div(dcc.Graph(id="transit_figure3", figure=figures.UNstats_plots(2019)[2]),
+                                         style=figure_border_style), md=6),
+
+                        dbc.Col(html.Div(dcc.Graph(id="transit_figure2", figure=figures.UNstats_plots(2019)[1]),
+                                         style=figure_border_style), md=6),
+                    ]),
+                    html.Br(),
+                    dbc.Row([
+                        dbc.Col(html.Div(dcc.Graph(id="final-demand", figure=figures.UNstats_plots(2019)[0]),
+                                         style=figure_border_style), md=6),
+                        dbc.Col(html.Div(dcc.Graph(id="total renewables", figure=figures.UNstats_plots(2019)[5]),
+                                         style=figure_border_style), md=6),
+                        # dbc.Col(html.Div(dcc.Graph(id="renewable electricity", figure=figures.UNstats_plots(2019)[6]),
+                        #                  style=figure_border_style), md=6),
+                    ]),
+                    html.Br(),
+                    dbc.Row([
+                        dbc.Col(html.Div(dcc.Graph(id="final-vs-non-re-demand", figure=figures.land_use_plot()[4]),
+                                         style=figure_border_style), md=6),
+
+                        dbc.Col(html.Div(dcc.Graph(id="demand-per-capita", figure=figures.land_use_plot()[5]),
+                                         style=figure_border_style), md=6),
+                    ]),
+
+                    html.Br(),
+
 
                 ],
                 type="default",

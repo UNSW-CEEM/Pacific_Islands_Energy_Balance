@@ -312,11 +312,8 @@ Decarbonization = [
                                              ),
                                          ]
                                      ),
-                                     generate_select('ComBattery-MWh', "Battery size (MWh):", 0, 50, 0.5, 3),
-                                     generate_select('ComBattery-cost', "Cost(M$/MWh):", 0, 10, 0.05, 1.3),
-                                     generate_select('ComBattery-installationYear', "Installation year:", 2022, 2050, 1,
-                                                     2024),
-
+                                     generate_select('ComBattery-MWh', "Battery size (MWh):", 0, 10000, 0.5, 3),
+                                     generate_select('ComBattery-cost', "Cost(M$/MWh):", 0, 10, 0.05, 2),
                                      html.Div(
                                 [
                                     dbc.Label("Geothermal parameters"),
@@ -324,7 +321,7 @@ Decarbonization = [
                                         options=[
                                             {"label": "Geothermal", "value": 1},
                                         ],
-                                        value=[1],
+                                        value=[0],
                                         id="switches-geothermal",
                                         switch=True,
                                     ),
