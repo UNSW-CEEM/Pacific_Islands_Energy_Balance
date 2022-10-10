@@ -1104,12 +1104,17 @@ def UNstats_plots(year):
     return [fig,fig2,fig3,fig4,fig5,fig6,fig7,fig8,fig9]
 
 def land_use_plot():
+    summary_demand_df= pd.DataFrame()
     final_demand = functions.fetch_all_countries_demand(2019,Unit='GWh',Use='Analysis')[1]
     non_RE_demand = functions.fetch_all_countries_demand(2019,Unit='GWh',Use='Analysis')[9]
     countries = functions.fetch_all_countries_demand(2019,Unit='GWh',Use='Analysis')[0]
     non_RE_demand = non_RE_demand.round(0)
     final_demand=final_demand.round(0)
 
+    summary_demand_df['countries'] = countries
+    summary_demand_df['non-RE-GWh'] = non_RE_demand
+    summary_demand_df['final-GWh'] = final_demand
+    summary_demand_df.to_csv("demand_df_GWh.csv")
     df_pop = pd.read_csv('Data/Economic Indicators.csv')
 
     df = pd.read_excel('Data/Potentials.xlsx')
@@ -1654,8 +1659,8 @@ def Solar_physical_resources():
     pasture = df.iloc[6, 2:]
     forested = df.iloc[7, 2:]
     other = df.iloc[8, 2:]
-
-    Technical_PV_area = (0.1 * pasture/100 + 0.1 * arable/100) * area
+    percentage_of_available_land = 0.01
+    Technical_PV_area = (percentage_of_available_land * pasture/100 + percentage_of_available_land * arable/100) * area
 
 
     Theoretical_PV = PV_pot * area * 0.1 * 1000 * 0.8 #GWh

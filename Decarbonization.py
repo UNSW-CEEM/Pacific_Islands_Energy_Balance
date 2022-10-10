@@ -40,7 +40,7 @@ RE_share_slider = html.Div([
     daq.Slider(
     min=0,
     max=100,
-    value=50,
+    value=0,
     handleLabel={"showCurrentValue": True,"label": "Wind"},
     step=5,
     marks={'0': '100% PV','25': '75% PV', '50': '50-50','75': '75% Wind','100': '100% Wind'},
