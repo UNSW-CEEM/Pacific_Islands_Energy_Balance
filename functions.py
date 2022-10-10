@@ -89,6 +89,8 @@ def fetch_all_countries_demand(Year,Unit='GWh',Use="Analysis"):
     renewables_in_total = df[df['Transactions(down)/Commodity(right)']=='Total energy supply']['memo: Of which Renewables'].values #TJ
     renewable_electricity = df[df['Transactions(down)/Commodity(right)']=='Primary production']['Electricity'].values #TJ
     imports = df[df['Transactions(down)/Commodity(right)']=='Imports']['All Oil'].values
+    all_imports = df[df['Transactions(down)/Commodity(right)']=='Imports']['Total Energy'].values
+
     Int_marine = df[df['Transactions(down)/Commodity(right)']=='International marine bunkers']['All Oil'].values
     Int_avi = df[df['Transactions(down)/Commodity(right)']=='International aviation bunkers']['All Oil'].values
     transformation = -df[df['Transactions(down)/Commodity(right)']=='Electricity  CHP & Heat Plants']['All Oil'].values
@@ -103,14 +105,16 @@ def fetch_all_countries_demand(Year,Unit='GWh',Use="Analysis"):
         transformation_losses = transformation_losses * 0.277778
         renewables_in_total = renewables_in_total * 0.277778
         renewable_electricity = renewable_electricity * 0.277778
-
+        all_imports = all_imports * 0.277778
         df_demand = pd.DataFrame()
         df_demand['Country'] = Countries
         df_demand['Non-RE'] = non_RE_demand
         df_demand['Total'] = total_demand
         df_demand.to_csv('demand_df.csv')
 
-    return [Countries,total_demand,imports,Int_marine,Int_avi,transformation,transformation_losses,renewables_in_total,renewable_electricity,non_RE_demand]
+    return [Countries,total_demand,imports,Int_marine,Int_avi,transformation,
+            transformation_losses,renewables_in_total,
+            renewable_electricity,non_RE_demand,all_imports]
 
 def all_countries_cross_comparison_unstats(Year,Unit,Use):
     summary_df = pd.DataFrame()
@@ -130,9 +134,13 @@ def all_countries_cross_comparison_unstats(Year,Unit,Use):
     summary_df['transformation_losses'] = summary_list[6]
     summary_df['renewables_in_total'] = summary_list[7]
     summary_df['renewable_electricity'] = summary_list[8]
+    summary_df['total imports'] = summary_list[10]
 
     summary_df['Renewables/Total_demand'] = 100 * summary_df['renewables_in_total']/summary_df['Total_demand']
     summary_df['Renewables/Total_demand']=summary_df['Renewables/Total_demand'].round(1)
+
+    summary_df['Renewables/Total_imports'] = 100 * summary_df['renewables_in_total']/summary_df['total imports']
+    summary_df['Renewables/Total_imports']=summary_df['Renewables/Total_imports'].round(1)
 
     summary_df['Renewables/capita'] = (summary_df['renewables_in_total']/population['Population']) * 1000000 #MJ
     summary_df['Renewables/capita'] = summary_df['Renewables/capita'].round(0)
@@ -147,6 +155,18 @@ def all_countries_cross_comparison_unstats(Year,Unit,Use):
     summary_df['Domestic navigation'] = 100 * df[df['Transactions(down)/Commodity(right)']=='Domestic navigation']['All Oil'].values/summary_df['Oil imports']
     summary_df['Pipeline transport'] = 100 * df[df['Transactions(down)/Commodity(right)']=='Pipeline transport']['All Oil'].values/summary_df['Oil imports']
     summary_df['transport n.e.s'] = 100 * df[df['Transactions(down)/Commodity(right)']=='Transport n.e.s']['All Oil'].values/summary_df['Oil imports']
+
+    summary_df['road_real'] = df[df['Transactions(down)/Commodity(right)'] == 'Road']['All Oil'].values
+    summary_df['rail_real'] = df[df['Transactions(down)/Commodity(right)'] == 'Rail']['All Oil'].values
+    summary_df['Domestic aviation_real'] = df[df['Transactions(down)/Commodity(right)'] == 'Domestic aviation'][
+        'All Oil'].values
+    summary_df['Domestic navigation_real'] = df[df['Transactions(down)/Commodity(right)'] == 'Domestic navigation'][
+        'All Oil'].values
+    summary_df['Pipeline transport_real'] = df[df['Transactions(down)/Commodity(right)'] == 'Pipeline transport'][
+        'All Oil'].values
+    summary_df['transport n.e.s_real'] = df[df['Transactions(down)/Commodity(right)'] == 'Transport n.e.s'][
+        'All Oil'].values
+
     summary_df.to_csv("Summary_df.csv")
     return summary_df
 

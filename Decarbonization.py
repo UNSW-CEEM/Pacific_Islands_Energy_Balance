@@ -293,9 +293,11 @@ Decarbonization = [
                                      generate_select('carbon-price', "Carbon price: $/ton", 0, 100, 0.1, 30),
                                      dbc.Label("RE size and installation cost"),
 
-                                     generate_select('PV-cost',"Large scale PV: $/W",0.5,5,0.1,3),
-                                     generate_select('PV-battery-cost',"Small PV+B: $/W",1,15,0.1,7),
-                                     generate_select('wind-large-cost',"Large scale wind: $/W",1,5,0.1,3),
+                                     generate_select('PV-cost',"Large scale PV: $/W",0.5,8,0.1,4.5),
+                                     generate_select('PV-battery-cost',"Rooftop PV: $/W",1,15,0.1,4.5),
+                                     generate_select('small-battery-cost', "Residential Battery: $/W", 1, 15, 0.1, 4),
+
+                                     generate_select('wind-large-cost',"Large scale wind: $/W",1,8,0.1,6),
                                      generate_select('wind-battery-cost',"Small Wind+B: $/W",2.5,12,0.1,6),
                                      generate_select('rooftop-size', "Rooftop PV size: kW", 0.5, 5, 0.1,
                                                      2.5),
@@ -312,8 +314,8 @@ Decarbonization = [
                                              ),
                                          ]
                                      ),
-                                     generate_select('ComBattery-MWh', "Battery size (MWh):", 0, 10000, 0.5, 3),
-                                     generate_select('ComBattery-cost', "Cost(M$/MWh):", 0, 10, 0.05, 2),
+                                     generate_select('ComBattery-MWh', "Battery size (MWh):", 0, 50000, 0.5, 3),
+                                     generate_select('ComBattery-cost', "Cost(M$/MWh):", 0, 10, 0.05, 3),
                                      html.Div(
                                 [
                                     dbc.Label("Geothermal parameters"),
@@ -328,7 +330,7 @@ Decarbonization = [
                                     ]
                                     ),
 
-                                     generate_select('geothermal-MW', "Geothermal (MW):", 0, 4000, 1, 25),
+                                     generate_select('geothermal-MW', "Geothermal (MW):", 0, 4000, 1, 0),
                                      generate_select('geothermal-completion', "Completion year:", 2022, 2050, 1, 2035),
                                      generate_select('geothermal-cost', "Geothermal cost (M$/MW):", 0.5, 10,
                                                      0.1, 5),
@@ -340,14 +342,14 @@ Decarbonization = [
                                      html.Br(),
 
                                      generate_select('small-PV-share', "PV+B to all PV: %", 0, 100, 5, 40),
-                                     generate_select('small-wind-share', "Wind+B to all Wind: %", 0, 100, 5, 40),
+                                     generate_select('small-wind-share', "Wind+B to all Wind: %", 0, 100, 5, 0),
 
                                      generate_select('demand-growth', "Demand growth: %/year", 0, 100, 1,
                                                      2),
                                      generate_select('decarb-year', "100% RE target:", 2022, 2060, 1,
                                                      2030),
                                      generate_select('discount-rate', "Discount rate: %", 0, 100, 1,
-                                                     6),
+                                                     7),
                                      generate_select('inflation-rate', "Inflation rate: %", 0, 100, 1,
                                                      3),
 

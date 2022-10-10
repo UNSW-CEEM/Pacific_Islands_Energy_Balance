@@ -1,24 +1,18 @@
 from dash import html
 from dash import dcc
 import dash_bootstrap_components as dbc
-import figures
-import EnergyFlows
+
 from app import app
 import pandas as pd
 import dash
 import os
-# import dash_daq as daq
+import dash_daq as daq
 from EnergyFlows import figure_border_style
-from EnergyFlows import Year_List
-from EnergyFlows import CONTENT_STYLE
+import EnergyFlows
 from dash import dash_table
-import plotly.figure_factory as ff
-
+import figures
 summary_df = pd.read_csv('Data/SummaryTable.csv')
-table = dbc.Table.from_dataframe(summary_df, striped=False, bordered=True, hover=True,style={'color':'white','fontSize':'18'},responsive=True)
-# table = dbc.Table(summary_df, striped=False, bordered=True, hover=True,style={'color':'white'},responsive=True)
-# table = ff.create_table(summary_df, height_constant=1500)
-
+table = dbc.Table.from_dataframe(summary_df, striped=True, bordered=True, hover=True,style={'color':'red'},responsive=True)
 
 dataTable = dash_table.DataTable(
     data=summary_df.to_dict('records'),
@@ -29,31 +23,29 @@ dataTable = dash_table.DataTable(
                 },
     style_as_list_view=False,
     style_header={
-        'padding': '5px',
         'backgroundColor': 'rgb(30, 30, 30)',
         'fontWeight': 'bold',
         'border': '1px solid grey',
-        'textAlign': 'left',
-        'height': 'auto',
-        'overflow': 'hidden',
-        'textOverflow': 'ellipsis',
-        'whiteSpace': 'normal',
-
+        # 'textAlign': 'left',
     },
-    style_data={ 'border': '0.15px solid white' },#ff4d4d
-    # style_cell_conditional=([
-    #     {'if': {'column_id': 'Population density (Person/km2)'},
-    #      'width': '5%'},
-    #     {'if': {'column_id': 'Youngest volcanism'},
-    #      'width': '20%'},
-    #     {'if': {'column_id': 'Known geothermal locations'},
-    #      'width': '20%'},
-    #     {'if': {'column_id': 'Geothermal investigations'},
-    #      'width': '15%'},
-    #     {'if': {'column_id': 'Observed hot spring temperature'},
-    #      'width': '20%'},
-    #     {'if': {'column_id': 'Potentials'},
-    #      'width': '17.5%'}]),
+    style_data={ 'border': '1px solid grey',        'whiteSpace': 'normal',
+        'height': 'auto',},
+    style_cell_conditional=[            # style_cell_c. refers to the whole table
+        {
+            'if': {'column_id': 'Country / Territory'},
+            'textAlign': 'left'
+        }
+    ],
+
+    style_table={
+        'width': '100%',
+        'margin': '0 0 0 0px',
+        'padding': '0 0px',
+        'overflowX': 'auto',
+        'overflowY': 'auto',
+    },
+    # fixed_rows={'data': 0},
+    fixed_columns={'headers': True, 'data': 0},  # 'headers': True,
 
 )
 Transit = [
@@ -93,7 +85,7 @@ Transit = [
                         dbc.Col(html.Div(dcc.Graph(id="Oil-imports", figure=figures.UNstats_plots(2019)[3]),
                                          style=figure_border_style), md=6),
 
-                        dbc.Col(html.Div(dcc.Graph(id="transit_figure4", figure=figures.imports_to_GDP(2019)[0]),
+                        dbc.Col(html.Div(dcc.Graph(id="imports-to-GDP", figure=figures.imports_to_GDP(2019)[0]),
                                          style=figure_border_style), md=6),
                     ]),
                     html.Br(),
@@ -103,6 +95,8 @@ Transit = [
                         dbc.Col(html.Div(dcc.Graph(id="renewables-per-capita", figure=figures.UNstats_plots(2019)[8]),
                                          style=figure_border_style), md=6),
                     ]),
+                    html.Br(),
+
                     dbc.Row([
                         dbc.Col(html.Div(dcc.Graph(id="transit_figure3", figure=figures.UNstats_plots(2019)[2]),
                                          style=figure_border_style), md=6),
@@ -141,6 +135,7 @@ Transit = [
 
 
 
+
 BODY = dbc.Container(
     [
         dbc.Row([dbc.Col(dbc.Card(Transit)), ], style={"marginTop": 30,
@@ -151,4 +146,4 @@ BODY = dbc.Container(
 )
 
 
-content = [BODY]
+content = [EnergyFlows.generate_single_year_drpdwn(),BODY]

@@ -69,23 +69,21 @@ Physical = [
                     html.Br(),
 
                     dbc.Row([
-                        # dbc.Col(
-                        #     html.Div(dcc.Graph(id="PV_technical_GW", figure=figures.Solar_physical_resources()[6]),
-                        #              style=figure_border_style), md=6),
-
                         dbc.Col(
-                            html.Div(dcc.Graph(id="PV_theoretical_GW", figure=figures.Solar_physical_resources()[3]),
+                            html.Div(dcc.Graph(id="PV_technical_GW", figure=figures.Solar_physical_resources()[6]),
                                      style=figure_border_style), md=6),
+
+                        # dbc.Col(
+                        #     html.Div(dcc.Graph(id="PV_theoretical_GW", figure=figures.Solar_physical_resources()[3]),
+                        #              style=figure_border_style), md=6),
                         dbc.Col(html.Div(
                             dcc.Graph(id="Wind_thechnical_MW", figure=figures.Solar_physical_resources()[5]),
                             style=figure_border_style), md=6),
                     ]),
+                    html.Br(),
                     dbc.Row([
                         dbc.Col(html.Div(
                             dcc.Graph(id="PV_technical_GWh", figure=figures.Solar_physical_resources()[7]),
-                            style=figure_border_style), md=6),
-                        dbc.Col(html.Div(
-                            dcc.Graph(id="PV_technical_GWh", figure=figures.Solar_physical_resources()[4]),
                             style=figure_border_style), md=6),
 
                         dbc.Col(html.Div(

@@ -80,6 +80,7 @@ def update_options(Country,style):
      State("diesel_price_slider", "value"),
      State("PV-cost", "value"),
      State("PV-battery-cost", "value"),
+     State("small-battery-cost", "value"),
      State("wind-battery-cost", "value"),
      State("wind-large-cost", "value"),
      State("demand-growth", "value"),
@@ -102,7 +103,7 @@ def update_options(Country,style):
      State('switches-communityBattery', "value"),
 
      ])
-def sensor_checklist(n_clicks,year,country,diesel_price,PV_cost,PVBatt_cost,WindBatt_cost,Wind_cost,demand_growth,decarb_year,rooftop_size,
+def sensor_checklist(n_clicks,year,country,diesel_price,PV_cost,rooftop_PV_cost,res_batt_cost,WindBatt_cost,Wind_cost,demand_growth,decarb_year,rooftop_size,
                      emission_tonneperMWh, emission_dollarpertonne,
                      wind_share, small_PV_share,small_wind_share,
                      geothermal_switch,geothermal_completion_year,geothermal_MW,geothermal_CF,geothermal_CAPEX,
@@ -154,7 +155,7 @@ def sensor_checklist(n_clicks,year,country,diesel_price,PV_cost,PVBatt_cost,Wind
         emission_cost_mdollar = round(emission_cost_mdollar, 2)
         oil_supplied_cost = round(oil_supplied_cost,1)
         power_generated_GWh = round(power_generated_GWh,1)
-        fig_lists = figures.decarbonization_scenarios(country,Efficiency/100,net_oil_product_import_ml,power_generated_GWh, demand_growth, PV_cost, PVBatt_cost,
+        fig_lists = figures.decarbonization_scenarios(country,Efficiency/100,net_oil_product_import_ml,power_generated_GWh, demand_growth, PV_cost, rooftop_PV_cost,res_batt_cost,
                                                   WindBatt_cost, Wind_cost, decarb_year, wind_share, small_PV_share,
                                                   small_wind_share, PV_pot, Wind_pot, diesel_HHV, diesel_price,
                                                   geothermal_switch,geothermal_completion_year,geothermal_MW,geothermal_CF,geothermal_CAPEX,

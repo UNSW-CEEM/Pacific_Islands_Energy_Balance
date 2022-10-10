@@ -4,8 +4,8 @@ import plotly.graph_objects as go
 import plotly.express as px
 import functions
 from EnergyFlows import Country_List
-font_color = 'black'
-line_color = 'black'
+font_color = 'white'
+line_color = 'white'
 
 def imports_to_GDP(year):
     net_imp_list= []
@@ -33,7 +33,7 @@ def imports_to_GDP(year):
     df_GDP['net_imp_per_capita'] = df_GDP['net_imp_per_capita'].round(0)
     # df_GDP['net_imp_per_capita'] = df_GDP['net_imp_per_capita']
     fig = go.Figure()
-    fig.add_trace(go.Bar(x=df_GDP['Country'], y=df_GDP['net_imp_to_GDP'],text=df_GDP['net_imp_to_GDP'],name='dasdsa',marker_color='forestgreen'))
+    fig.add_trace(go.Bar(x=df_GDP['Country'], y=df_GDP['net_imp_to_GDP'],text=df_GDP['net_imp_to_GDP'],name='',marker_color='forestgreen'))
     fig.update_layout(#width=1500,
         # height=500,
         barmode='relative')
@@ -325,7 +325,7 @@ def annual_demand(demand,growth_rate,decarb_rate):
     return fig
 
 
-def decarbonization_scenarios(Country,Efficiency,oil_imports_2019,demand,growth_rate,PV_cost,PVBatt_cost,WindBatt_cost,Wind_cost,decarb_year,
+def decarbonization_scenarios(Country,Efficiency,oil_imports_2019,demand,growth_rate,PV_cost,rooftop_PV_cost,res_batt_cost,WindBatt_cost,Wind_cost,decarb_year,
                               total_wind_share,small_PV_share,small_wind_share,
                               PV_pot,Wind_pot,diesel_HHV,diesel_price,
                               geothermal_switch,geothermal_completion_year,geothermal_MW,geothermal_CF,geothermal_CAPEX,
@@ -410,10 +410,16 @@ def decarbonization_scenarios(Country,Efficiency,oil_imports_2019,demand,growth_
     demand_df['Small Wind+B'] = demand_df['wind_inst'] * small_wind_share #MW
     demand_df['Large Wind'] = demand_df['wind_inst'] * large_wind_share #MW
 
-    demand_df['RE_inst_cost'] = (1000000 * demand_df['PV_inst'] * (small_PV_share*PVBatt_cost*1.5+large_PV_share*PV_cost) +\
+    # demand_df['RE_inst_cost'] = (1000000 * (demand_df['PV_inst'] * (small_PV_share*rooftop_PV_cost+large_PV_share*PV_cost) )+\
+    #                             1000000 * demand_df['wind_inst'] * (small_wind_share*WindBatt_cost+large_wind_share*Wind_cost)+ \
+    #                             demand_df['Geothermal_inst_cost']+
+    #                              demand_df['Battery_inst_cost']*1000000)/1000000 #M$
+    demand_df['RE_inst_cost'] = (1000000 * (demand_df['Small PV+B'] *rooftop_PV_cost + demand_df['Small PV+B'] * 2 * res_batt_cost + demand_df['Large PV'] *PV_cost)+\
                                 1000000 * demand_df['wind_inst'] * (small_wind_share*WindBatt_cost+large_wind_share*Wind_cost)+ \
                                 demand_df['Geothermal_inst_cost']+
                                  demand_df['Battery_inst_cost']*1000000)/1000000 #M$
+
+
     demand_df["non_RE_demand_TJ"] = (demand_df['Demand'] - demand_df['RE_cumulative']-demand_df['Geothermal_GWh'])/0.2777
     demand_df['non_RE_demand_TJ'][demand_df['non_RE_demand_TJ'] < 0] = 0
     demand_df["diesel_litre_dec"] = demand_df["non_RE_demand_TJ"] / (diesel_HHV*Efficiency) # L
@@ -1037,6 +1043,35 @@ def UNstats_plots(year):
     fig8.update_traces(marker_line_color=font_color,
                        marker_line_width=1.5, opacity=1)
     fig8.update_traces(hovertemplate=None)
+
+    fig_re_imp = go.Figure()
+    fig_re_imp.add_trace(go.Bar(x=summary_df['Country'], y=summary_df['Renewables/Total_imports'], name='Total energy from renewables',text=summary_df['Renewables/Total_imports'],
+                          marker_color='forestgreen'))
+
+    fig_re_imp.update_layout(legend=dict(bgcolor='rgba(0,0,0,0)', yanchor="bottom", orientation="h",
+                                   y=0.98,
+                                   xanchor="center",
+                                   x=0.5),
+                       font=dict(
+                           family="Calibri",
+                           size=16,
+                           color=font_color
+                       ),
+                       hovermode="x"
+                       )
+    fig_re_imp.update_layout({
+        'plot_bgcolor': 'rgba(0,0,0,0)',
+        'paper_bgcolor': 'rgba(0,0,0,0)',
+    })
+    fig_re_imp.update_yaxes(title_text="% of total energy imports", showline=True, linecolor=line_color, gridcolor=line_color)
+    fig_re_imp.update_xaxes(showline=True, linecolor=line_color,
+                      title_text="<a href=\"http://unstats.un.org/unsd/energystats/pubs/balance\"><sub>Source: Energy Balances, United Nations<sub></a>")
+    fig_re_imp.update_layout(
+        title="Proportion of renewable  consumption to total energy imports in {}".format(year))
+    fig_re_imp.update_traces(marker_line_color=font_color,
+                       marker_line_width=1.5, opacity=1)
+    fig_re_imp.update_traces(hovertemplate=None)
+    fig_re_imp.write_image("renewables_to_total_imports.png")
 
     fig9 = go.Figure()
     fig9.add_trace(go.Bar(x=summary_df['Country'], y=summary_df['Renewables/capita'], name='Total energy from renewables',text=summary_df['Renewables/capita'],
