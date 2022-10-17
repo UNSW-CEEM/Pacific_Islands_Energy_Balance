@@ -121,8 +121,38 @@ Transit = [
                         dbc.Col(html.Div(dcc.Graph(id="demand-per-capita", figure=figures.land_use_plot()[5]),
                                          style=figure_border_style), md=6),
                     ]),
-
                     html.Br(),
+                    dbc.Row([
+                        dbc.Col(html.Div(dcc.Graph(id="demand-per-capita-world", figure=figures.per_capita_comparison()),
+                                         style=figure_border_style), md=12),
+
+                    ]),
+                    html.Br(),
+                    dbc.Row([
+                        dbc.Col(html.Div(dcc.Graph(id="demand-per-capita-world", figure=figures.per_capita_renewables()),
+                                         style=figure_border_style), md=6),
+                        dbc.Col(html.Div(dcc.Graph(id="intensity-capita-world", figure=figures.per_capita_intensity()),
+                                         style=figure_border_style), md=6),
+                    ]),
+                    html.Br(),
+                    dbc.Row([
+                        dbc.Col(html.Div(dcc.Graph(id="share-of-imports", figure=figures.percentage_of_imports()),
+                                         style=figure_border_style), md=12),
+                    ]),
+                    html.Br(),
+                    dbc.Row([
+                        dbc.Col(html.Div(dcc.Graph(id="dependance-on-imports", figure=figures.dependance_on_imports()),
+                                         style=figure_border_style), md=6),
+                        dbc.Col(html.Div(dcc.Graph(id="GDP-per-capita", figure=figures.GDP_per_capita()),
+                                         style=figure_border_style), md=6),
+                    ]),
+                    html.Br(),
+                    dbc.Row([
+                        dbc.Col(html.Div(dcc.Graph(id="dependance-on-imports", figure=figures.navigation_and_int_maritime()),
+                                         style=figure_border_style), md=6),
+                        dbc.Col(html.Div(dcc.Graph(id="biomass-breakdown", figure=figures.biomass_consumption_breakdown()),
+                                         style=figure_border_style), md=6),
+                    ]),
 
 
                 ],

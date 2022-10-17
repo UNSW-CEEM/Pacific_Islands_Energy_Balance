@@ -7,6 +7,8 @@ import callbacks
 import callbacks_sankey
 import callbacks_FinancialFlows
 import dash_auth
+import warnings
+warnings.filterwarnings('ignore')
 
 # VALID_USERNAME_PASSWORD_PAIRS = {
 #     'hello': 'world'

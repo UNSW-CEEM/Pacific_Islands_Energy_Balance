@@ -1,20 +1,20 @@
 Country / Territory,Political Status,Land area (km2),Population,Area per person (m2),Population density (Person/km2),GDP ($Million),GDP Per Capita ($),Geographic Type,No. islands,No. inhab. island
-American Samoa,US territory,240,"45,443","5,176",193,658,"14,480",High islands + atolls,7,6
-Cook Islands,Independent. NZ-affiliated,180,"17,459","10,310",97,300,"17,183",High islands + atolls,15,13
-Federated States of Micronesia,Independent. US-affiliated,702,"104,468","6,720",149,390,"3,733",High islands + atolls,607,65
-Fiji,Independent,"18,376","929,276","19,775",51,"12,180","13,107",High islands + atolls,330,110
-French Polynesia,French Territory,"3,521","275,918","12,761",78,"5,490","19,897",High islands + atolls,118,67
+American Samoa,US territory,240,"45,443","5,176",193,658,14480,High islands + atolls,7,6
+Cook Islands,Independent. NZ-affiliated,180,"17,459","10,310",97,300,17183,High islands + atolls,15,13
+Federated States of Micronesia,Independent. US-affiliated,702,"104,468","6,720",149,390,3733,High islands + atolls,607,65
+Fiji,Independent,"18,376","929,276","19,775",51,"12,180",13107,High islands + atolls,330,110
+French Polynesia,French Territory,"3,521","275,918","12,761",78,"5,490",19897,High islands + atolls,118,67
 Guam,US territory,549,"168,801","3,252",307,6,34,High islands,1,1
-Kiribati,Independent,726,"119,000","6,101",164,270,"2,269",Atolls,33,21
-Marshall Islands,Independent. US-affiliated,720,"58,413","12,326",81,240,"4,109",Atolls,34,24
-Nauru,Independent,21,"10,670","1,968",508,150,"14,058",Raised coral island,1,1
-Niue,Independent. NZ-affiliated,258,"1,620","159,259",6,10,"6,235",Raised coral island,1,1
-Palau,Independent. US-affiliated,475,"17,907","26,526",38,320,"17,870",High islands + atolls,1,1
-Papua New Guinea,Independent,"461,690","8,935,000","51,672",19,"38,170","4,272",High islands + atolls,600,No data
-Solomon Islands,Independent,"29,785","652,857","45,623",22,"1,780","2,726",High islands + atolls,992,347
-Tokelau,NZ territory,12,"1,500","8,000",125,8,"5,333",Atolls,3,3
-Tonga,Independent,696,"100,651","6,915",145,670,"6,657",High islands,169,36
-Tuvalu,Independent,26,"11,646","2,233",448,50,"4,293",Atolls,9,8
-Vanuatu,Independent,"12,189","307,815","39,598",25,930,"3,021",High islands + atolls,83,65
-Samoa,Independent,"2,934","202,506","14,488",69,"1,280","6,321",High islands,12,4
+Kiribati,Independent,726,"119,000","6,101",164,270,2269,Atolls,33,21
+Marshall Islands,Independent. US-affiliated,720,"58,413","12,326",81,240,4109,Atolls,34,24
+Nauru,Independent,21,"10,670","1,968",508,150,14058,Raised coral island,1,1
+Niue,Independent. NZ-affiliated,258,"1,620","159,259",6,10,6235,Raised coral island,1,1
+Palau,Independent. US-affiliated,475,"17,907","26,526",38,320,17870,High islands + atolls,1,1
+PNG,Independent,"461,690","8,935,000","51,672",19,"38,170",4272,High islands + atolls,600,No data
+Solomon Islands,Independent,"29,785","652,857","45,623",22,"1,780",2726,High islands + atolls,992,347
+Tokelau,NZ territory,12,"1,500","8,000",125,8,5333,Atolls,3,3
+Tonga,Independent,696,"100,651","6,915",145,670,6657,High islands,169,36
+Tuvalu,Independent,26,"11,646","2,233",448,50,4293,Atolls,9,8
+Vanuatu,Independent,"12,189","307,815","39,598",25,930,3021,High islands + atolls,83,65
+Samoa,Independent,"2,934","202,506","14,488",69,"1,280",6321,High islands,12,4
 New Caledonia,French Territory,"18,275","297,160","61,499",16,11,37,No Data,55,No data

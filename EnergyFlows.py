@@ -193,6 +193,107 @@ Sankey = [
         style={"marginTop": 0, "marginBottom": 0},
     ),
 ]
+def select_flow():
+    import os
+
+    path = 'Data/EnergyBalance'
+    files = os.listdir(path)
+
+    df = pd.read_csv("Data/EnergyBalance/{}/all_countries_df.csv".format(files[-1]))
+    input_from = ["Imports","Primary production","Total energy supply"]
+    input_source = ["Primary Coal and Peat","Coal and Peat Products","Primary Oil","Oil Products","Natural Gas","Biofuels and Waste","Nuclear",
+                   "Electricity","Heat","Total Energy","All Coal","All Oil","memo: Of which Renewables"]
+    consumer_list = ['Electricity Plants',"CHP plants","Energy industries own use","Manufacturing  const. and mining","Losses",
+                    'International marine bunkers',"Domestic navigation","International aviation bunkers","Domestic aviation","Road","Rail","Domestic aviation","Transport n.e.s",
+                     "Agriculture  forestry and fishing","Commerce and public services","Households","Other consumption n.e.s","Non-energy use",
+                     ]
+
+    farm_drpdwn_dbc = dbc.FormGroup(
+        [
+            dbc.Row([
+                dbc.Col([
+                    dbc.Label("From", style={'margin-right': "5px"}),
+                    dbc.Select(
+                        id="select-flow-provider",
+                        options=[
+                            {"label": i, "value": i} for i in input_from
+                        ],
+                        value=input_from[0],
+                        style={'width': "50%", 'margin-left': "0px", 'margin-right': "10px", 'fontColor': 'black',
+                               'fontSize': 15, 'color': 'black'},
+                    ),]
+                ),
+                dbc.Col([
+                    dbc.Label("Energy carrier", style={'margin-right': "5px"}),
+                    dbc.Select(
+                        id="select-flow-provider-source",
+                        options=[
+                            {"label": i, "value": i} for i in input_source
+                        ],
+                        value="All Oil",
+                        style={'width': "50%", 'margin-left': "0px", 'margin-right': "10px", 'fontColor': 'black',
+                               'fontSize': 15, 'color': 'black'},
+                    ),
+                ])
+            ]),
+            html.Br(),
+            dbc.Row([
+                dbc.Col([dbc.Label("To"),],md=0.5),
+                dbc.Col([
+
+                    dcc.Dropdown(
+                    id="select-flow-cunsumer",
+                    options=[
+                        {"label": i, "value": i} for i in consumer_list
+                    ],
+                    value=consumer_list[:4],
+                    style={'width': "90%", 'margin-left': "0px", 'fontColor': 'black', 'fontSize': 15,
+                           'color': 'black'},
+                    multi=True,
+                    searchable=True,
+                    clearable=False,
+                )],md = 6),
+]),
+
+
+            html.Br(),
+            dbc.Button("Add Figure", color="danger", id='update-button-cross-country-flow', n_clicks=0, className="me-1"),
+            dbc.Button("Clear Canvas", color="primary", id='update-button-flow-clear', n_clicks=0,
+                       className="me-1"),
+
+        ],
+        inline=True,
+        style={'marginLeft':35,'marginTop':25,'fontSize':25}
+    )
+    return farm_drpdwn_dbc
+Tracing_energy_flows = [
+
+    dbc.CardHeader(html.H5("Cross-country comparison of energy flows consumed in different sectors")),
+    dbc.CardBody(
+        [
+            dcc.Loading(
+                id="loading-sankey",
+                children=[
+                    dbc.Alert(
+                        "Something's gone wrong! Give us a moment, but try loading this page again if problem persists.",
+                        id="no-data-alert-sankey",
+                        color="warning",
+                        style={"display": "none"},
+                    ),
+                    select_flow(),
+                    html.Br(),
+                    # html.Div(dcc.Graph(id="cross_country_sankey_figure"),style=figure_border_style),
+                    html.Div(id='Hidden_Div_breakdown', children=[0, 0], style={'display': 'none'}),
+                    html.Div(id='dynamic_callback_container_energy_breakdown', children=[],
+                             style={'margin-top': '15px', 'margin-left': '20px','margin-right': '20px'}),
+                    html.Br(),
+                ],
+                type="default",
+            )
+        ],
+        style={"marginTop": 0, "marginBottom": 0},
+    ),
+]
 
 Cross_country_sankey = [
 
@@ -231,7 +332,7 @@ style = {'border': 'solid', 'padding-top': '10px', 'align': 'center', 'justify':
 BODY = dbc.Container(
     [
         dbc.Row([dbc.Col(dbc.Card(Sankey)),], style={"marginTop": 30}),
-        # dbc.Row([dbc.Col(dbc.Card(dynamic_callback)), ], style={"marginTop": 30}),
+        dbc.Row([dbc.Col(dbc.Card(Tracing_energy_flows)),], style={"marginTop": 30}),
         dbc.Row([dbc.Col(dbc.Card(Cross_country_sankey)), ], style={"marginTop": 30}),
 
     ],

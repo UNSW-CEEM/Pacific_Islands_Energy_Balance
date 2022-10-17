@@ -315,6 +315,7 @@ Decarbonization = [
                                          ]
                                      ),
                                      generate_select('ComBattery-MWh', "Battery size (MWh):", 0, 50000, 0.5, 3),
+                                     generate_select('storage-days', "Storage Capacity (days):", 0, 15, 1, 5),
                                      generate_select('ComBattery-cost', "Cost(M$/MWh):", 0, 10, 0.05, 3),
                                      html.Div(
                                 [

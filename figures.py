@@ -4,8 +4,10 @@ import plotly.graph_objects as go
 import plotly.express as px
 import functions
 from EnergyFlows import Country_List
-font_color = 'white'
-line_color = 'white'
+import warnings
+warnings.filterwarnings('ignore')
+font_color = 'black'
+line_color = 'black'
 
 def imports_to_GDP(year):
     net_imp_list= []
@@ -647,30 +649,35 @@ def decarbonization_scenarios(Country,Efficiency,oil_imports_2019,demand,growth_
 
 
 def rooftop_PV_plot(available_buildings,PV_size):
-    import pandas as pd
-    rooftop_df = pd.DataFrame()
-    df = pd.read_csv('Data/Rooftop Potential.csv')
-    Countries = df['Country']
-    Population = df['Population']
-    Household_size = df['Household size']
-    solar_radiation = df['Potential of Av.PV gen (GWh/MW/year)']
-    number_of_homes = available_buildings*Population/Household_size # only those homes with rooftop PV potential
-    number_of_homes = number_of_homes.round(0)
-    rooftop_capacity_MW = number_of_homes * PV_size/1000
-    rooftop_capacity_MW = rooftop_capacity_MW.round(1)
-    rooftop_PV_generation_GWh = rooftop_capacity_MW * solar_radiation
-    rooftop_PV_generation_GWh = rooftop_PV_generation_GWh.astype(float)
-    rooftop_PV_generation_GWh = rooftop_PV_generation_GWh.round(decimals=1)
+    # import pandas as pd
+    # rooftop_df = pd.DataFrame()
+    # df = pd.read_csv('Data/Rooftop Potential.csv')
+    # Countries = df['Country']
+    # Population = df['Population']
+    # Household_size = df['Household size']
+    # solar_radiation = df['Potential of Av.PV gen (GWh/MW/year)']
+    # number_of_homes = available_buildings*Population/Household_size # only those homes with rooftop PV potential
+    # number_of_homes = number_of_homes.round(0)
+    # rooftop_capacity_MW = number_of_homes * PV_size/1000
+    # rooftop_capacity_MW = rooftop_capacity_MW.round(1)
+    # rooftop_PV_generation_GWh = rooftop_capacity_MW * solar_radiation
+    # rooftop_PV_generation_GWh = rooftop_PV_generation_GWh.astype(float)
+    # rooftop_PV_generation_GWh = rooftop_PV_generation_GWh.round(decimals=1)
+    # 
+    # rooftop_df['Generation_GWh'] = rooftop_PV_generation_GWh
+    # rooftop_df['Country'] = Countries
+    # 
+    # rooftop_df.to_csv('rooftop_Pv_potential.csv')
 
-    rooftop_df['Generation_GWh'] = rooftop_PV_generation_GWh
-    rooftop_df.to_csv('rooftop_Pv_potential.csv')
+    rooftop_df = functions.calculate_rooftop_PV_potential(available_buildings=available_buildings,PV_size=PV_size)
+
     fig = make_subplots(specs=[[{"secondary_y": True}]])
     fig.add_trace(
-        go.Bar(x=Countries, y=Population, name="Population",marker_color='forestgreen'),
+        go.Bar(x=rooftop_df['Country'], y=rooftop_df['Population'], name="Population",marker_color='forestgreen'),
         secondary_y=False,
     )
     fig.add_trace(
-        go.Scatter(x=Countries, y=Household_size, name="Average household size",marker_color='red',mode='markers'),
+        go.Scatter(x=rooftop_df['Country'], y=rooftop_df['Household_size'], name="Average household size",marker_color='red',mode='markers'),
         secondary_y=True,)
     fig.update_yaxes(title_text="Population", secondary_y=False,showline=True,showgrid=True,linecolor=line_color,gridcolor=line_color)
     fig.update_yaxes(title_text="Average household size", secondary_y=True,showline=True, showgrid=True,linecolor=line_color,gridcolor=line_color)
@@ -701,7 +708,7 @@ def rooftop_PV_plot(available_buildings,PV_size):
         barmode='group')
     fig2 = make_subplots(specs=[[{"secondary_y": True}]])
     fig2.add_trace(
-        go.Bar(x=Countries, y=number_of_homes,text=number_of_homes, name="Number of homes available for rooftop PV",marker_color='forestgreen'),
+        go.Bar(x=rooftop_df['Country'], y=rooftop_df['avaialble_homes'],text=rooftop_df['avaialble_homes'], name="Number of homes available for rooftop PV",marker_color='forestgreen'),
         secondary_y=False,
     )
     fig2.update_yaxes(title_text="Number of homes available for rooftop PV", secondary_y=False,showline=True,showgrid=True,linecolor=line_color,gridcolor=line_color)
@@ -731,7 +738,7 @@ def rooftop_PV_plot(available_buildings,PV_size):
 
     fig3 = make_subplots(specs=[[{"secondary_y": False}]])
     fig3.add_trace(
-        go.Bar(x=Countries, y=rooftop_PV_generation_GWh,text=rooftop_PV_generation_GWh, name="Potential rooftop PV generation (GWh)",marker_color='forestgreen'),
+        go.Bar(x=rooftop_df['Country'], y=rooftop_df['Country'],text=rooftop_df['Country'], name="Potential rooftop PV generation (GWh)",marker_color='forestgreen'),
     )
     fig3.update_yaxes(title_text="Rooftop PV generation (GWh/year)", showline=True, showgrid=True,linecolor=line_color,gridcolor=line_color)
     fig3.update_xaxes(showgrid=False,showline=True,linecolor=line_color)
@@ -759,7 +766,7 @@ def rooftop_PV_plot(available_buildings,PV_size):
 
     fig4 = make_subplots(specs=[[{"secondary_y": False}]])
     fig4.add_trace(
-        go.Bar(x=Countries, y=rooftop_capacity_MW, text=rooftop_capacity_MW,name="Rooftop PV capacity",marker_color='forestgreen'),
+        go.Bar(x=rooftop_df['Country'], y=rooftop_df['Capacity_MW'], text=rooftop_df['Capacity_MW'],name="Rooftop PV capacity",marker_color='forestgreen'),
     )
 
     fig4.update_yaxes(title_text="Potential rooftop PV capacity (MW)", secondary_y=False,showline=True,showgrid=True,linecolor=line_color,gridcolor=line_color)
@@ -1110,11 +1117,11 @@ def land_use_plot():
     countries = functions.fetch_all_countries_demand(2019,Unit='GWh',Use='Analysis')[0]
     non_RE_demand = non_RE_demand.round(0)
     final_demand=final_demand.round(0)
+    world_average_demand = functions.fetch_all_countries_demand(2019,Unit='GWh',Use='Analysis')[11].round(0)
 
     summary_demand_df['countries'] = countries
     summary_demand_df['non-RE-GWh'] = non_RE_demand
     summary_demand_df['final-GWh'] = final_demand
-    summary_demand_df.to_csv("demand_df_GWh.csv")
     df_pop = pd.read_csv('Data/Economic Indicators.csv')
 
     df = pd.read_excel('Data/Potentials.xlsx')
@@ -1146,10 +1153,11 @@ def land_use_plot():
 
 
 
-    final_demand_per_capita = 1000*final_demand/df_pop['Population']#MWh/year.person
-    non_RE_demand_per_capita = 1000*non_RE_demand/df_pop['Population']#MWh/year.person
+    final_demand_per_capita = 1000 * final_demand/df_pop['Population']#MWh/year.person
+    non_RE_demand_per_capita = 1000 * non_RE_demand/df_pop['Population']#MWh/year.person
     final_demand_per_capita = final_demand_per_capita.round(1)
     non_RE_demand_per_capita = non_RE_demand_per_capita.round(1)
+
     fig = make_subplots(specs=[[{"secondary_y": False}]])
 
     fig.add_trace(go.Scatter(x=countries, y=Wind_MW_non_RE, name='Decarbonizing the electricity sector',
@@ -1300,6 +1308,9 @@ def land_use_plot():
     fig4.add_trace(go.Bar(x=countries, y=final_demand,text=final_demand, name='Meeting the final demand',
                           marker_color='darkgrey',
                       ))
+    fig4.add_trace(go.Bar(x=countries, y=world_average_demand,text=world_average_demand, name='World average per capita demand',
+                          marker_color='green',
+                      ))
     fig4.update_layout(legend=dict(bgcolor='rgba(0,0,0,0)', yanchor="bottom", orientation="h",
                                    y=0.98,
                                    xanchor="center",
@@ -1349,7 +1360,7 @@ def land_use_plot():
         'plot_bgcolor': 'rgba(0,0,0,0)',
         'paper_bgcolor': 'rgba(0,0,0,0)',
     })
-    fig5.update_yaxes(title_text="Demand (MWh/year.person)", showline=True,rangemode='tozero',linecolor=line_color,gridcolor=line_color)
+    fig5.update_yaxes(title_text="Demand (MWh/year/person)", showline=True,rangemode='tozero',linecolor=line_color,gridcolor=line_color)
     fig5.update_xaxes(showline=True,showgrid=False,linecolor=line_color,)
     fig5.update_layout(
         title="Demand per capita")
@@ -1644,68 +1655,14 @@ def import_export_figure_dynamic(df,product):
 
 
 def Solar_physical_resources():
-    df_technical_potential = pd.DataFrame()
     import plotly.graph_objs as go
-    names = ['Wind', 'PV']
-    df = pd.read_excel('Data/Potentials.xlsx')
-    countries = Country_List
-    Wind_pot = df.iloc[2, 2:]  # GWh/MW/year
-    PV_pot = df.iloc[0, 2:]  # GWh/MW/year
-    coastline = df.iloc[13,2:]
-    area = df.iloc[14,2:]
-
-    arable = df.iloc[4, 2:]
-    crops = df.iloc[5, 2:]
-    pasture = df.iloc[6, 2:]
-    forested = df.iloc[7, 2:]
-    other = df.iloc[8, 2:]
-    percentage_of_available_land = 0.01
-    Technical_PV_area = (percentage_of_available_land * pasture/100 + percentage_of_available_land * arable/100) * area
-
-
-    Theoretical_PV = PV_pot * area * 0.1 * 1000 * 0.8 #GWh
-    Theoretical_wind = Wind_pot * coastline * (1.5/0.25) * 0.8 # GWh
-
-    Technical_PV_GWh = PV_pot * Technical_PV_area * 0.1 * 1000 * 0.8 #GWh
-    Technical_wind_GWh = Theoretical_wind * 0.1
-
-    Theoretical_PV_GW = area * 1000 * 0.1/1000
-    Technical_PV_GW = Technical_PV_area * 1000 * 0.1 / 1000
-
-    Theoretical_wind_GW = (1.5/0.25) * coastline/1000
-    Technical_wind_GW = Theoretical_wind_GW * 0.1
-    Theoretical_wind = Theoretical_wind * 0.1
-    Theoretical_wind_GW = Theoretical_wind_GW * 0.1
-
-    Theoretical_PV = Theoretical_PV.astype(int)
-    Theoretical_wind = Theoretical_wind.astype(float)
-    Theoretical_wind = Theoretical_wind.round(decimals= 1)
-
-    Theoretical_PV_GW = Theoretical_PV_GW.astype(int)
-    Theoretical_wind_GW = Theoretical_wind_GW.astype(float)
-    Theoretical_wind_GW = Theoretical_wind_GW.round(decimals= 2)
-    Technical_PV_GW = Technical_PV_GW.astype(float)
-    Technical_PV_GW = Technical_PV_GW.round(decimals=1)
-
-    Technical_PV_GWh = Technical_PV_GWh.astype(int)
-    Technical_wind_GWh = Technical_wind_GWh.astype(int)
-
-    df_technical_potential['Country'] = countries
-    df_technical_potential['PV_technical_potential_GWh'] = Technical_PV_GWh.values
-    df_technical_potential['Wind_technical_potential_GWh'] = Technical_wind_GWh.values
-    df_technical_potential['sum_of_wind_and_solar_GWh'] =df_technical_potential['PV_technical_potential_GWh']+df_technical_potential['Wind_technical_potential_GWh']
-    df_technical_potential['Pv_MW'] = Technical_PV_GW.values
-    df_technical_potential['Wind_MW'] = Theoretical_wind_GW.values
-    df_technical_potential.to_csv('Wind_and_solar_technical_potential.csv')
-
-
-
+    df_technical_potential = functions.calculate_PV_Wind_potential()
 
 
 
     fig = go.Figure(data=[go.Bar(
-        x=countries,
-        y=PV_pot,
+        x=df_technical_potential['Country'],
+        y=df_technical_potential['PV_pot'],
 
     )])
     fig.update_layout(
@@ -1728,8 +1685,8 @@ def Solar_physical_resources():
 
 
     fig2 = go.Figure(data=[go.Bar(
-        x=countries,
-        y=Wind_pot,
+        x=df_technical_potential['Country'],
+        y=df_technical_potential['Wind_pot'],
 
     )])
     fig2.update_layout(
@@ -1749,9 +1706,9 @@ def Solar_physical_resources():
                       marker_line_width=2, opacity=1)
 
     fig3 = go.Figure(data=[go.Bar(
-        x=countries,
-        y=Theoretical_wind,
-        text=Theoretical_wind
+        x=df_technical_potential['Country'],
+        y=df_technical_potential['Wind_technical_GWh'],
+        text=df_technical_potential['Wind_technical_GWh']
     )])
     fig3.update_layout(
         title="Technical wind generation")
@@ -1771,9 +1728,9 @@ def Solar_physical_resources():
     # fig3.update_traces(texttemplate='%{text:.1s}')
 
     fig4 = go.Figure(data=[go.Bar(
-        x=countries,
-        y=Theoretical_PV,
-        text=Theoretical_PV
+        x=df_technical_potential['Country'],
+        y=df_technical_potential['Theoretical_PV_GWh'],
+        text=df_technical_potential['Theoretical_PV_GWh']
     )])
     fig4.update_layout(
         title="Theoretical PV generation")
@@ -1792,9 +1749,9 @@ def Solar_physical_resources():
     fig4.update_traces(texttemplate='%{text:.1s}')
 
     fig5 = go.Figure(data=[go.Bar(
-        x=countries,
-        y=Theoretical_PV_GW,
-        text=Theoretical_PV_GW
+        x=df_technical_potential['Country'],
+        y=df_technical_potential['Theoretical_PV_GW'],
+        text=df_technical_potential['Theoretical_PV_GW']
     )])
     fig5.update_layout(
         title="Theoretical PV capacity")
@@ -1812,9 +1769,9 @@ def Solar_physical_resources():
                       marker_line_width=2, opacity=1)
 
     fig6 = go.Figure(data=[go.Bar(
-        x=countries,
-        y=Theoretical_wind_GW,
-        text=Theoretical_wind_GW
+        x=df_technical_potential['Country'],
+        y=df_technical_potential['Wind_technical_GW'],
+        text=df_technical_potential['Wind_technical_GW']
     )])
     fig6.update_layout(
         title="Technical wind capacity")
@@ -1832,9 +1789,9 @@ def Solar_physical_resources():
                       marker_line_width=2, opacity=1)
 
     fig7 = go.Figure(data=[go.Bar(
-        x=countries,
-        y=Technical_PV_GW,
-        text=Technical_PV_GW
+        x=df_technical_potential['Country'],
+        y=df_technical_potential['PV_technical_GW'],
+        text=df_technical_potential['PV_technical_GW']
     )])
     fig7.update_layout(
         title="Technical PV capacity")
@@ -1853,9 +1810,9 @@ def Solar_physical_resources():
     # fig7.update_traces(texttemplate='%{text:.1s}')
 
     fig8 = go.Figure(data=[go.Bar(
-        x=countries,
-        y=Technical_PV_GWh,
-        text=Technical_PV_GWh
+        x=df_technical_potential['Country'],
+        y=df_technical_potential['PV_technical_GWh'],
+        text=df_technical_potential['PV_technical_GWh']
     )])
     fig8.update_layout(
         title="Technical PV generation")
@@ -1941,7 +1898,634 @@ def elec_price_plot():
 
     return fig
 
-def Total_imports_plot():
-    pass
-    #total imports in GWh
-    # final demand comparative in GWh
+def per_capita_comparison():
+
+    total_demand_electrified = functions.fetch_all_countries_demand(2019,Unit='GWh',Use='Analysis')[1]
+    total_demand = functions.fetch_all_countries_demand(2019,Unit='GWh',Use='SummaryPlot')[1]
+
+    non_RE_elec = functions.fetch_all_countries_demand(2019,Unit='GWh',Use='Analysis')[9] # Decarbonizing the electricity sector
+
+    countries = functions.fetch_all_countries_demand(2019,Unit='GWh',Use='Analysis')[0]
+    non_RE_elec = non_RE_elec.round(0)
+    total_demand_electrified = total_demand_electrified.round(0)
+
+    df_pop = pd.read_csv('Data/Economic Indicators.csv')
+
+    total_demand_electrified_per_capita = 1000 * total_demand_electrified / df_pop['Population']  # MWh/year/person
+    total_demand_per_capita = 1000 * total_demand / df_pop['Population'] # MWh/year/person
+    non_RE_elec_per_capita = 1000 * non_RE_elec / df_pop['Population'] # MWh/year/person
+
+    total_demand_electrified_per_capita = total_demand_electrified_per_capita.round(1)
+    total_demand_per_capita = total_demand_per_capita.round(1)
+    non_RE_elec_per_capita = non_RE_elec_per_capita.round(1)
+
+    wolrd_per_capita_use = pd.read_csv('Data/worldinData/per-capita-energy-use.csv')
+    wolrd_per_capita_use = wolrd_per_capita_use.sort_values('Year', ascending=False).drop_duplicates(['Entity'])
+    wolrd_per_capita_use['Primary energy consumption per capita (kWh/person)'] = wolrd_per_capita_use['Primary energy consumption per capita (kWh/person)']/1000 #MWh/capita
+    wolrd_average_per_capita_use = wolrd_per_capita_use['Primary energy consumption per capita (kWh/person)'].mean()
+    wolrd_median_per_capita_use = wolrd_per_capita_use['Primary energy consumption per capita (kWh/person)'].median()
+
+    wolrd_per_capita_use['Entity'] = wolrd_per_capita_use['Entity'].replace('Micronesia (country)','Micronesia')
+    wolrd_per_capita_use['Entity'] = wolrd_per_capita_use['Entity'].replace('Papua New Guinea','PNG')
+
+    wolrd_per_capita_use = wolrd_per_capita_use[wolrd_per_capita_use.Entity.isin(Country_List)]
+    wolrd_per_capita_use['Primary energy consumption per capita (kWh/person)'] = wolrd_per_capita_use['Primary energy consumption per capita (kWh/person)'].round(1)
+
+    fig_use_cap = make_subplots(specs=[[{"secondary_y": False}]])
+    fig_use_cap.add_trace(go.Bar(x=countries, y=non_RE_elec_per_capita,text=non_RE_elec_per_capita, name='Decarbonizing the electricity sector-this research',
+                          marker_color='red',
+                      ))
+    fig_use_cap.add_trace(go.Bar(x=countries, y=total_demand_electrified_per_capita,text=total_demand_electrified_per_capita, name='Final electrified demand-this research',
+                          marker_color='green',
+                      ))
+    fig_use_cap.add_trace(go.Bar(x=countries, y=total_demand_per_capita,text=total_demand_per_capita, name='Total demand-this research',
+                          marker_color='blue',
+                      ))
+    fig_use_cap.add_trace(go.Bar(x=wolrd_per_capita_use['Entity'], y=wolrd_per_capita_use['Primary energy consumption per capita (kWh/person)'],text=wolrd_per_capita_use['Primary energy consumption per capita (kWh/person)'], name='Total demand-our world in data',
+                          marker_color='orange',
+                      ))
+    fig_use_cap.add_shape(
+        type='line', line=dict(dash='dot', color='red'),
+        x0=0, x1=len(countries), y0=wolrd_average_per_capita_use, y1=wolrd_average_per_capita_use
+    )
+    fig_use_cap.add_shape(
+        type='line', line=dict(dash='dot', color='orange'),
+        x0=0, x1=len(countries), y0=wolrd_median_per_capita_use, y1=wolrd_median_per_capita_use
+    )
+    fig_use_cap.update_layout(legend=dict(bgcolor='rgba(0,0,0,0)', yanchor="bottom", orientation="h",
+                                   y=0.98,
+                                   xanchor="center",
+                                   x=0.5),
+                       font=dict(
+                           family="Calibri",
+                           size=18,
+                           color=font_color
+                       ),
+                       hovermode="x"
+
+                       )
+    fig_use_cap.add_annotation(x=0.5, y=wolrd_average_per_capita_use+4,
+                       text="World average = {}".format(wolrd_average_per_capita_use.round(1)),
+                       showarrow=False, font=dict(
+                color=font_color,
+                size=18
+            ),
+                       )
+    fig_use_cap.add_annotation(x=0.5, y=wolrd_median_per_capita_use+4,
+                       text="World median = {}".format(wolrd_median_per_capita_use.round(1)),
+                       showarrow=False, font=dict(
+                color=font_color,
+                size=18
+            ),
+                       )
+    fig_use_cap.update_layout({
+        'plot_bgcolor': 'rgba(0,0,0,0)',
+        'paper_bgcolor': 'rgba(0,0,0,0)',
+    })
+    fig_use_cap.update_yaxes(title_text="Demand (MWh/year/person)", showline=True,rangemode='tozero',linecolor=line_color,gridcolor=line_color)
+    fig_use_cap.update_xaxes(showline=True,showgrid=False,linecolor=line_color,)
+    fig_use_cap.update_layout(
+        title="Demand per capita for different demand scenarios")
+    fig_use_cap.update_traces(marker_line_color=font_color,
+                       marker_line_width=0, opacity=1)
+    fig_use_cap.update_yaxes(rangemode='tozero',linecolor=line_color,gridcolor=line_color)
+    fig_use_cap.update_xaxes(showline=True, linecolor=line_color,
+                     title_text="<a href=\"https://ourworldindata.org/grapher/per-capita-energy-use\"><sub>Source: Our world in data <sub></a>")
+
+
+
+
+
+    return fig_use_cap
+
+def per_capita_renewables():
+    countries = functions.fetch_all_countries_demand(2019,Unit='GWh',Use='Analysis')[0]
+
+    renewable_electricity = functions.fetch_all_countries_demand(2019,Unit='GWh',Use='Analysis')[8]
+    df_pop = pd.read_csv('Data/Economic Indicators.csv')
+
+    renewable_electricity = 1000 * renewable_electricity / df_pop['Population'] #MWh/year/capita
+
+
+    wolrd_per_capita_RE_elec = pd.read_csv('Data/worldinData/low-carbon-elec-per-capita.csv')
+
+    wolrd_per_capita_RE_elec = wolrd_per_capita_RE_elec.sort_values('Year', ascending=False).drop_duplicates(['Entity'])
+    wolrd_per_capita_RE_elec['Low-carbon electricity per capita (kWh)'] = wolrd_per_capita_RE_elec['Low-carbon electricity per capita (kWh)']/1000 #MWh/capita
+    wolrd_per_capita_RE_elec['Low-carbon electricity per capita (kWh)'] = wolrd_per_capita_RE_elec['Low-carbon electricity per capita (kWh)']
+    wolrd_average_per_capita_RE_elec = wolrd_per_capita_RE_elec['Low-carbon electricity per capita (kWh)'].mean()
+    wolrd_median_per_capita_RE_elec = wolrd_per_capita_RE_elec['Low-carbon electricity per capita (kWh)'].median()
+
+    wolrd_per_capita_RE_elec['Entity'] = wolrd_per_capita_RE_elec['Entity'].replace('Micronesia (country)','Micronesia')
+    wolrd_per_capita_RE_elec['Entity'] = wolrd_per_capita_RE_elec['Entity'].replace('Papua New Guinea','PNG')
+
+
+    wolrd_per_capita_RE_elec = wolrd_per_capita_RE_elec[wolrd_per_capita_RE_elec.Entity.isin(Country_List)]
+
+
+
+    fig_use_cap = make_subplots(specs=[[{"secondary_y": False}]])
+    fig_use_cap.add_trace(go.Bar(x=countries, y=renewable_electricity,text=renewable_electricity.round(2), name='This research',
+                          marker_color='red',
+                      ))
+    fig_use_cap.add_trace(go.Bar(x=wolrd_per_capita_RE_elec['Entity'], y=wolrd_per_capita_RE_elec['Low-carbon electricity per capita (kWh)'],text=wolrd_per_capita_RE_elec['Low-carbon electricity per capita (kWh)'].round(1), name='Our world in data',
+                          marker_color='green',
+                      ))
+    fig_use_cap.add_shape(
+        type='line', line=dict(dash='dot', color='red'),
+        x0=0, x1=len(countries), y0=wolrd_average_per_capita_RE_elec, y1=wolrd_average_per_capita_RE_elec
+    )
+    fig_use_cap.add_shape(
+        type='line', line=dict(dash='dot', color='orange'),
+        x0=0, x1=len(countries), y0=wolrd_median_per_capita_RE_elec, y1 = wolrd_median_per_capita_RE_elec
+    )
+    fig_use_cap.update_layout(legend=dict(bgcolor='rgba(0,0,0,0)', yanchor="bottom", orientation="h",
+                                   y=0.98,
+                                   xanchor="center",
+                                   x=0.5),
+                       font=dict(
+                           family="Calibri",
+                           size=16,
+                           color=font_color
+                       ),
+                       hovermode="x"
+
+                       )
+    fig_use_cap.add_annotation(x=0.8, y=wolrd_average_per_capita_RE_elec+0.1,
+                       text="World average = {}".format(wolrd_average_per_capita_RE_elec.round(1)),
+                       showarrow=False, font=dict(
+                color=font_color,
+                size=16
+            ),
+                       )
+    fig_use_cap.add_annotation(x=0.8, y=wolrd_median_per_capita_RE_elec+0.1,
+                       text="World median = {}".format(wolrd_median_per_capita_RE_elec.round(1)),
+                       showarrow=False, font=dict(
+                color=font_color,
+                size=16
+            ),
+                       )
+    fig_use_cap.update_layout({
+        'plot_bgcolor': 'rgba(0,0,0,0)',
+        'paper_bgcolor': 'rgba(0,0,0,0)',
+    })
+    fig_use_cap.update_yaxes(title_text="Renewable electricity (MWh/year/person)", showline=True,rangemode='tozero',linecolor=line_color,gridcolor=line_color)
+    fig_use_cap.update_xaxes(showline=True,showgrid=False,linecolor=line_color,)
+    fig_use_cap.update_layout(
+        title="Renewable electricity generation per capita")
+    fig_use_cap.update_traces(marker_line_color=font_color,
+                       marker_line_width=0, opacity=1)
+    fig_use_cap.update_yaxes(rangemode='tozero',linecolor=line_color,gridcolor=line_color)
+    fig_use_cap.update_xaxes(showline=True, linecolor=line_color,
+                     title_text="<a href=\"https://ourworldindata.org/grapher/per-capita-energy-use\"><sub>Source: Our world in data <sub></a>")
+
+    return fig_use_cap
+
+
+def per_capita_intensity():
+
+    countries = functions.fetch_all_countries_demand(2019,Unit='GWh',Use='Analysis')[0]
+
+    wolrd_per_capita_intensity = pd.read_csv('Data/worldinData/energy-intensity-of-economies.csv')
+    wolrd_per_capita_intensity = wolrd_per_capita_intensity.sort_values('Year', ascending=False).drop_duplicates(['Entity'])
+    wolrd_average_per_capita_intensity  = wolrd_per_capita_intensity['Energy intensity level of primary energy (MJ/$2017 PPP GDP)'].mean()
+    wolrd_median_per_capita_intensity = wolrd_per_capita_intensity['Energy intensity level of primary energy (MJ/$2017 PPP GDP)'].median()
+
+    wolrd_per_capita_intensity['Entity'] = wolrd_per_capita_intensity['Entity'].replace('Micronesia (country)','Micronesia')
+    wolrd_per_capita_intensity['Entity'] = wolrd_per_capita_intensity['Entity'].replace('Papua New Guinea','PNG')
+    wolrd_per_capita_intensity = wolrd_per_capita_intensity[wolrd_per_capita_intensity.Entity.isin(Country_List)]
+
+
+    total_demand = functions.fetch_all_countries_demand(2019,Unit='GWh',Use='SummaryPlot')[1]
+    df_GDP = pd.read_csv('Data/Economic Indicators.csv')
+    df_GDP['Demand'] = total_demand
+    df_GDP['Demand_per_gdp'] = (df_GDP['Demand']*1000000)/(df_GDP['GDP(million$)2019']*1000000)
+
+
+
+    fig_use_cap = make_subplots(specs=[[{"secondary_y": False}]])
+    fig_use_cap.add_trace(go.Bar(x=countries, y=df_GDP['Demand_per_gdp'].round(1),text=df_GDP['Demand_per_gdp'].round(1), name='This research',
+                          marker_color='red',
+                      ))
+    fig_use_cap.add_trace(go.Bar(x=wolrd_per_capita_intensity['Entity'], y=wolrd_per_capita_intensity['Energy intensity level of primary energy (MJ/$2017 PPP GDP)'],text=wolrd_per_capita_intensity['Energy intensity level of primary energy (MJ/$2017 PPP GDP)'].round(1), name='Our world in data',
+                          marker_color='green',
+                      ))
+    fig_use_cap.add_shape(
+        type='line', line=dict(dash='dot', color='red'),
+        x0=0, x1=len(countries), y0=wolrd_average_per_capita_intensity, y1=wolrd_average_per_capita_intensity
+    )
+    fig_use_cap.add_shape(
+        type='line', line=dict(dash='dot', color='orange'),
+        x0=0, x1=len(countries), y0=wolrd_median_per_capita_intensity, y1 = wolrd_median_per_capita_intensity
+    )
+    fig_use_cap.update_layout(legend=dict(bgcolor='rgba(0,0,0,0)', yanchor="bottom", orientation="h",
+                                   y=0.98,
+                                   xanchor="center",
+                                   x=0.5),
+                       font=dict(
+                           family="Calibri",
+                           size=16,
+                           color=font_color
+                       ),
+                       hovermode="x"
+
+                       )
+    fig_use_cap.add_annotation(x=15, y=wolrd_average_per_capita_intensity+0.12,
+                       text="World average = {}".format(wolrd_average_per_capita_intensity.round(1)),
+                       showarrow=False, font=dict(
+                color=font_color,
+                size=16
+            ),
+                       )
+    fig_use_cap.add_annotation(x=15, y=wolrd_median_per_capita_intensity+0.12,
+                       text="World median = {}".format(wolrd_median_per_capita_intensity.round(1)),
+                       showarrow=False, font=dict(
+                color=font_color,
+                size=16
+            ),
+                       )
+    fig_use_cap.update_layout({
+        'plot_bgcolor': 'rgba(0,0,0,0)',
+        'paper_bgcolor': 'rgba(0,0,0,0)',
+    })
+    fig_use_cap.update_yaxes(title_text="(kWh/$ PPP GDP)", showline=True,rangemode='tozero',linecolor=line_color,gridcolor=line_color)
+    fig_use_cap.update_xaxes(showline=True,showgrid=False,linecolor=line_color,)
+    fig_use_cap.update_layout(
+        title="Energy (primary, total) intensity  of economies")
+    fig_use_cap.update_traces(marker_line_color=font_color,
+                       marker_line_width=0, opacity=1)
+    fig_use_cap.update_yaxes(rangemode='tozero',linecolor=line_color,gridcolor=line_color)
+    fig_use_cap.update_xaxes(showline=True, linecolor=line_color,
+                     title_text="<a href=\"https://ourworldindata.org/grapher/per-capita-energy-use\"><sub>Source: Our world in data <sub></a>")
+    return fig_use_cap
+
+def percentage_of_imports():
+    countries = functions.fetch_all_countries_demand(2019,Unit='GWh',Use='Analysis')[0]
+    total_energy_supply = functions.fetch_all_countries_demand(2019,Unit='GWh',Use='SummaryPlot')[1]
+    net_imports = functions.fetch_all_countries_demand(2019,Unit='GWh',Use='Analysis')[15]
+    current_share_of_imports = 100 * net_imports/total_energy_supply
+
+
+    world_average_demand = functions.fetch_all_countries_demand(2019,Unit='GWh',Use='Analysis')[11] *100/80 # convert to total instead of electricity
+    renewables_in_total = functions.fetch_all_countries_demand(2019,Unit='GWh',Use='Analysis')[7]
+    world_average_demand_non_RE = (world_average_demand - renewables_in_total) * 80/100 # convert to electricity
+    rooftop_PV_df = functions.calculate_rooftop_PV_potential()
+    wind_PV_df = functions.calculate_PV_Wind_potential()
+    remaining_demand_world_average = world_average_demand_non_RE - rooftop_PV_df['Generation_GWh'] - wind_PV_df['PV_technical_GWh']
+    imports_world_average = 100 * remaining_demand_world_average/world_average_demand_non_RE
+
+    imports_df = pd.DataFrame()
+
+    demand_for_decarb = functions.fetch_all_countries_demand(2019)[9]
+    countries = functions.fetch_all_countries_demand(2019)[0]
+    remaining_demand_for_decarb = demand_for_decarb - rooftop_PV_df['Generation_GWh'] - wind_PV_df['PV_technical_GWh']
+    imports_decarbonization = 100 * remaining_demand_for_decarb/demand_for_decarb
+    imports_df['countries'] = countries
+    imports_df['imports_decarb_%'] = imports_decarbonization
+    imports_df['imports_decarb_%'] = imports_df['imports_decarb_%'].clip(lower=0)
+    imports_df['imports_decarb_GWh'] = remaining_demand_for_decarb
+    imports_df['imports_decarb_GWh'] = imports_df['imports_decarb_GWh'].clip(lower=0)
+
+
+    electrified_demand = functions.fetch_all_countries_demand(2019,Use="Analysis")[1]
+    remaining_demand_electrified = electrified_demand - rooftop_PV_df['Generation_GWh'] - wind_PV_df['PV_technical_GWh']
+    imports_electrified = 100 * remaining_demand_electrified/electrified_demand
+    imports_df['imports_electrified_%'] = imports_electrified
+    imports_df['imports_electrified_%'] = imports_df['imports_electrified_%'].clip(lower=0)
+    imports_df['imports_electrified_GWh'] = remaining_demand_electrified
+    imports_df['imports_electrified_GWh'] = imports_df['imports_electrified_GWh'].clip(lower=0)
+
+    imports_df['imports_world_average_%'] = imports_world_average
+    imports_df['imports_world_average_%'] = imports_df['imports_world_average_%'].clip(lower=0)
+    imports_df['imports_world_average_GWh'] = remaining_demand_world_average
+    imports_df['imports_world_average_GWh'] = imports_df['imports_world_average_GWh'].clip(lower=0)
+
+    imports_df['Current_%'] = current_share_of_imports
+    imports_df['Current_%'] = imports_df['Current_%'].clip(lower=0)
+    imports_df['Current_GWh'] = net_imports
+    imports_df['Current_GWh'] = imports_df['Current_GWh'].clip(lower=0)
+
+    imports_df.to_csv("imports_for_scenarios.csv")
+    fig_use_cap = make_subplots(specs=[[{"secondary_y": False}]])
+    fig_use_cap.add_trace(go.Bar(x=imports_df['countries'], y=imports_df['Current_%'].round(1),text=imports_df['Current_%'].round(1), name='Current',
+                          marker_color='red',
+                      ))
+    fig_use_cap.add_trace(go.Bar(x=imports_df['countries'], y=imports_df['imports_decarb_%'].round(1),text=imports_df['imports_decarb_%'].round(1), name='Decarbonization',
+                          marker_color='blue',
+                      ))
+    fig_use_cap.add_trace(go.Bar(x=imports_df['countries'], y=imports_df['imports_electrified_%'].round(1),text=imports_df['imports_electrified_%'].round(1), name='Electrification',
+                          marker_color='brown',
+                      ))
+    fig_use_cap.add_trace(go.Bar(x=imports_df['countries'], y=imports_df['imports_world_average_%'].round(1),text=imports_df['imports_world_average_%'].round(1), name="Wolrd average",
+                          marker_color='green',
+                      ))
+
+    fig_use_cap.update_layout(legend=dict(bgcolor='rgba(0,0,0,0)', yanchor="bottom", orientation="h",
+                                   y=0.98,
+                                   xanchor="center",
+                                   x=0.5),
+                       font=dict(
+                           family="Calibri",
+                           size=16,
+                           color=font_color
+                       ),
+                       hovermode="x"
+
+                       )
+
+    fig_use_cap.update_layout({
+        'plot_bgcolor': 'rgba(0,0,0,0)',
+        'paper_bgcolor': 'rgba(0,0,0,0)',
+    })
+    fig_use_cap.update_yaxes(title_text="% of total demand", showline=True,rangemode='tozero',linecolor=line_color,gridcolor=line_color)
+    fig_use_cap.update_xaxes(showline=True,showgrid=False,linecolor=line_color,)
+    fig_use_cap.update_layout(
+        title="The share of total demand met by net energy imports")
+    fig_use_cap.update_traces(marker_line_color=font_color,
+                       marker_line_width=0, opacity=1)
+    fig_use_cap.update_yaxes(rangemode='tozero',linecolor=line_color,gridcolor=line_color)
+    fig_use_cap.update_xaxes(showline=True, linecolor=line_color,
+                     title_text="<a href=\"https://ourworldindata.org/grapher/per-capita-energy-use\"><sub>Source: Our world in data <sub></a>")
+    return fig_use_cap
+
+def dependance_on_imports():
+    countries = functions.fetch_all_countries_demand(2019,Unit='GWh',Use='Analysis')[0]
+    total_energy_supply = functions.fetch_all_countries_demand(2019,Unit='GWh',Use='SummaryPlot')[1]
+    net_imports = functions.fetch_all_countries_demand(2019,Unit='GWh',Use='Analysis')[15]
+    current_share_of_imports = 100 * net_imports/total_energy_supply
+
+
+
+    fig_use_cap = make_subplots(specs=[[{"secondary_y": False}]])
+    fig_use_cap.add_trace(go.Bar(x=countries, y=current_share_of_imports,text=current_share_of_imports.round(0), name='This research',
+                          marker_color='green',
+                      ))
+
+    fig_use_cap.update_layout(legend=dict(bgcolor='rgba(0,0,0,0)', yanchor="bottom", orientation="h",
+                                   y=0.98,
+                                   xanchor="center",
+                                   x=0.5),
+                       font=dict(
+                           family="Calibri",
+                           size=16,
+                           color=font_color
+                       ),
+                       hovermode="x"
+
+                       )
+
+    fig_use_cap.update_layout({
+        'plot_bgcolor': 'rgba(0,0,0,0)',
+        'paper_bgcolor': 'rgba(0,0,0,0)',
+    })
+    fig_use_cap.update_yaxes(title_text="Dependance on net imports (%)", showline=True,rangemode='tozero',linecolor=line_color,gridcolor=line_color)
+    fig_use_cap.update_xaxes(showline=True,showgrid=False,linecolor=line_color,)
+    fig_use_cap.update_layout(
+        title="Dependance on net imports (share of net imports in total demand)")
+    fig_use_cap.update_traces(marker_line_color=font_color,
+                       marker_line_width=0, opacity=1)
+    fig_use_cap.update_yaxes(rangemode='tozero',linecolor=line_color,gridcolor=line_color)
+    fig_use_cap.update_xaxes(showline=True, linecolor=line_color,
+                     title_text="<a href=\"https://ourworldindata.org/grapher/per-capita-energy-use\"><sub>Source: Our world in data <sub></a>")
+    return fig_use_cap
+
+
+def GDP_per_capita():
+    summary_df = pd.read_csv('Data/SummaryTable.csv')
+
+    summary_df = summary_df[summary_df['Country / Territory'].isin(Country_List)]
+
+    world_GDP_capita = pd.read_csv("Data/worldinData/gdp-per-capita-worldbank.csv")
+    world_GDP_capita = world_GDP_capita.sort_values('Year', ascending=False).drop_duplicates(['Entity'])
+
+    wolrd_average_GDP_per_capita = world_GDP_capita['GDP per capita, PPP (constant 2017 international $)'].mean()
+    wolrd_median_GDP_per_capita = world_GDP_capita['GDP per capita, PPP (constant 2017 international $)'].median()
+    fig_use_cap = make_subplots(specs=[[{"secondary_y": False}]])
+    fig_use_cap.add_trace(go.Bar(x=summary_df['Country / Territory'], y=summary_df['GDP Per Capita ($)'],text=summary_df['GDP Per Capita ($)'],name='This research',
+                          marker_color='green',
+                      ))
+
+
+    fig_use_cap.update_layout(legend=dict(bgcolor='rgba(0,0,0,0)', yanchor="bottom", orientation="h",
+                                   y=0.98,
+                                   xanchor="center",
+                                   x=0.5),
+                       font=dict(
+                           family="Calibri",
+                           size=16,
+                           color=font_color
+                       ),
+                       hovermode="x"
+
+                       )
+
+    fig_use_cap.add_shape(
+        type='line', line=dict(dash='dot', color='red'),
+        x0=0, x1=len(summary_df['Country / Territory']), y0=wolrd_average_GDP_per_capita, y1=wolrd_average_GDP_per_capita
+    )
+    fig_use_cap.add_shape(
+        type='line', line=dict(dash='dot', color='orange'),
+        x0=0, x1=len(summary_df['Country / Territory']), y0=wolrd_median_GDP_per_capita, y1 = wolrd_median_GDP_per_capita
+    )
+    fig_use_cap.add_annotation(x=15, y=wolrd_average_GDP_per_capita+1000,
+                       text="World average = {}".format(wolrd_average_GDP_per_capita.round(0)),
+                       showarrow=False, font=dict(
+                color=font_color,
+                size=16
+            ),
+                       )
+    fig_use_cap.add_annotation(x=15, y=wolrd_median_GDP_per_capita+1000,
+                       text="World median = {}".format(wolrd_median_GDP_per_capita.round(0)),
+                       showarrow=False, font=dict(
+                color=font_color,
+                size=16
+            ),
+                       )
+
+    fig_use_cap.update_layout({
+        'plot_bgcolor': 'rgba(0,0,0,0)',
+        'paper_bgcolor': 'rgba(0,0,0,0)',
+    })
+    fig_use_cap.update_yaxes(title_text="GDP per Capita ($)", showline=True,rangemode='tozero',linecolor=line_color,gridcolor=line_color)
+    fig_use_cap.update_xaxes(showline=True,showgrid=False,linecolor=line_color,)
+    fig_use_cap.update_layout(
+        title="GDP per capita and comparison with world's average")
+    fig_use_cap.update_traces(marker_line_color=font_color,
+                       marker_line_width=0, opacity=1)
+    fig_use_cap.update_yaxes(rangemode='tozero',linecolor=line_color,gridcolor=line_color)
+    fig_use_cap.update_xaxes(showline=True, linecolor=line_color,
+                     title_text="<a href=\"https://ourworldindata.org/grapher/per-capita-energy-use\"><sub>Source: Our world in data <sub></a>")
+    return fig_use_cap
+
+
+def biomass_consumption_breakdown():
+    import os
+    import plotly.express as px
+
+    list_of_consumers = ['Electricity Plants',"Manufacturing  const. and mining",'Households','Commerce and public services',
+                         'Agriculture  forestry and fishing','Other consumption n.e.s']
+    path = 'Data/EnergyBalance'
+    files = os.listdir(path)
+
+    df = pd.read_csv("Data/EnergyBalance/{}/all_countries_df.csv".format(files[-1]))
+    df = df[["Country ({})".format(files[-1]),"Transactions(down)/Commodity(right)",'Biofuels and Waste']]
+    df_final = pd.DataFrame()
+    for country in Country_List:
+        df_1 = df[df["Country ({})".format(files[-1])]==country]
+        primary_production = df_1.iloc[0, 2]
+        # print(primary_production)
+        # df_1.loc[:,'primary_production'] = primary_production
+        df_1.loc[:,'Biofuels and Waste'] = 100 * df_1.loc[:,'Biofuels and Waste']/primary_production#/df_1.loc[:,'primary_production']
+        if df_final.shape[0] ==0:
+            df_final = df_1
+        else:
+            df_final = pd.concat([df_final,df_1])
+    df_final = df_final[df_final["Transactions(down)/Commodity(right)"].isin(list_of_consumers)]
+
+    fig = px.bar(df_final, x="Country ({})".format(files[-1]), y="Biofuels and Waste", color="Transactions(down)/Commodity(right)")
+
+
+    fig.update_layout(legend=dict(bgcolor='rgba(0,0,0,0)', yanchor="bottom", orientation="v",
+                                   # y=0.98,
+                                   xanchor="center",
+                                   # x=0.2
+                                  ),
+                       font=dict(
+                           family="Calibri",
+                           size=16,
+                           color=font_color
+                       ),
+                       # hovermode="x"
+
+                       )
+
+    fig.update_layout({
+        'plot_bgcolor': 'rgba(0,0,0,0)',
+        'paper_bgcolor': 'rgba(0,0,0,0)',
+    })
+    fig.update_yaxes(title_text="% biofuel and waste primary production", showline=True,rangemode='tozero',linecolor=line_color,gridcolor=line_color)
+    fig.update_xaxes(showline=True,showgrid=False,linecolor=line_color,)
+    fig.update_layout(
+        title="Breakdown of biofuel and waste consumption")
+    fig.update_traces(marker_line_color=font_color,
+                       marker_line_width=0, opacity=1)
+    fig.update_layout(legend={'title_text': ''})
+
+    fig.update_yaxes(rangemode='tozero',linecolor=line_color,gridcolor=line_color)
+    fig.update_xaxes(showline=True,linecolor=line_color,
+                     title_text="<a href=\"http://unstats.un.org/unsd/energystats/pubs/balance\"><sub>Source: Energy Balances, United Nations<sub></a>"),
+    return fig
+
+
+def navigation_and_int_maritime():
+    import os
+    import plotly.express as px
+
+    list_of_consumers = ['International marine bunkers',"Domestic navigation"]
+    path = 'Data/EnergyBalance'
+    files = os.listdir(path)
+
+    df = pd.read_csv("Data/EnergyBalance/{}/all_countries_df.csv".format(files[-1]))
+    df = df[["Country ({})".format(files[-1]),"Transactions(down)/Commodity(right)",'Total Energy']]
+    df_final = pd.DataFrame()
+    for country in Country_List:
+        df_1 = df[df["Country ({})".format(files[-1])]==country]
+        total_primary_production = df_1.iloc[0, 2]
+        # print(primary_production)
+        # df_1.loc[:,'total_primary_production'] = total_primary_production
+        df_1.loc[:,'Total Energy'] = 100 * abs(df_1.loc[:,'Total Energy'])/total_primary_production#df_1.loc[:,'total_primary_production']
+        if df_final.shape[0] ==0:
+            df_final = df_1
+        else:
+            df_final = pd.concat([df_final,df_1])
+    df_final = df_final[df_final["Transactions(down)/Commodity(right)"].isin(list_of_consumers)]
+
+    fig = px.bar(df_final, x="Country ({})".format(files[-1]), y="Total Energy", color="Transactions(down)/Commodity(right)")
+    fig.update_layout(legend=dict(bgcolor='rgba(0,0,0,0)', yanchor="bottom", orientation="v",
+                                   # y=0.98,
+                                   xanchor="center",
+                                   # x=0.2
+                                  ),
+                       font=dict(
+                           family="Calibri",
+                           size=16,
+                           color=font_color
+                       ),
+                       # hovermode="x"
+
+                       )
+
+    fig.update_layout({
+        'plot_bgcolor': 'rgba(0,0,0,0)',
+        'paper_bgcolor': 'rgba(0,0,0,0)',
+    })
+    fig.update_yaxes(title_text="% of total primary production", showline=True,rangemode='tozero',linecolor=line_color,gridcolor=line_color)
+    fig.update_xaxes(showline=True,showgrid=False,linecolor=line_color,)
+    fig.update_layout(
+        title="Primary production vs domestic and international marine transport")
+    fig.update_traces(marker_line_color=font_color,
+                       marker_line_width=0, opacity=1)
+    fig.update_layout(legend={'title_text': ''})
+
+    fig.update_yaxes(rangemode='tozero',linecolor=line_color,gridcolor=line_color)
+    fig.update_xaxes(showline=True,linecolor=line_color,
+                     title_text="<a href=\"http://unstats.un.org/unsd/energystats/pubs/balance\"><sub>Source: Energy Balances, United Nations<sub></a>"),
+    return fig
+# biomass_consumption_breakdown()
+
+
+
+def dynamic_breakdown_figure_generation(from_="Primary production",list_of_consumers = ['International marine bunkers',"Domestic navigation"],carrier = 'Total Energy'):
+    import os
+    import plotly.express as px
+
+    # list_of_consumers = ['International marine bunkers',"Domestic navigation"]
+    path = 'Data/EnergyBalance'
+    files = os.listdir(path)
+
+    df = pd.read_csv("Data/EnergyBalance/{}/all_countries_df.csv".format(files[-1]))
+    df = df[["Country ({})".format(files[-1]),"Transactions(down)/Commodity(right)",carrier]]
+    df_final = pd.DataFrame()
+    for country in Country_List:
+        df_1 = df[df["Country ({})".format(files[-1])]==country]
+        # total_primary_production = df_1.loc[from_, carrier]
+        total_primary_production = df_1[df_1["Transactions(down)/Commodity(right)"] == from_][carrier].values[0]
+        df_1.loc[:,carrier] =  100 * abs(df_1.loc[:,carrier])/total_primary_production#
+        if df_final.shape[0] == 0:
+            df_final = df_1
+        else:
+            df_final = pd.concat([df_final,df_1])
+    df_final = df_final[df_final["Transactions(down)/Commodity(right)"].isin(list_of_consumers)]
+
+    fig = px.bar(df_final, x="Country ({})".format(files[-1]), y=carrier, color="Transactions(down)/Commodity(right)")
+    fig.update_layout(
+        legend=dict(bgcolor='rgba(0,0,0,0)',  orientation="h",
+                    # yanchor="bottom",
+                                   y=1.2,
+                                   # xanchor="right",
+                                   # x=0
+                                  ),
+                       font=dict(
+                           family="Calibri",
+                           size=15,
+                           color=font_color
+                       ),
+                       # hovermode="x"
+
+                       )
+
+    fig.update_layout({
+        'plot_bgcolor': 'rgba(0,0,0,0)',
+        'paper_bgcolor': 'rgba(0,0,0,0)',
+    })
+    fig.update_yaxes(title_text="% of {} {}".format(carrier,from_), showline=True,rangemode='tozero',linecolor=line_color,gridcolor=line_color)
+    fig.update_xaxes(showline=True,showgrid=False,linecolor=line_color,)
+    fig.update_layout(
+        title="")
+    fig.update_traces(marker_line_color=font_color,
+                       marker_line_width=0, opacity=1)
+    fig.update_layout(legend={'title_text': ''})
+
+    fig.update_yaxes(rangemode='tozero',linecolor=line_color,gridcolor=line_color)
+    fig.update_xaxes(showline=True,linecolor=line_color,
+                     title_text="<a href=\"http://unstats.un.org/unsd/energystats/pubs/balance\"><sub>Source: Energy Balances, United Nations<sub></a>"),
+    return fig

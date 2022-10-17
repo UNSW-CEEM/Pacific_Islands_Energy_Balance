@@ -149,8 +149,8 @@ def select_product():
                 searchable=True,
                 clearable=False,
             ),
-            dbc.Button("Add Figure", color="danger", id='update-button-cross-country-products', n_clicks=0, className="me-1"),
-            dbc.Button("Clear Canvas", color="primary", id='update-button-products-clear-canvas', n_clicks=0,
+            dbc.Button("Add Figure", color="danger", id='update-button-cross-country-trace', n_clicks=0, className="me-1"),
+            dbc.Button("Clear Canvas", color="primary", id='update-button-trace-clear-canvas', n_clicks=0,
                        className="me-1"),
 
         ],

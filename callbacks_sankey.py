@@ -116,3 +116,46 @@ def update_cross_country_comparison(n_clicks,clear_canvas,from_,to_,normalizatio
 
     return hidden_div,div_children
 
+
+
+
+@app.callback(
+    [
+    Output('Hidden_Div_breakdown', "children"),
+    Output('dynamic_callback_container_energy_breakdown', 'children')],
+    [Input('update-button-cross-country-flow', 'n_clicks'),
+    Input('update-button-flow-clear', 'n_clicks')],
+    [State("select-flow-provider", "value"),
+     State("select-flow-cunsumer", "value"),
+     State("select-flow-provider-source", "value"),
+    State('Hidden_Div_breakdown', "children"),
+    State('dynamic_callback_container_energy_breakdown', 'children')
+     ]
+)
+def update_cross_country_comparison(n_clicks,clear_canvas,from_,consumer_list,carrier,hidden_div,div_children):
+    if n_clicks != hidden_div[0]:
+        print("Hereee")
+
+        fig = figures.dynamic_breakdown_figure_generation(from_=from_,list_of_consumers=consumer_list,carrier=carrier)
+        print("Here2")
+        new_child = html.Div(
+            style={'display': 'inline-block', 'outline': 'thin lightgrey solid', 'padding': 5},
+            children=[
+                dcc.Graph(
+                    id={
+                        'type': 'dynamic-graph',
+                        'index': n_clicks
+                    },
+                    figure=fig,
+                ),
+            ]
+        )
+        div_children.append(new_child)
+
+    elif clear_canvas != hidden_div[1]:
+        div_children = []
+
+    hidden_div = [n_clicks,clear_canvas]
+
+    return hidden_div,div_children
+

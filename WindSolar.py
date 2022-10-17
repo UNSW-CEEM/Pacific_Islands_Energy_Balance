@@ -190,13 +190,13 @@ rooftop = [
                     ),
                     dbc.Row([
                         dbc.Col(html.Div(dcc.Graph(id="Pop-and-famil-size",figure=figures.rooftop_PV_plot(0.3,2.5)[0]), style=figure_border_style), md=6),
-                        dbc.Col(html.Div(dcc.Graph(id="number-of-buildings-rooftop",figure=figures.rooftop_PV_plot(0.7,2.5)[1]), style=figure_border_style), md=6),
+                        dbc.Col(html.Div(dcc.Graph(id="number-of-buildings-rooftop",figure=figures.rooftop_PV_plot(0.3,2.5)[1]), style=figure_border_style), md=6),
                     ]),
                     html.Br(),
                     dbc.Row([
-                        dbc.Col(html.Div(dcc.Graph(id="rooftop-capacity", figure=figures.rooftop_PV_plot(0.7, 2.5)[3]),
+                        dbc.Col(html.Div(dcc.Graph(id="rooftop-capacity", figure=figures.rooftop_PV_plot(0.3, 2.5)[3]),
                                          style=figure_border_style), md=6),
-                        dbc.Col(html.Div(dcc.Graph(id="roofotp-generation",figure=figures.rooftop_PV_plot(0.7,2.5)[2]), style=figure_border_style), md=6),
+                        dbc.Col(html.Div(dcc.Graph(id="roofotp-generation",figure=figures.rooftop_PV_plot(0.3,2.5)[2]), style=figure_border_style), md=6),
                     ]),
                     html.Br(),
                 ],
