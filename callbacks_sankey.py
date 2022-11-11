@@ -128,18 +128,100 @@ def update_cross_country_comparison(n_clicks,clear_canvas,from_,to_,normalizatio
     [State("select-flow-provider", "value"),
      State("select-flow-cunsumer", "value"),
      State("select-flow-provider-source", "value"),
+     State("destination-carrier", "value"),
     State('Hidden_Div_breakdown', "children"),
-    State('dynamic_callback_container_energy_breakdown', 'children')
+    State('dynamic_callback_container_energy_breakdown', 'children'),
+     State("y_axis_title","value")
      ]
 )
-def update_cross_country_comparison(n_clicks,clear_canvas,from_,consumer_list,carrier,hidden_div,div_children):
+def update_cross_country_comparison(n_clicks,clear_canvas,from_,consumer_list,carrier,carrier_destination,hidden_div,div_children,y_axis_title):
     if n_clicks != hidden_div[0]:
-        print("Hereee")
+        # print("Hereee")
 
-        fig = figures.dynamic_breakdown_figure_generation(from_=from_,list_of_consumers=consumer_list,carrier=carrier)
+        fig = figures.dynamic_breakdown_figure_generation(y_axis_title=y_axis_title,from_=from_,list_of_consumers=consumer_list,carrier=carrier,destination_carrier=carrier_destination)
+        # print("Here2")
+        new_child = html.Div(
+            style={ 'outline': 'thin lightgrey solid', 'padding': 5,'marginLeft': 10, 'marginRight': 10,},#'display': 'inline-block',
+            children=[
+                dcc.Graph(
+                    id={
+                        'type': 'dynamic-graph',
+                        'index': n_clicks
+                    },
+                    figure=fig,
+                ),
+            ]
+        )
+        div_children.append(new_child)
+
+    elif clear_canvas != hidden_div[1]:
+        div_children = []
+
+    hidden_div = [n_clicks,clear_canvas]
+
+    return hidden_div,div_children
+
+
+
+
+
+@app.callback(
+    [
+    Output('Hidden_Div_breakdown_by_source', "children"),
+    Output('dynamic_callback_container_energy_breakdown_by_source', 'children')],
+    [Input('update-button-sector-breakdown', 'n_clicks'),
+    Input('update-button-sector-breakdown-clear', 'n_clicks')],
+    [State("select-sector-for-breakdown", "value"),
+    State('Hidden_Div_breakdown_by_source', "children"),
+    State('dynamic_callback_container_energy_breakdown_by_source', 'children'),
+     ]
+)
+def update_cross_country_comparison(n_clicks,clear_canvas,sector,hidden_div,div_children):
+    print("Hereee")
+
+    if n_clicks != hidden_div[0]:
+
+        fig = figures.dynamic_breakdown_of_sectors(sector=sector)
         print("Here2")
         new_child = html.Div(
-            style={'display': 'inline-block', 'outline': 'thin lightgrey solid', 'padding': 5},
+            style={ 'outline': 'thin lightgrey solid', 'padding': 5,'marginLeft': 10, 'marginRight': 10,},#'display': 'inline-block',
+            children=[
+                dcc.Graph(
+                    id={
+                        'type': 'dynamic-graph',
+                        'index': n_clicks
+                    },
+                    figure=fig,
+                ),
+            ]
+        )
+        div_children.append(new_child)
+
+    elif clear_canvas != hidden_div[1]:
+        div_children = []
+
+    hidden_div = [n_clicks,clear_canvas]
+
+    return hidden_div,div_children
+
+@app.callback(
+    [
+    Output('Hidden-Div_dynamic_column', "children"),
+    Output('dynamic_callback_container_dynamic_column', 'children')],
+    [Input('update-button-dynamic-column', 'n_clicks'),
+    Input('update-button-dynamic-column-clear', 'n_clicks')],
+    [State("select-sector-for-dynamic-column", "value"),
+    State("select-dynamic-column", "value"),
+    State("y_axis_title_dynamic_column", "value"),
+    State('Hidden-Div_dynamic_column', "children"),
+    State('dynamic_callback_container_dynamic_column', 'children'),
+     ]
+)
+def update_dynamic_column(n_clicks,clear_canvas,provider,column,y_axis_title,hidden_div,div_children):
+    if n_clicks != hidden_div[0]:
+        fig = figures.dynamic_one_column_multiple_source(provider=provider,column=column,y_axis_title=y_axis_title)
+        new_child = html.Div(
+            style={ 'outline': 'thin lightgrey solid', 'padding': 5,'marginLeft': 10, 'marginRight': 10,},#'display': 'inline-block',
             children=[
                 dcc.Graph(
                     id={

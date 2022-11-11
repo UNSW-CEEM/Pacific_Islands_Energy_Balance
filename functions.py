@@ -31,30 +31,37 @@ def fetch_single_country_demand(Country,Year,Unit='GWh'):
     final_demand = non_RE_demand + (final_consumption-final_consumption_electricity-ofWhichRenewable_final_consumption) * (1-electrification_efficiency_improvement)
 
 
-    df_world_per_capita_demand = pd.read_csv("Data/worldinData/per-capita-energy-use.csv")
-    per_capita_average = df_world_per_capita_demand['Primary energy consumption per capita (kWh/person)'].mean() #kWh/person
     df_pop = pd.read_csv('Data/Economic Indicators.csv')
     population = df_pop[df_pop.Country == Country]['Population'].values[0]
-    print(population)
-    wolrd_average_demand = per_capita_average * population/1000000 # GWh/year
+    # print(population)
+    net_zero_scenario_demand = 10 * population/1000 # GWh/year
+    net_zero_scenario_demand = net_zero_scenario_demand/0.277778 # to TJ
     if Unit =='GWh':
         final_demand = final_demand * 0.277778
         non_RE_demand = non_RE_demand * 0.277778
-        wolrd_average_demand = wolrd_average_demand * 0.277778
-    return non_RE_demand,final_demand
+        net_zero_scenario_demand = net_zero_scenario_demand * 0.277778
+    return non_RE_demand,final_demand,net_zero_scenario_demand
 
 
 def PV_area_single_country(Country,Year):
     PV_pot, Wind_pot, area, coastline = fetch_wind_PV_potential(Country)
-    non_RE_demand,final_demand = fetch_single_country_demand(Country,Year)
+    non_RE_demand,final_demand,net_zero_scenario_demand = fetch_single_country_demand(Country,Year)
+
     PV_non_RE = 1.2 * non_RE_demand / PV_pot  # MW
     PV_final_demand = 1.2 * final_demand / PV_pot  # MW
+    PV_net_zero = 1.2 * net_zero_scenario_demand / PV_pot  # MW
+
     PV_area_non_RE = PV_non_RE / (100)  # 0.1kw/m2 # Converted to km2
     PV_area_non_RE_per = 100 * PV_area_non_RE / area
+
     PV_area_final_demand = PV_final_demand / (100)  # 0.1kw/m2
     PV_area_final_demand_per = 100 * PV_area_final_demand / area
 
-    return PV_area_non_RE,PV_area_final_demand,PV_area_non_RE_per,PV_area_final_demand_per
+    PV_area_net_zero = PV_net_zero / (100)  # 0.1kw/m2
+    PV_area_net_zero_per = 100 * PV_area_net_zero / area
+
+    return PV_area_non_RE,PV_area_final_demand,PV_area_net_zero,\
+           PV_area_non_RE_per,PV_area_final_demand_per, PV_area_net_zero_per
 
 
 def Wind_area_single_country(Country,Year):
@@ -93,6 +100,7 @@ def fetch_all_countries_demand(Year,Unit='GWh',Use="Analysis"):
     if Use == 'SummaryPlot':
         total_demand = df[df['Transactions(down)/Commodity(right)']=='Total energy supply']['Total Energy'].values #TJ#Total energy entering the country(oil and renewables)
 
+
     renewables_in_total = df[df['Transactions(down)/Commodity(right)']=='Total energy supply']['memo: Of which Renewables'].values #TJ
     renewable_electricity_primary = df[df['Transactions(down)/Commodity(right)']=='Primary production']['Electricity'].values #TJ
     renewable_electricity = renewable_electricity_primary + transformed_elec_from_renewables
@@ -107,7 +115,7 @@ def fetch_all_countries_demand(Year,Unit='GWh',Use="Analysis"):
     Int_marine_total = df[df['Transactions(down)/Commodity(right)'] == 'International marine bunkers']['Total Energy'].values
     Int_avi_total = df[df['Transactions(down)/Commodity(right)'] == 'International aviation bunkers']['Total Energy'].values
     exports_total = df[df['Transactions(down)/Commodity(right)'] == 'Exports']['Total Energy'].values
-    net_imports_total = all_imports + Int_marine_total + Int_avi_total + exports_total
+    net_imports_total = all_imports  + exports_total #+ Int_marine_total + Int_avi_total
 
 
 
@@ -126,7 +134,7 @@ def fetch_all_countries_demand(Year,Unit='GWh',Use="Analysis"):
         "Population"] * wolrd_average_per_capita_use / 1000000  # GWh/year
 
     world_average_demand = df_pop['average_scenario_demand_GWh']/0.277778 # it is calculated on GWh > convert to TJ
-
+    Net_zero_scenario_demand_GWh = (df_pop["Population"] * 10 / 1000)/0.277778 #10MWh/person/year scenario >Tj
     if Unit == "GWh":
         non_RE_elec = non_RE_elec * 0.277778
         total_demand = total_demand * 0.277778
@@ -143,16 +151,19 @@ def fetch_all_countries_demand(Year,Unit='GWh',Use="Analysis"):
         Int_avi_total = Int_avi_total * 0.277778
         Int_marine_total = Int_marine_total * 0.277778
         net_imports_total = net_imports_total * 0.277778
+        Net_zero_scenario_demand_GWh = Net_zero_scenario_demand_GWh * 0.277778
         df_demand = pd.DataFrame()
         df_demand['Country'] = Countries
         df_demand['Non-RE'] = non_RE_elec
         df_demand['Total'] = total_demand
         df_demand['World_average_demand'] = world_average_demand.round(0)
+        df_demand['10MWh/person_GWh'] = Net_zero_scenario_demand_GWh.round(0)
+
         df_demand.to_csv("demand_df_{}.csv".format(Unit))
     return [Countries,total_demand,imports_oil,Int_marine_oil,Int_avi_oil,transformation,
             transformation_losses,renewables_in_total,
             renewable_electricity,non_RE_elec,all_imports,world_average_demand,
-            Int_marine_total,Int_avi_total,exports_total,net_imports_total]
+            Int_marine_total,Int_avi_total,exports_total,net_imports_total,Net_zero_scenario_demand_GWh]
 
 def all_countries_cross_comparison_unstats(Year,Unit,Use):
     summary_df = pd.DataFrame()
@@ -304,7 +315,7 @@ def calculate_PV_Wind_potential(available_land = 0.01,available_coastline = 0.1)
 
     df_technical_potential['sum_of_wind_and_solar_GWh'] = df_technical_potential['PV_technical_GWh'] + df_technical_potential['Wind_technical_GWh']
 
-    df_technical_potential.to_csv('Wind_and_solar_technical_potential.csv')
+    # df_technical_potential.to_csv("Wind({})_and_solar({})_technical_potential.csv".format(available_coastline,available_land))
 
     return df_technical_potential
 
@@ -324,14 +335,17 @@ def calculate_rooftop_PV_potential(available_buildings = 0.3,PV_size = 2.5):
     rooftop_PV_generation_GWh = rooftop_PV_generation_GWh.astype(float)
     rooftop_PV_generation_GWh = rooftop_PV_generation_GWh.round(decimals=1)
 
-    rooftop_df['Generation_GWh'] = rooftop_PV_generation_GWh
     rooftop_df['Country'] = Countries
     rooftop_df['Capacity_MW'] = rooftop_capacity_MW
     rooftop_df['avaialble_homes'] = number_of_homes
     rooftop_df['Household_size'] = Household_size
     rooftop_df['Population'] = Population
+    rooftop_df['Generation_GWh'] = rooftop_PV_generation_GWh
 
 
     rooftop_df.to_csv('rooftop_Pv_potential.csv')
 
     return rooftop_df
+
+
+# calculate_PV_Wind_potential(available_land=0.01,available_coastline=0)

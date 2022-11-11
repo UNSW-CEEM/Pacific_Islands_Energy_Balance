@@ -200,63 +200,78 @@ def select_flow():
     files = os.listdir(path)
 
     df = pd.read_csv("Data/EnergyBalance/{}/all_countries_df.csv".format(files[-1]))
-    input_from = ["Imports","Primary production","Total energy supply"]
+    input_from = ["Imports","Primary production","Total energy supply","Final consumption","Transformation","Exports"]
     input_source = ["Primary Coal and Peat","Coal and Peat Products","Primary Oil","Oil Products","Natural Gas","Biofuels and Waste","Nuclear",
                    "Electricity","Heat","Total Energy","All Coal","All Oil","memo: Of which Renewables"]
-    consumer_list = ['Electricity Plants',"CHP plants","Energy industries own use","Manufacturing  const. and mining","Losses",
-                    'International marine bunkers',"Domestic navigation","International aviation bunkers","Domestic aviation","Road","Rail","Domestic aviation","Transport n.e.s",
-                     "Agriculture  forestry and fishing","Commerce and public services","Households","Other consumption n.e.s","Non-energy use",
-                     ]
+
+    consumer_list = df["Transactions(down)/Commodity(right)"].unique()
 
     farm_drpdwn_dbc = dbc.FormGroup(
         [
             dbc.Row([
+                dbc.Col([dbc.Label("Energy supplied from", style={'margin-right': "5px"})],md=1.5),
                 dbc.Col([
-                    dbc.Label("From", style={'margin-right': "5px"}),
-                    dbc.Select(
+                    dcc.Dropdown(
                         id="select-flow-provider",
                         options=[
                             {"label": i, "value": i} for i in input_from
                         ],
-                        value=input_from[0],
-                        style={'width': "50%", 'margin-left': "0px", 'margin-right': "10px", 'fontColor': 'black',
+                        value=[input_from[0]],
+                        style={'width': "90%", 'margin-left': "0px", 'margin-right': "10px", 'fontColor': 'black',
                                'fontSize': 15, 'color': 'black'},
-                    ),]
+                        multi=True,
+                        searchable=True,
+                        clearable=False,
+                    ),],md=4
                 ),
+                dbc.Col([dbc.Label("In the form of", style={'margin-right': "5px"})],md=1.5),
+
                 dbc.Col([
-                    dbc.Label("Energy carrier", style={'margin-right': "5px"}),
                     dbc.Select(
                         id="select-flow-provider-source",
                         options=[
                             {"label": i, "value": i} for i in input_source
                         ],
                         value="All Oil",
-                        style={'width': "50%", 'margin-left': "0px", 'margin-right': "10px", 'fontColor': 'black',
+                        style={'width': "80%", 'margin-left': "0px", 'margin-right': "10px", 'fontColor': 'black',
                                'fontSize': 15, 'color': 'black'},
+
                     ),
-                ])
+                ],md=4)
             ]),
             html.Br(),
             dbc.Row([
-                dbc.Col([dbc.Label("To"),],md=0.5),
+                dbc.Col([dbc.Label("To")],md=0.5),
                 dbc.Col([
-
                     dcc.Dropdown(
                     id="select-flow-cunsumer",
                     options=[
                         {"label": i, "value": i} for i in consumer_list
                     ],
                     value=consumer_list[:4],
-                    style={'width': "90%", 'margin-left': "0px", 'fontColor': 'black', 'fontSize': 15,
+                    style={'width': "100%", 'margin-left': "0px", 'fontColor': 'black', 'fontSize': 15,
                            'color': 'black'},
                     multi=True,
                     searchable=True,
                     clearable=False,
                 )],md = 6),
+                dbc.Col([dbc.Label("in the form of")], md=1.5),
+
+                dbc.Col([
+                    dbc.Select(
+                        id="destination-carrier",
+                        options=[
+                            {"label": i, "value": i} for i in input_source
+                        ],
+                        value="All Oil",
+                        style={'width': "80%", 'margin-left': "0px", 'fontColor': 'black', 'fontSize': 15,
+                               'color': 'black'},
+                    )], md=4),
 ]),
 
 
             html.Br(),
+            dbc.Input(placeholder="Y axis title", id = "y_axis_title",className="mb-3",style={"width": '40%', }),
             dbc.Button("Add Figure", color="danger", id='update-button-cross-country-flow', n_clicks=0, className="me-1"),
             dbc.Button("Clear Canvas", color="primary", id='update-button-flow-clear', n_clicks=0,
                        className="me-1"),
@@ -266,6 +281,79 @@ def select_flow():
         style={'marginLeft':35,'marginTop':25,'fontSize':25}
     )
     return farm_drpdwn_dbc
+
+
+def select_breakdown_details():
+    path = 'Data/EnergyBalance'
+    files = os.listdir(path)
+    df = pd.read_csv("Data/EnergyBalance/{}/all_countries_df.csv".format(files[-1]))
+    sector_list = df["Transactions(down)/Commodity(right)"].unique()
+    dbc.Label("Select s sector", style={'margin-right': "5px"}),
+
+    farm_drpdwn_dbc = dbc.FormGroup(
+        [
+        dbc.Label("Select a sector  "),
+        dbc.Select(
+        id="select-sector-for-breakdown",
+        options=[
+            {"label": i, "value": i} for i in sector_list
+        ],
+        value="All Oil",
+        style={'width': "30%", 'margin-left': "0px", 'margin-right': "10px", 'fontColor': 'black',
+               'fontSize': 15, 'color': 'black'},
+
+    ),
+            html.Br(),
+            dbc.Button("Add Figure", color="danger", id='update-button-sector-breakdown', n_clicks=0,
+                       className="me-1"),
+            dbc.Button("Clear Canvas", color="primary", id='update-button-sector-breakdown-clear', n_clicks=0,
+                       className="me-1"),
+            ])
+    return farm_drpdwn_dbc
+def dynamic_column_components():
+    path = 'Data/EnergyBalance'
+    files = os.listdir(path)
+    df = pd.read_csv("Data/EnergyBalance/{}/all_countries_df.csv".format(files[-1]))
+    provider_list = df["Transactions(down)/Commodity(right)"].unique()
+    dbc.Label("Select s column", style={'margin-right': "5px"}),
+    columns = df.iloc[:,3:-3]
+    farm_drpdwn_dbc = dbc.FormGroup(
+        [
+        dbc.Label("Select a sector  "),
+        dcc.Dropdown(
+        id="select-sector-for-dynamic-column",
+        options=[
+            {"label": i, "value": i} for i in provider_list
+        ],
+        value=["Primary production"],
+        style={'width': "30%", 'margin-left': "0px", 'margin-right': "10px", 'fontColor': 'black',
+               'fontSize': 15, 'color': 'black'},
+            multi=True,
+            searchable=True,
+            clearable=False,
+    ),
+        dbc.Label("Select a column"),
+        dbc.Select(
+        id="select-dynamic-column",
+        options=[
+            {"label": i, "value": i} for i in columns
+        ],
+        value="Electricity",
+        style={'width': "30%", 'margin-left': "0px", 'margin-right': "10px", 'fontColor': 'black',
+               'fontSize': 15, 'color': 'black'},
+
+    ),
+            html.Br(),
+            dbc.Input(placeholder="Y axis title", id="y_axis_title_dynamic_column", className="mb-3", style={"width": '40%', }),
+
+            html.Br(),
+            dbc.Button("Add Figure", color="danger", id='update-button-dynamic-column', n_clicks=0,
+                       className="me-1"),
+            dbc.Button("Clear Canvas", color="primary", id='update-button-dynamic-column-clear', n_clicks=0,
+                       className="me-1"),
+            ])
+    return farm_drpdwn_dbc
+
 Tracing_energy_flows = [
 
     dbc.CardHeader(html.H5("Cross-country comparison of energy flows consumed in different sectors")),
@@ -287,6 +375,68 @@ Tracing_energy_flows = [
                     html.Div(id='dynamic_callback_container_energy_breakdown', children=[],
                              style={'margin-top': '15px', 'margin-left': '20px','margin-right': '20px'}),
                     html.Br(),
+                ],
+                type="default",
+            )
+        ],
+        style={"marginTop": 0, "marginBottom": 0},
+    ),
+]
+
+
+breakdown_of_source_in_a_sector = [
+
+    dbc.CardHeader(html.H5("Cross-country comparison of breakdown of sources in one sector (e.g., final consumption, or households)")),
+    dbc.CardBody(
+        [
+            dcc.Loading(
+                id="loading-sankey",
+                children=[
+                    dbc.Alert(
+                        "Something's gone wrong! Give us a moment, but try loading this page again if problem persists.",
+                        id="no-data-alert-sankey",
+                        color="warning",
+                        style={"display": "none"},
+                    ),
+                    select_breakdown_details(),
+                    html.Br(),
+                    # html.Div(dcc.Graph(id="cross_country_sankey_figure"),style=figure_border_style),
+                    html.Div(id='Hidden_Div_breakdown_by_source', children=[0, 0], style={'display': 'none'}),
+                    html.Div(id='dynamic_callback_container_energy_breakdown_by_source', children=[],
+                             style={'margin-top': '15px', 'margin-left': '20px','margin-right': '20px'}),
+                    html.Br(),
+                ],
+                type="default",
+            )
+        ],
+        style={"marginTop": 0, "marginBottom": 0},
+    ),
+]
+
+
+dynamic_column_cross_country = [
+
+    dbc.CardHeader(html.H5("Cross-country comparison of a column (i.e., Electricity)")),
+    dbc.CardBody(
+        [
+            dcc.Loading(
+                id="loading-sankey",
+                children=[
+                    dbc.Alert(
+                        "Something's gone wrong! Give us a moment, but try loading this page again if problem persists.",
+                        id="no-data-alert-sankey",
+                        color="warning",
+                        style={"display": "none"},
+                    ),
+                    dynamic_column_components(),
+                    html.Br(),
+                    # html.Div(dcc.Graph(id="cross_country_sankey_figure"),style=figure_border_style),
+                    html.Div(id='Hidden-Div_dynamic_column', children=[0, 0], style={'display': 'none'}),
+                    html.Div(id='dynamic_callback_container_dynamic_column', children=[],
+                             style={'margin-top': '15px', 'margin-left': '20px','margin-right': '20px'}),
+
+                    html.Br(),
+
                 ],
                 type="default",
             )
@@ -333,6 +483,8 @@ BODY = dbc.Container(
     [
         dbc.Row([dbc.Col(dbc.Card(Sankey)),], style={"marginTop": 30}),
         dbc.Row([dbc.Col(dbc.Card(Tracing_energy_flows)),], style={"marginTop": 30}),
+        dbc.Row([dbc.Col(dbc.Card(breakdown_of_source_in_a_sector)),], style={"marginTop": 30}),
+        dbc.Row([dbc.Col(dbc.Card(dynamic_column_cross_country)),], style={"marginTop": 30}),
         dbc.Row([dbc.Col(dbc.Card(Cross_country_sankey)), ], style={"marginTop": 30}),
 
     ],
