@@ -315,7 +315,7 @@ def calculate_PV_Wind_potential(available_land = 0.01,available_coastline = 0.1)
 
     df_technical_potential['sum_of_wind_and_solar_GWh'] = df_technical_potential['PV_technical_GWh'] + df_technical_potential['Wind_technical_GWh']
 
-    # df_technical_potential.to_csv("Wind({})_and_solar({})_technical_potential.csv".format(available_coastline,available_land))
+    df_technical_potential.to_csv("Wind({})_and_solar({})_technical_potential.csv".format(available_coastline,available_land))
 
     return df_technical_potential
 
@@ -348,4 +348,4 @@ def calculate_rooftop_PV_potential(available_buildings = 0.3,PV_size = 2.5):
     return rooftop_df
 
 
-# calculate_PV_Wind_potential(available_land=0.01,available_coastline=0)
+# calculate_PV_Wind_potential(available_land=0.02,available_coastline=0.1)
