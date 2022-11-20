@@ -192,8 +192,8 @@ def all_countries_cross_comparison_unstats(Year,Unit,Use):
     summary_df['Renewables/Total_imports'] = 100 * summary_df['renewables_in_total']/summary_df['total imports']
     summary_df['Renewables/Total_imports']=summary_df['Renewables/Total_imports'].round(1)
 
-    summary_df['Renewables/capita'] = (summary_df['renewables_in_total']/population['Population'])  #Tj or GWh
-    summary_df['Renewables/capita'] = summary_df['Renewables/capita'].round(0)
+    summary_df['Renewables/capita'] = (summary_df['renewables_in_total']/population['Population'])*1000  #Tj or GWh
+    summary_df['Renewables/capita'] = summary_df['Renewables/capita'].round(1)
 
     summary_df['marine_to_import'] = 100 * summary_df['int marine']/summary_df['Oil imports']
     summary_df['aviation_to_import'] = 100 * summary_df['int aviation']/summary_df['Oil imports']
@@ -280,7 +280,7 @@ def calculate_PV_Wind_potential(available_land = 0.01,available_coastline = 0.1)
     Theoretical_wind_GW = (1.5/0.25) * coastline/1000
     Technical_wind_GW = Theoretical_wind_GW * available_coastline
     Technical_wind_GW = Technical_wind_GW.astype(float)
-    Technical_wind_GW = Technical_wind_GW.round(decimals=1)
+    Technical_wind_GW = Technical_wind_GW.round(decimals=2)
 
     Theoretical_PV_GWh = Theoretical_PV_GWh.astype(int)
     Theoretical_wind_GWh = Theoretical_wind_GWh.astype(float)

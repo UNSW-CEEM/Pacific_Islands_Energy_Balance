@@ -36,7 +36,7 @@ app.layout = dbc.Container([
                     active_label_style={"color": '#FF0000'}, tab_id='geothermal-tab'),
             dbc.Tab(label="Bioenergy potential", active_tab_style={"textTransform": "uppercase"},
                     active_label_style={"color": '#FF0000'}, tab_id='bioenergy-tab'),
-            dbc.Tab(label="Decarbonization of electricity sector", active_tab_style={"textTransform": "uppercase"},active_label_style={"color": '#FF0000'},tab_id='decrb-tab'),
+            # dbc.Tab(label="Decarbonization of electricity sector", active_tab_style={"textTransform": "uppercase"},active_label_style={"color": '#FF0000'},tab_id='decrb-tab'),
             # dbc.Tab(label="Policies", active_tab_style={"textTransform": "uppercase"},
             #         active_label_style={"color": '#FF0000'}, tab_id='Plicies'),
             # dbc.Tab(label="Decarbonization of transport", active_tab_style={"textTransform": "uppercase"},

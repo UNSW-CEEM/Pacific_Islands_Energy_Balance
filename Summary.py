@@ -115,10 +115,10 @@ Transit = [
                     ]),
                     html.Br(),
                     dbc.Row([
-                        dbc.Col(html.Div(dcc.Graph(id="final-vs-non-re-demand", figure=figures.land_use_plot()[4]),
-                                         style=figure_border_style), md=6),
+                        # dbc.Col(html.Div(dcc.Graph(id="final-vs-non-re-demand", figure=figures.land_use_plot()[4]),
+                        #                  style=figure_border_style), md=6),
 
-                        dbc.Col(html.Div(dcc.Graph(id="demand-per-capita", figure=figures.land_use_plot()[5]),
+                        dbc.Col(html.Div(dcc.Graph(id="demand-per-capita", figure=figures.land_use_plot()[4]),
                                          style=figure_border_style), md=6),
                     ]),
                     html.Br(),

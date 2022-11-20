@@ -12,11 +12,11 @@ mode = "report"
 color_dict = {"app": "white", "report": "black"}
 font_color = color_dict[mode]
 line_color = color_dict[mode]
-size_dict = {"app": 18, "report": 21}
+size_dict = {"app": 17, "report": 20}
 font_size = size_dict[mode]
 simple_template = dict(
     layout=go.Layout(
-        title = dict(font=dict(family="Calibri", size=24),y=0.9),
+        title=dict(font=dict(family="Calibri", size=24), y=0.95),
         # title_font=,
         plot_bgcolor="rgba(0,0,0,0)",
         paper_bgcolor="rgba(0,0,0,0)",
@@ -32,10 +32,13 @@ simple_template = dict(
         # height=400,
         yaxis=dict(showline=True, linecolor=line_color, gridcolor=line_color),
         xaxis=dict(
-            showgrid=False, gridcolor="grey", showline=True, linecolor=line_color,automargin = True
+            showgrid=False,
+            gridcolor="grey",
+            showline=True,
+            linecolor=line_color,
+            automargin=True,
         ),
-        # if mode=="report":
-        # margin=dict(t=20)
+
     )
 )
 
@@ -45,8 +48,9 @@ def single_barplot(title, x_axis, y_axis, x_title, y_title, color="forestgreen")
     x_axis_title_dict = {
         "OEC": '<a href="https://oec.world/en/home-b"><sub>Source: The Observatory of Economic Complexity (OEC)<sub></a>',
         "UNSTATS": '<a href="http://unstats.un.org/unsd/energystats/pubs/balance"><sub>Source: Energy Balances, United Nations<sub></a>',
+        "WID": '<a href="https://ourworldindata.org/grapher/per-capita-energy-use"><sub>Source: Our world in data <sub></a>',
     }
-    if x_title in ["OEC", "UNSTATS"]:
+    if x_title in x_axis_title_dict.keys():
         x_title = x_axis_title_dict[x_title]
 
     fig = go.Figure()
@@ -56,6 +60,36 @@ def single_barplot(title, x_axis, y_axis, x_title, y_title, color="forestgreen")
     fig.update_yaxes(title_text=y_title)
     fig.update_xaxes(title_text=x_title)
 
+    return fig
+
+
+def multiple_barplot(
+    title, x_axis, y_axis_list, x_title, y_title, name_list, color_list, barmode
+):
+    x_axis_title_dict = {
+        "OEC": '<a href="https://oec.world/en/home-b"><sub>Source: The Observatory of Economic Complexity (OEC)<sub></a>',
+        "UNSTATS": '<a href="http://unstats.un.org/unsd/energystats/pubs/balance"><sub>Source: Energy Balances, United Nations<sub></a>',
+        "WID": '<a href="https://ourworldindata.org/grapher/per-capita-energy-use"><sub>Source: Our world in data <sub></a>',
+    }
+    if x_title in x_axis_title_dict.keys():
+        x_title = x_axis_title_dict[x_title]
+
+    fig = go.Figure()
+    for y in range(len(y_axis_list)):
+        # idx = y_axis_list.index(y)
+        fig.add_trace(
+            go.Bar(
+                x=x_axis,
+                y=y_axis_list[y],
+                text=y_axis_list[y],
+                name=name_list[y],
+                marker_color=color_list[y],
+            )
+        )
+
+    fig.update_layout(template=simple_template, title=title, barmode=barmode)
+    fig.update_yaxes(title_text=y_title)
+    fig.update_xaxes(title_text=x_title)
     return fig
 
 
@@ -89,36 +123,7 @@ def imports_to_GDP(year):
         df_GDP["Imp"] * 1000000 / df_GDP["Population"]
     )  # $ per capita
     df_GDP["net_imp_per_capita"] = df_GDP["net_imp_per_capita"].round(0)
-    # df_GDP['net_imp_per_capita'] = df_GDP['net_imp_per_capita']
 
-    # fig = go.Figure()
-    # fig.add_trace(go.Bar(x=df_GDP['Country'], y=df_GDP['net_imp_to_GDP'],text=df_GDP['net_imp_to_GDP'],name='',marker_color='forestgreen'))
-    # fig.update_layout(#width=1500,
-    #     # height=500,
-    #     barmode='relative')
-    # fig.update_layout(legend = dict(bgcolor = 'rgba(0,0,0,0)',    yanchor="bottom",orientation="h",
-    #     y=1.05,
-    #     xanchor="center",
-    #     x=0.5),
-    #                   font=dict(
-    #                       family="Calibri",
-    #                       size=16,
-    #                       color=font_color
-    #                   )
-    #                   )
-    # fig.update_layout({
-    # 'plot_bgcolor': 'rgba(0,0,0,0)',
-    # 'paper_bgcolor': 'rgba(0,0,0,0)',
-    # })
-    # fig.update_yaxes(title_text="% of GDP",showline=True,linecolor=line_color,gridcolor=line_color)
-    # fig.update_xaxes(showline=True,linecolor=line_color,
-    #                  title_text="<a href=\"https://oec.world/en/home-b\"><sub>Source: The Observatory of Economic Complexity (OEC)<sub></a>")
-    #
-    # fig.update_layout(
-    #     title="Ratio of net imported petroleum products to GDP")
-    # # print(summary_df)
-    # fig.update_traces(marker_line_color=font_color,
-    #                   marker_line_width=1.5, opacity=1)
     fig = single_barplot(
         x_axis=df_GDP["Country"],
         y_axis=df_GDP["net_imp_to_GDP"],
@@ -126,54 +131,13 @@ def imports_to_GDP(year):
         x_title="OEC",
         y_title="% of GDP",
     )
-
-    fig2 = go.Figure()
-    fig2.add_trace(
-        go.Bar(
-            x=df_GDP["Country"],
-            y=df_GDP["net_imp_per_capita"],
-            text=df_GDP["net_imp_per_capita"],
-            name="dasdsa",
-            marker_color="forestgreen",
-        )
+    fig2 = single_barplot(
+        x_axis=df_GDP["Country"],
+        y_axis=df_GDP["net_imp_per_capita"],
+        title="Imported petroleum products per capita",
+        x_title="OEC",
+        y_title="$ per capita",
     )
-    fig2.update_layout(  # width=1500,
-        # height=500,
-        barmode="relative"
-    )
-    fig2.update_layout(
-        legend=dict(
-            bgcolor="rgba(0,0,0,0)",
-            yanchor="bottom",
-            orientation="h",
-            y=1.05,
-            xanchor="center",
-            x=0.5,
-        ),
-        font=dict(family="Calibri", size=16, color=font_color),
-    )
-    fig2.update_layout(
-        {
-            "plot_bgcolor": "rgba(0,0,0,0)",
-            "paper_bgcolor": "rgba(0,0,0,0)",
-        }
-    )
-    fig2.update_yaxes(
-        title_text="$ per capita",
-        showline=True,
-        linecolor=line_color,
-        gridcolor=line_color,
-    )
-    fig2.update_xaxes(
-        showline=True,
-        linecolor=line_color,
-        title_text='<a href="https://oec.world/en/home-b"><sub>Source: The Observatory of Economic Complexity (OEC)<sub></a>',
-    )
-
-    fig2.update_layout(title="Imported petroleum products per capita")
-    # print(summary_df)
-    fig2.update_traces(marker_line_color=font_color, marker_line_width=1.5, opacity=1)
-
     return [fig, fig2]
 
 
@@ -841,41 +805,43 @@ def decarbonization_scenarios(
         )
     )
 
-    fig3.update_layout(  # width=1500,
-        # height=500,
-        barmode="relative"
-    )
-    fig3.update_layout(
-        legend=dict(
-            bgcolor="rgba(0,0,0,0)",
-            yanchor="bottom",
-            orientation="h",
-            y=0.98,
-            xanchor="center",
-            x=0.5,
-        ),
-        font=dict(family="Calibri", size=16, color=font_color),
-    )
-    fig3.update_layout(
-        {
-            "plot_bgcolor": "rgba(0,0,0,0)",
-            "paper_bgcolor": "rgba(0,0,0,0)",
-        }
-    )
-    fig3.update_yaxes(
-        title_text="Installed Capacity (MW)",
-        showline=True,
-        linecolor=line_color,
-        gridcolor=line_color,
-    )
-    fig3.update_xaxes(showline=True, linecolor=line_color)
-
-    fig3.update_layout(
-        title="Breakdown of annual RE installation for 100% RE in {}".format(
+    fig3.update_layout(template=simple_template,
+        barmode="relative",
+                       title="Breakdown of annual RE installation for 100% RE in {}".format(
             decarb_year
         )
     )
-    fig3.update_traces(marker_line_color=font_color, marker_line_width=1.5, opacity=1)
+    # fig3.update_layout(
+    #     legend=dict(
+    #         bgcolor="rgba(0,0,0,0)",
+    #         yanchor="bottom",
+    #         orientation="h",
+    #         y=0.98,
+    #         xanchor="center",
+    #         x=0.5,
+    #     ),
+    #     font=dict(family="Calibri", size=16, color=font_color),
+    # )
+    # fig3.update_layout(
+    #     {
+    #         "plot_bgcolor": "rgba(0,0,0,0)",
+    #         "paper_bgcolor": "rgba(0,0,0,0)",
+    #     }
+    # )
+    fig3.update_yaxes(
+        title_text="Installed Capacity (MW)",
+        # showline=True,
+        # linecolor=line_color,
+        # gridcolor=line_color,
+    )
+    # fig3.update_xaxes(showline=True, linecolor=line_color)
+
+    # fig3.update_layout(
+    #     title="Breakdown of annual RE installation for 100% RE in {}".format(
+    #         decarb_year
+    #     )
+    # )
+    # fig3.update_traces(marker_line_color=font_color, marker_line_width=1.5, opacity=1)
 
     fig4 = make_subplots(specs=[[{"secondary_y": True}]])
 
@@ -1020,26 +986,6 @@ def decarbonization_scenarios(
 
 
 def rooftop_PV_plot(available_buildings, PV_size):
-    # import pandas as pd
-    # rooftop_df = pd.DataFrame()
-    # df = pd.read_csv('Data/Rooftop Potential.csv')
-    # Countries = df['Country']
-    # Population = df['Population']
-    # Household_size = df['Household size']
-    # solar_radiation = df['Potential of Av.PV gen (GWh/MW/year)']
-    # number_of_homes = available_buildings*Population/Household_size # only those homes with rooftop PV potential
-    # number_of_homes = number_of_homes.round(0)
-    # rooftop_capacity_MW = number_of_homes * PV_size/1000
-    # rooftop_capacity_MW = rooftop_capacity_MW.round(1)
-    # rooftop_PV_generation_GWh = rooftop_capacity_MW * solar_radiation
-    # rooftop_PV_generation_GWh = rooftop_PV_generation_GWh.astype(float)
-    # rooftop_PV_generation_GWh = rooftop_PV_generation_GWh.round(decimals=1)
-    #
-    # rooftop_df['Generation_GWh'] = rooftop_PV_generation_GWh
-    # rooftop_df['Country'] = Countries
-    #
-    # rooftop_df.to_csv('rooftop_Pv_potential.csv')
-
     rooftop_df = functions.calculate_rooftop_PV_potential(
         available_buildings=available_buildings, PV_size=PV_size
     )
@@ -1067,157 +1013,32 @@ def rooftop_PV_plot(available_buildings, PV_size):
     fig.update_yaxes(
         title_text="Population",
         secondary_y=False,
-        showline=True,
-        showgrid=True,
-        linecolor=line_color,
-        gridcolor=line_color,
     )
     fig.update_yaxes(
         title_text="Average household size",
         secondary_y=True,
-        showline=True,
-        showgrid=True,
-        linecolor=line_color,
-        gridcolor=line_color,
     )
-    fig.update_xaxes(showgrid=False, showline=True, linecolor=line_color)
-    fig.update_layout(
-        font=dict(family="Calibri", size=16, color=font_color), hovermode="x"
-    )
-    fig.update_layout(
-        {"plot_bgcolor": "rgba(0,0,0,0)", "paper_bgcolor": "rgba(0,0,0,0)"},
-        legend=dict(
-            bgcolor="rgba(0,0,0,0)",
-            yanchor="bottom",
-            orientation="h",
-            y=1.05,
-            xanchor="center",
-            x=0.5,
-        ),
-    )
-    fig.update_traces(marker_line_color=font_color, marker_line_width=1.5, opacity=1)
-    fig.update_layout(title="Population and average households size")
+
+    fig.update_layout(title="Population and average households size",template=simple_template)
     fig.update_xaxes(
         showline=True,
         linecolor=line_color,
         title_text='<a href="http://purl.org/spc/digilib/doc/z8n4m"><sub>Source: 2020 Pacific Populations, SPC<sub></a>',
     )
-    fig.update_layout(  # width=1500,
-        # height=500,
-        barmode="group"
-    )
-    fig2 = make_subplots(specs=[[{"secondary_y": True}]])
-    fig2.add_trace(
-        go.Bar(
-            x=rooftop_df["Country"],
-            y=rooftop_df["avaialble_homes"],
-            text=rooftop_df["avaialble_homes"],
-            name="Number of homes available for rooftop PV",
-            marker_color="forestgreen",
-        ),
-        secondary_y=False,
-    )
-    fig2.update_yaxes(
-        title_text="Number of homes available for rooftop PV",
-        secondary_y=False,
-        showline=True,
-        showgrid=True,
-        linecolor=line_color,
-        gridcolor=line_color,
-    )
-    fig2.update_xaxes(showgrid=False, showline=True, linecolor=line_color)
 
-    fig2.update_layout(  # height=350,
-        font=dict(family="Calibri", size=16, color=font_color), hovermode="x"
-    )
-    fig2.update_layout(
-        {"plot_bgcolor": "rgba(0,0,0,0)", "paper_bgcolor": "rgba(0,0,0,0)"},
-        legend=dict(
-            bgcolor="rgba(0,0,0,0)",
-            yanchor="bottom",
-            orientation="h",
-            y=1.05,
-            xanchor="center",
-            x=0.5,
-        ),
-    )
-    fig2.update_traces(marker_line_color=font_color, marker_line_width=1.5, opacity=1)
-    fig2.update_layout(title="Number of homes available for rooftop PV ")
+    fig2 = single_barplot(title="Number of homes available for rooftop PV ",
+                          x_axis=rooftop_df["Country"],
+                          y_axis=rooftop_df["avaialble_homes"],
+                          y_title="Number of homes",x_title="")
 
-    fig3 = make_subplots(specs=[[{"secondary_y": False}]])
-    fig3.add_trace(
-        go.Bar(
-            x=rooftop_df["Country"],
-            y=rooftop_df["Generation_GWh"],
-            text=rooftop_df["Generation_GWh"],
-            name="Potential rooftop PV generation (GWh)",
-            marker_color="forestgreen",
-        ),
-    )
-    fig3.update_yaxes(
-        title_text="Rooftop PV generation (GWh/year)",
-        showline=True,
-        showgrid=True,
-        linecolor=line_color,
-        gridcolor=line_color,
-    )
-    fig3.update_xaxes(showgrid=False, showline=True, linecolor=line_color)
-
-    fig3.update_layout(  # height=350,
-        font=dict(family="Calibri", size=16, color=font_color), hovermode="x"
-    )
-    fig3.update_layout(
-        {"plot_bgcolor": "rgba(0,0,0,0)", "paper_bgcolor": "rgba(0,0,0,0)"},
-        legend=dict(
-            bgcolor="rgba(0,0,0,0)",
-            yanchor="bottom",
-            orientation="h",
-            y=1.05,
-            xanchor="center",
-            x=0.5,
-        ),
-    )
-    fig3.update_traces(marker_line_color=font_color, marker_line_width=1.5, opacity=1)
-    fig3.update_layout(title="Potential rooftop PV generation")
-
-    fig4 = make_subplots(specs=[[{"secondary_y": False}]])
-    fig4.add_trace(
-        go.Bar(
-            x=rooftop_df["Country"],
-            y=rooftop_df["Capacity_MW"],
-            text=rooftop_df["Capacity_MW"],
-            name="Rooftop PV capacity",
-            marker_color="forestgreen",
-        ),
-    )
-
-    fig4.update_yaxes(
-        title_text="Potential rooftop PV capacity (MW)",
-        secondary_y=False,
-        showline=True,
-        showgrid=True,
-        linecolor=line_color,
-        gridcolor=line_color,
-    )
-    fig4.update_xaxes(showgrid=False, showline=True, linecolor=line_color)
-
-    fig4.update_layout(  # height=350,
-        font=dict(family="Calibri", size=16, color=font_color), hovermode="x"
-    )
-    fig4.update_layout(
-        {"plot_bgcolor": "rgba(0,0,0,0)", "paper_bgcolor": "rgba(0,0,0,0)"},
-        legend=dict(
-            bgcolor="rgba(0,0,0,0)",
-            yanchor="bottom",
-            orientation="h",
-            y=1.05,
-            xanchor="center",
-            x=0.5,
-        ),
-    )
-    fig4.update_traces(marker_line_color=font_color, marker_line_width=1.5, opacity=1)
-    fig4.update_layout(title="Potential rooftop PV capacity")
-
+    fig3 = single_barplot(title="Potential rooftop PV generation",
+                          x_axis=rooftop_df["Country"],
+                          y_axis=rooftop_df["Generation_GWh"],
+                          y_title="Generation (GWh/year)",x_title="")
+    fig4 = single_barplot(title="Potential rooftop PV capacity",
+                          x_axis=rooftop_df["Country"],
+                          y_axis=rooftop_df["Capacity_MW"],
+                          y_title="Capacity (MW)",x_title="")
     return [fig, fig2, fig3, fig4]
 
 
@@ -1225,116 +1046,36 @@ def UNstats_plots(year):
     summary_df = functions.all_countries_cross_comparison_unstats(
         2019, Unit="TJ", Use="SummaryPlot"
     )
-    fig = go.Figure()
-    fig.add_trace(
-        go.Bar(
-            x=summary_df["Country"],
-            y=summary_df["marine_to_import"],
-            name="Int. marine bunkers",
-            marker_color="forestgreen",
-        )
-    )
-    fig.add_trace(
-        go.Bar(
-            x=summary_df["Country"],
-            y=summary_df["aviation_to_import"],
-            name="Int. aviation bunkers",
-            marker_color="lightsalmon",
-        )
-    )
-    fig.update_layout(  # width=1500,
-        # height=500,
-        barmode="relative"
-    )
-    fig.update_layout(
-        legend=dict(
-            bgcolor="rgba(0,0,0,0)",
-            yanchor="bottom",
-            orientation="h",
-            y=1.05,
-            xanchor="center",
-            x=0.5,
-        ),
-        font=dict(family="Calibri", size=16, color=font_color),
-        hovermode="x",
-    )
-    fig.update_layout(
-        {
-            "plot_bgcolor": "rgba(0,0,0,0)",
-            "paper_bgcolor": "rgba(0,0,0,0)",
-        }
-    )
-    fig.update_yaxes(
-        title_text="% of imported oil",
-        showline=True,
-        linecolor=line_color,
-        gridcolor=line_color,
-    )
-    fig.update_xaxes(
-        showline=True,
-        linecolor=line_color,
-        title_text='<a href="http://unstats.un.org/unsd/energystats/pubs/balance"><sub>Source: Energy Balances, United Nations<sub></a>',
+
+    fig = multiple_barplot(
+        x_axis=summary_df["Country"],
+        y_axis_list=[
+            summary_df["marine_to_import"].round(0),
+            summary_df["aviation_to_import"].round(0),
+        ],
+        title="% of imported oil consumed for international transit in {}".format(year),
+        x_title="UNSTATS",
+        y_title="% of imported oil",
+        name_list=["Int. marine bunkers", "Int. aviation bunkers"],
+        color_list=["forestgreen", "lightsalmon"],
+        barmode="relative",
     )
 
-    fig.update_layout(
-        title="% of imported oil consumed for international transit in {}".format(year)
-    )
-    # print(summary_df)
-    fig.update_traces(marker_line_color=font_color, marker_line_width=1.5, opacity=1)
-
-    fig2 = go.Figure()
-    fig2.add_trace(
-        go.Bar(
-            x=summary_df["Country"],
-            y=summary_df["transformation_to_import"],
-            name="Transformation",
-            marker_color="forestgreen",
-        )
-    )
-    fig2.add_trace(
-        go.Bar(
-            x=summary_df["Country"],
-            y=summary_df["transformation_losses_to_import"],
-            name="Transformation losses",
-            marker_color="lightsalmon",
-        )
-    )
-    fig2.update_layout(
-        legend=dict(
-            bgcolor="rgba(0,0,0,0)",
-            yanchor="bottom",
-            orientation="h",
-            y=1.05,
-            xanchor="center",
-            x=0.5,
-        ),
-        font=dict(family="Calibri", size=16, color=font_color),
-        hovermode="x",
-    )
-    fig2.update_layout(
-        {
-            "plot_bgcolor": "rgba(0,0,0,0)",
-            "paper_bgcolor": "rgba(0,0,0,0)",
-        }
-    )
-    fig2.update_yaxes(
-        title_text="% of imported oil",
-        showline=True,
-        linecolor=line_color,
-        gridcolor=line_color,
-    )
-    fig2.update_xaxes(
-        showline=True,
-        linecolor=line_color,
-        title_text='<a href="http://unstats.un.org/unsd/energystats/pubs/balance"><sub>Source: Energy Balances, United Nations<sub></a>',
-    )
-
-    fig2.update_layout(
+    fig2 = multiple_barplot(
+        x_axis=summary_df["Country"],
+        y_axis_list=[
+            summary_df["transformation_to_import"].round(0),
+            summary_df["transformation_losses_to_import"].round(0),
+        ],
         title="% of imported oil transformed into electricity and transformation losses in {}".format(
             year
-        )
+        ),
+        x_title="UNSTATS",
+        y_title="% of imported oil",
+        name_list=["Transformation", "Transformation losses"],
+        color_list=["forestgreen", "lightsalmon"],
+        barmode="group",
     )
-    fig2.update_traces(marker_line_color=font_color, marker_line_width=1.5, opacity=1)
 
     fig3 = go.Figure()
     fig3.add_trace(
@@ -1385,369 +1126,85 @@ def UNstats_plots(year):
             marker_color="darkturquoise",
         )
     )
-
-    fig3.update_layout(barmode="relative")  # width=1500,
-    fig3.update_layout(
-        legend=dict(
-            bgcolor="rgba(0,0,0,0)",
-            yanchor="bottom",
-            orientation="h",
-            y=0.98,
-            xanchor="center",
-            x=0.5,
-        ),
-        font=dict(family="Calibri", size=16, color=font_color),
-        hovermode="x",
-    )
-    fig3.update_layout(
-        {
-            "plot_bgcolor": "rgba(0,0,0,0)",
-            "paper_bgcolor": "rgba(0,0,0,0)",
-        }
-    )
     fig3.update_yaxes(
         title_text="% of imported oil",
-        showline=True,
-        linecolor=line_color,
-        gridcolor=line_color,
     )
     fig3.update_xaxes(
-        showline=True,
-        linecolor=line_color,
+
         title_text='<a href="http://unstats.un.org/unsd/energystats/pubs/balance"><sub>Source: Energy Balances, United Nations<sub></a>',
     )
 
-    fig3.update_layout(
-        title="Breakdown of imported oil consumed for domestic transport in {}".format(
+    fig3.update_layout(template = simple_template,
+        title=dict(text= "Breakdown of imported oil consumed for domestic transport in {}".format(
             year
-        )
-    )
-    fig3.update_traces(marker_line_color=font_color, marker_line_width=1.5, opacity=1)
-
-    fig4 = go.Figure()
-    fig4.add_trace(
-        go.Bar(
-            x=summary_df["Country"],
-            y=summary_df["Oil imports"],
-            name="Oil imports",
-            text=summary_df["Oil imports"],
-            marker_color="forestgreen",
-        )
+        ),y=0.98),
+                       # hovermode="x",
+                       barmode="relative",
     )
 
-    fig4.update_layout(  # width=1500,
-        # height=500,
-        barmode="relative"
-    )
-    fig4.update_layout(
-        legend=dict(
-            bgcolor="rgba(0,0,0,0)",
-            yanchor="bottom",
-            orientation="h",
-            y=0.98,
-            xanchor="center",
-            x=0.5,
-        ),
-        font=dict(family="Calibri", size=16, color=font_color),
-        hovermode="x",
-    )
-    fig4.update_layout(
-        {
-            "plot_bgcolor": "rgba(0,0,0,0)",
-            "paper_bgcolor": "rgba(0,0,0,0)",
-        }
-    )
-    fig4.update_yaxes(
-        title_text="TJ", showline=True, linecolor=line_color, gridcolor=line_color
-    )
-    fig4.update_xaxes(
-        showline=True,
-        linecolor=line_color,
-        title_text='<a href="http://unstats.un.org/unsd/energystats/pubs/balance"><sub>Source: Energy Balances, United Nations<sub></a>',
-    )
-    fig4.update_layout(title="Imported oil in {}".format(year))
-    fig4.update_traces(marker_line_color=font_color, marker_line_width=1.5, opacity=1)
-    # fig4.update_traces(texttemplate='%{text:.1s}')
-
-    fig5 = go.Figure()
-    fig5.add_trace(
-        go.Bar(
-            x=summary_df["Country"],
-            y=summary_df["Total_demand"],
-            name="Total demand",
-            text=summary_df["Total_demand"],
-            marker_color="forestgreen",
-        )
+    fig4 = single_barplot(
+        x_axis=summary_df["Country"],
+        y_axis=summary_df["Oil imports"],
+        title="Imported oil in {}".format(year),
+        x_title="UNSTATS",
+        y_title="TJ",
     )
 
-    fig5.update_layout(
-        legend=dict(
-            bgcolor="rgba(0,0,0,0)",
-            yanchor="bottom",
-            orientation="h",
-            y=0.98,
-            xanchor="center",
-            x=0.5,
-        ),
-        font=dict(family="Calibri", size=16, color=font_color),
-        hovermode="x",
+    fig5 = single_barplot(
+        x_axis=summary_df["Country"],
+        y_axis=summary_df["Total_demand"],
+        title="Total demand (excluding int transit) in {}".format(year),
+        x_title="UNSTATS",
+        y_title="TJ",
     )
-    fig5.update_layout(
-        {
-            "plot_bgcolor": "rgba(0,0,0,0)",
-            "paper_bgcolor": "rgba(0,0,0,0)",
-        }
-    )
-    fig5.update_yaxes(
-        title_text="TJ", showline=True, linecolor=line_color, gridcolor=line_color
-    )
-    fig5.update_xaxes(
-        showline=True,
-        linecolor=line_color,
-        title_text='<a href="http://unstats.un.org/unsd/energystats/pubs/balance"><sub>Source: Energy Balances, United Nations<sub></a>',
-    )
-
-    fig5.update_layout(title="Total demand (excluding int transit) in {}".format(year))
-    # print(summary_df)
-    fig5.update_traces(marker_line_color=font_color, marker_line_width=1.5, opacity=1)
-    fig5.update_traces(hovertemplate=None)
-
-    fig6 = go.Figure()
-    fig6.add_trace(
-        go.Bar(
-            x=summary_df["Country"],
-            y=summary_df["renewables_in_total"],
-            name="Total energy from renewables",
-            text=summary_df["renewables_in_total"],
-            marker_color="forestgreen",
-        )
-    )
-
-    fig6.update_layout(
-        legend=dict(
-            bgcolor="rgba(0,0,0,0)",
-            yanchor="bottom",
-            orientation="h",
-            y=0.98,
-            xanchor="center",
-            x=0.5,
-        ),
-        font=dict(family="Calibri", size=16, color=font_color),
-        hovermode="x",
-    )
-    fig6.update_layout(
-        {
-            "plot_bgcolor": "rgba(0,0,0,0)",
-            "paper_bgcolor": "rgba(0,0,0,0)",
-        }
-    )
-    fig6.update_yaxes(
-        title_text="TJ", showline=True, linecolor=line_color, gridcolor=line_color
-    )
-    fig6.update_xaxes(
-        showline=True,
-        linecolor=line_color,
-        title_text='<a href="http://unstats.un.org/unsd/energystats/pubs/balance"><sub>Source: Energy Balances, United Nations<sub></a>',
-    )
-    fig6.update_layout(
+    fig6 = single_barplot(
+        x_axis=summary_df["Country"],
+        y_axis=summary_df["renewables_in_total"],
         title="Total renewable energy (electricity and final consumption) used in {}".format(
             year
-        )
-    )
-    # print(summary_df)
-    fig6.update_traces(marker_line_color=font_color, marker_line_width=1.5, opacity=1)
-    fig6.update_traces(hovertemplate=None)
-
-    fig7 = go.Figure()
-    fig7.add_trace(
-        go.Bar(
-            x=summary_df["Country"],
-            y=summary_df["renewable_electricity"],
-            name="Total energy from renewables",
-            text=summary_df["renewable_electricity"],
-            marker_color="forestgreen",
-        )
-    )
-
-    fig7.update_layout(
-        legend=dict(
-            bgcolor="rgba(0,0,0,0)",
-            yanchor="bottom",
-            orientation="h",
-            y=0.98,
-            xanchor="center",
-            x=0.5,
         ),
-        font=dict(family="Calibri", size=16, color=font_color),
-        hovermode="x",
+        x_title="UNSTATS",
+        y_title="TJ",
     )
-    fig7.update_layout(
-        {
-            "plot_bgcolor": "rgba(0,0,0,0)",
-            "paper_bgcolor": "rgba(0,0,0,0)",
-        }
-    )
-    fig7.update_yaxes(
-        title_text="TJ", showline=True, linecolor=line_color, gridcolor=line_color
-    )
-    fig7.update_xaxes(
-        showline=True,
-        linecolor=line_color,
-        title_text='<a href="http://unstats.un.org/unsd/energystats/pubs/balance"><sub>Source: Energy Balances, United Nations<sub></a>',
-    )
-    fig7.update_layout(
+
+    fig7 = single_barplot(
+        x_axis=summary_df["Country"],
+        y_axis=summary_df["renewable_electricity"],
         title="Primary electricity production (wind, PV, hydro, geothermal) in {}".format(
             year
-        )
-    )
-    # print(summary_df)
-    fig7.update_traces(marker_line_color=font_color, marker_line_width=1.5, opacity=1)
-    fig7.update_traces(hovertemplate=None)
-
-    fig8 = go.Figure()
-    fig8.add_trace(
-        go.Bar(
-            x=summary_df["Country"],
-            y=summary_df["Renewables/Total_demand"],
-            name="Total energy from renewables",
-            text=summary_df["Renewables/Total_demand"],
-            marker_color="forestgreen",
-        )
-    )
-
-    fig8.update_layout(
-        legend=dict(
-            bgcolor="rgba(0,0,0,0)",
-            yanchor="bottom",
-            orientation="h",
-            y=0.98,
-            xanchor="center",
-            x=0.5,
         ),
-        font=dict(family="Calibri", size=16, color=font_color),
-        hovermode="x",
+        x_title="UNSTATS",
+        y_title="TJ",
     )
-    fig8.update_layout(
-        {
-            "plot_bgcolor": "rgba(0,0,0,0)",
-            "paper_bgcolor": "rgba(0,0,0,0)",
-        }
-    )
-    fig8.update_yaxes(
-        title_text="% of total demand",
-        showline=True,
-        linecolor=line_color,
-        gridcolor=line_color,
-    )
-    fig8.update_xaxes(
-        showline=True,
-        linecolor=line_color,
-        title_text='<a href="http://unstats.un.org/unsd/energystats/pubs/balance"><sub>Source: Energy Balances, United Nations<sub></a>',
-    )
-    fig8.update_layout(
+
+    fig8 = single_barplot(
+        x_axis=summary_df["Country"],
+        y_axis=summary_df["Renewables/Total_demand"],
         title="Contribution of renewables in total demand (excluding int transit) in {}".format(
             year
-        )
-    )
-    fig8.update_traces(marker_line_color=font_color, marker_line_width=1.5, opacity=1)
-    fig8.update_traces(hovertemplate=None)
-
-    fig_re_imp = go.Figure()
-    fig_re_imp.add_trace(
-        go.Bar(
-            x=summary_df["Country"],
-            y=summary_df["Renewables/Total_imports"],
-            name="Total energy from renewables",
-            text=summary_df["Renewables/Total_imports"],
-            marker_color="forestgreen",
-        )
-    )
-
-    fig_re_imp.update_layout(
-        legend=dict(
-            bgcolor="rgba(0,0,0,0)",
-            yanchor="bottom",
-            orientation="h",
-            y=0.98,
-            xanchor="center",
-            x=0.5,
         ),
-        font=dict(family="Calibri", size=16, color=font_color),
-        hovermode="x",
+        x_title="UNSTATS",
+        y_title="% of total demand",
     )
-    fig_re_imp.update_layout(
-        {
-            "plot_bgcolor": "rgba(0,0,0,0)",
-            "paper_bgcolor": "rgba(0,0,0,0)",
-        }
-    )
-    fig_re_imp.update_yaxes(
-        title_text="% of total energy imports",
-        showline=True,
-        linecolor=line_color,
-        gridcolor=line_color,
-    )
-    fig_re_imp.update_xaxes(
-        showline=True,
-        linecolor=line_color,
-        title_text='<a href="http://unstats.un.org/unsd/energystats/pubs/balance"><sub>Source: Energy Balances, United Nations<sub></a>',
-    )
-    fig_re_imp.update_layout(
+
+    fig_re_imp = single_barplot(
+        x_axis=summary_df["Country"],
+        y_axis=summary_df["Renewables/Total_imports"],
         title="Proportion of renewable  consumption to total energy imports in {}".format(
             year
-        )
+        ),
+        x_title="UNSTATS",
+        y_title="% of total energy imports",
     )
-    fig_re_imp.update_traces(
-        marker_line_color=font_color, marker_line_width=1.5, opacity=1
-    )
-    fig_re_imp.update_traces(hovertemplate=None)
     fig_re_imp.write_image("renewables_to_total_imports.png")
 
-    fig9 = go.Figure()
-    fig9.add_trace(
-        go.Bar(
-            x=summary_df["Country"],
-            y=summary_df["Renewables/capita"],
-            name="Total energy from renewables",
-            text=summary_df["Renewables/capita"],
-            marker_color="forestgreen",
-        )
+    fig9 = single_barplot(
+        x_axis=summary_df["Country"],
+        y_axis=summary_df["Renewables/capita"],
+        title="Renewable energy consumption per capita in {}".format(year),
+        x_title="UNSTATS",
+        y_title="MJ per capita",
     )
-
-    fig9.update_layout(
-        legend=dict(
-            bgcolor="rgba(0,0,0,0)",
-            yanchor="bottom",
-            orientation="h",
-            y=0.98,
-            xanchor="center",
-            x=0.5,
-        ),
-        font=dict(family="Calibri", size=16, color=font_color),
-        hovermode="x",
-    )
-    fig9.update_layout(
-        {
-            "plot_bgcolor": "rgba(0,0,0,0)",
-            "paper_bgcolor": "rgba(0,0,0,0)",
-        }
-    )
-    fig9.update_yaxes(
-        title_text="MJ per capita",
-        showline=True,
-        linecolor=line_color,
-        gridcolor=line_color,
-    )
-    fig9.update_xaxes(
-        showline=True,
-        linecolor=line_color,
-        title_text='<a href="http://unstats.un.org/unsd/energystats/pubs/balance"><sub>Source: Energy Balances, United Nations<sub></a>',
-    )
-    fig9.update_layout(
-        title="Renewable energy consumption per capita in {}".format(year)
-    )
-    fig9.update_traces(marker_line_color=font_color, marker_line_width=1.5, opacity=1)
-    fig9.update_traces(hovertemplate=None)
 
     return [fig, fig2, fig3, fig4, fig5, fig6, fig7, fig8, fig9]
 
@@ -2049,123 +1506,17 @@ def land_use_plot():
             "yanchor": "top",
         }
     )
-    fig4 = make_subplots(specs=[[{"secondary_y": False}]])
-    fig4.add_trace(
-        go.Bar(
-            x=countries,
-            y=non_RE_demand,
-            text=non_RE_demand,
-            name="Decarbonizing the electricity sector",
-            marker_color="red",
-        )
-    )
-    fig4.add_trace(
-        go.Bar(
-            x=countries,
-            y=final_demand,
-            text=final_demand,
-            name="Meeting the final demand",
-            marker_color="darkgrey",
-        )
-    )
-    fig4.add_trace(
-        go.Bar(
-            x=countries,
-            y=world_average_demand,
-            text=world_average_demand,
-            name="World average per capita demand",
-            marker_color="green",
-        )
-    )
-    fig4.update_layout(
-        legend=dict(
-            bgcolor="rgba(0,0,0,0)",
-            yanchor="bottom",
-            orientation="h",
-            y=0.98,
-            xanchor="center",
-            x=0.5,
-        ),
-        font=dict(family="Calibri", size=16, color=font_color),
-        hovermode="x",
-    )
-    fig4.update_layout(
-        {
-            "plot_bgcolor": "rgba(0,0,0,0)",
-            "paper_bgcolor": "rgba(0,0,0,0)",
-        }
-    )
-    fig4.update_yaxes(
-        title_text="Demand (GWh/year)",
-        showline=True,
-        rangemode="tozero",
-        linecolor=line_color,
-        gridcolor=line_color,
-    )
-    fig4.update_xaxes(
-        showline=True,
-        showgrid=False,
-        linecolor=line_color,
-    )
-    fig4.update_layout(title="Demand for decarbonization")
-    fig4.update_traces(marker_line_color=font_color, marker_line_width=0, opacity=1)
-    fig4.update_yaxes(rangemode="tozero", linecolor=line_color, gridcolor=line_color)
-    # fig4.update_traces(texttemplate='%{text:.1s}')
 
-    fig5 = make_subplots(specs=[[{"secondary_y": False}]])
-    fig5.add_trace(
-        go.Bar(
-            x=countries,
-            y=non_RE_demand_per_capita,
-            text=non_RE_demand_per_capita,
-            name="Decarbonizing the electricity sector",
-            marker_color="red",
-        )
-    )
-    fig5.add_trace(
-        go.Bar(
-            x=countries,
-            y=final_demand_per_capita,
-            text=final_demand_per_capita,
-            name="Meeting the final demand",
-            marker_color="darkgrey",
-        )
-    )
-    fig5.update_layout(
-        legend=dict(
-            bgcolor="rgba(0,0,0,0)",
-            yanchor="bottom",
-            orientation="h",
-            y=0.98,
-            xanchor="center",
-            x=0.5,
-        ),
-        font=dict(family="Calibri", size=16, color=font_color),
-        hovermode="x",
-    )
-    fig5.update_layout(
-        {
-            "plot_bgcolor": "rgba(0,0,0,0)",
-            "paper_bgcolor": "rgba(0,0,0,0)",
-        }
-    )
-    fig5.update_yaxes(
-        title_text="Demand (MWh/year/person)",
-        showline=True,
-        rangemode="tozero",
-        linecolor=line_color,
-        gridcolor=line_color,
-    )
-    fig5.update_xaxes(
-        showline=True,
-        showgrid=False,
-        linecolor=line_color,
-    )
-    fig5.update_layout(title="Demand per capita")
-    fig5.update_traces(marker_line_color=font_color, marker_line_width=0, opacity=1)
-    fig5.update_yaxes(rangemode="tozero", linecolor=line_color, gridcolor=line_color)
+    fig5 = multiple_barplot(title="Demand per capita",
+                            x_axis=countries,
+                            y_axis_list=[non_RE_demand_per_capita,final_demand_per_capita],
+                            color_list=["forestgreen", "lightsalmon"],
+                            name_list=["Decarbonizing the electricity sector","Meeting the final demand"],
+                            x_title="UNSTATS",
+                            y_title="Demand (MWh/year/person)",
+                            barmode="group")
 
-    return fig, fig1, fig2, fig3, fig4, fig5
+    return fig, fig1, fig2, fig3, fig5
 
 
 def mapboxplot(Country, style):
@@ -2448,42 +1799,17 @@ def generation_mix_plot():
         )
     )
 
-    fig.update_layout(  # width=1500,
-        # height=500,
+    fig.update_layout(title= "Generation mix in 2019",
+                      template = simple_template,
         barmode="relative"
     )
-    fig.update_layout(
-        legend=dict(
-            bgcolor="rgba(0,0,0,0)",
-            yanchor="bottom",
-            orientation="h",
-            y=1.05,
-            xanchor="center",
-            x=0.5,
-        ),
-        font=dict(family="Calibri", size=16, color=font_color),
-    )
-    fig.update_layout(
-        {
-            "plot_bgcolor": "rgba(0,0,0,0)",
-            "paper_bgcolor": "rgba(0,0,0,0)",
-        }
-    )
+
     fig.update_yaxes(
         title_text="% of total GWh generation",
-        showline=True,
-        linecolor=line_color,
-        gridcolor=line_color,
     )
     fig.update_xaxes(
-        showline=True,
-        linecolor=line_color,
         title_text='<a href="https://www.irena.org/Statistics/Statistical-Profiles"><sub>Source: Country Profiles, IRENA<sub></a>',
     )
-
-    fig.update_layout(title="Generation mix in 2019")
-    # print(summary_df)
-    fig.update_traces(marker_line_color=font_color, marker_line_width=1.5, opacity=1)
 
     fig2 = go.Figure()
     fig2.add_trace(
@@ -2535,43 +1861,17 @@ def generation_mix_plot():
         )
     )
 
-    fig2.update_layout(  # width=1500,
-        # height=500,
-        barmode="relative"
+    fig2.update_layout(template =simple_template,
+                       title= "Installed capacity mix in 2020",
+                       barmode="relative"
     )
-    fig2.update_layout(
-        legend=dict(
-            bgcolor="rgba(0,0,0,0)",
-            yanchor="bottom",
-            orientation="h",
-            y=1.05,
-            xanchor="center",
-            x=0.5,
-        ),
-        font=dict(family="Calibri", size=16, color=font_color),
-    )
-    fig2.update_layout(
-        {
-            "plot_bgcolor": "rgba(0,0,0,0)",
-            "paper_bgcolor": "rgba(0,0,0,0)",
-        }
-    )
+
     fig2.update_yaxes(
         title_text="% of total MW capacity",
-        showline=True,
-        linecolor=line_color,
-        gridcolor=line_color,
     )
     fig2.update_xaxes(
-        showline=True,
-        linecolor=line_color,
         title_text='<a href="https://www.irena.org/Statistics/Statistical-Profiles"><sub>Source: Country Profiles, IRENA<sub></a>',
     )
-
-    fig2.update_layout(title="Installed capacity mix in 2020")
-    # print(summary_df)
-    fig2.update_traces(marker_line_color=font_color, marker_line_width=1.5, opacity=1)
-
     return [fig, fig2]
 
 
@@ -2756,238 +2056,69 @@ def Solar_physical_resources():
     df_technical_potential = functions.calculate_PV_Wind_potential(
         available_land=0.02, available_coastline=0.1
     )
-
-    fig = go.Figure(
-        data=[
-            go.Bar(
-                x=df_technical_potential["Country"],
-                y=df_technical_potential["PV_pot"],
-            )
-        ]
-    )
-    fig.update_layout(title="Available solar resources")
-    fig.update_yaxes(
-        title_text="GWh/MW/year",
-        showline=True,
-        linecolor=line_color,
-        gridcolor=line_color,
-    )
-    fig.update_xaxes(
-        showline=True,
-        linecolor=line_color,
+    fig = single_barplot(
+        x_axis=df_technical_potential["Country"],
+        y_axis=df_technical_potential["PV_pot"],
+        title="Available solar resources",
+        x_title="",
+        y_title="GWh/MW/year",
     )
 
-    fig.update_layout(
-        {"plot_bgcolor": "rgba(0,0,0,0)", "paper_bgcolor": "rgba(0,0,0,0)"}
-    )
-    # fig.update_layout(yaxis_range=[0, max_range])
-
-    fig.update_layout(  # height=350,
-        font=dict(family="Calibri", size=15, color=font_color)
-    )
-    fig.update_traces(
-        marker_color="Yellow",
-        marker_line_color=font_color,
-        marker_line_width=2,
-        opacity=1,
+    fig2 = single_barplot(
+        x_axis=df_technical_potential["Country"],
+        y_axis=df_technical_potential["Wind_pot"],
+        title="Available wind resources",
+        x_title="",
+        y_title="GWh/MW/year",
     )
 
-    fig2 = go.Figure(
-        data=[
-            go.Bar(
-                x=df_technical_potential["Country"],
-                y=df_technical_potential["Wind_pot"],
-            )
-        ]
-    )
-    fig2.update_layout(title="Available wind resources")
-    fig2.update_yaxes(
-        title_text="GWh/MW/year",
-        showline=True,
-        linecolor=line_color,
-        gridcolor=line_color,
-    )
-    fig2.update_xaxes(showline=True, linecolor=line_color)
-
-    fig2.update_layout(
-        {"plot_bgcolor": "rgba(0,0,0,0)", "paper_bgcolor": "rgba(0,0,0,0)"}
-    )
-    fig2.update_layout(  # height=350,
-        font=dict(family="Calibri", size=15, color=font_color)
-    )
-    fig2.update_traces(
-        marker_color="lightblue",
-        marker_line_color=font_color,
-        marker_line_width=2,
-        opacity=1,
+    fig3 = single_barplot(
+        x_axis=df_technical_potential["Country"],
+        y_axis=df_technical_potential["Wind_technical_GWh"],
+        title="Technical wind generation",
+        x_title="",
+        y_title="GWh/year",
     )
 
-    fig3 = go.Figure(
-        data=[
-            go.Bar(
-                x=df_technical_potential["Country"],
-                y=df_technical_potential["Wind_technical_GWh"],
-                text=df_technical_potential["Wind_technical_GWh"],
-            )
-        ]
-    )
-    fig3.update_layout(title="Technical wind generation")
-    fig3.update_yaxes(
-        title_text="GWh/year", showline=True, linecolor=line_color, gridcolor=line_color
-    )
-    fig3.update_xaxes(showline=True, linecolor=line_color)
-
-    fig3.update_layout(
-        {"plot_bgcolor": "rgba(0,0,0,0)", "paper_bgcolor": "rgba(0,0,0,0)"}
-    )
-    fig3.update_layout(  # height=350,
-        font=dict(family="Calibri", size=15, color=font_color)
-    )
-    fig3.update_traces(
-        marker_color="lightblue",
-        marker_line_color=font_color,
-        marker_line_width=2,
-        opacity=1,
-    )
-    # fig3.update_traces(texttemplate='%{text:.1s}')
-
-    fig4 = go.Figure(
-        data=[
-            go.Bar(
-                x=df_technical_potential["Country"],
-                y=df_technical_potential["Theoretical_PV_GWh"],
-                text=df_technical_potential["Theoretical_PV_GWh"],
-            )
-        ]
-    )
-    fig4.update_layout(title="Theoretical PV generation")
-    fig4.update_yaxes(
-        title_text="GWh/year", showline=True, linecolor=line_color, gridcolor=line_color
-    )
-    fig4.update_xaxes(showline=True, linecolor=line_color)
-    fig4.update_layout(
-        {"plot_bgcolor": "rgba(0,0,0,0)", "paper_bgcolor": "rgba(0,0,0,0)"}
-    )
-    fig4.update_layout(  # height=350,
-        font=dict(family="Calibri", size=15, color=font_color)
-    )
-    fig4.update_traces(
-        marker_color="yellow",
-        marker_line_color=font_color,
-        marker_line_width=2,
-        opacity=1,
-    )
-    fig4.update_traces(texttemplate="%{text:.1s}")
-
-    fig5 = go.Figure(
-        data=[
-            go.Bar(
-                x=df_technical_potential["Country"],
-                y=df_technical_potential["Theoretical_PV_GW"],
-                text=df_technical_potential["Theoretical_PV_GW"],
-            )
-        ]
-    )
-    fig5.update_layout(title="Theoretical PV capacity")
-    fig5.update_yaxes(
-        title_text="GW", showline=True, linecolor=line_color, gridcolor=line_color
-    )
-    fig5.update_xaxes(showline=True, linecolor=line_color)
-    fig5.update_layout(
-        {"plot_bgcolor": "rgba(0,0,0,0)", "paper_bgcolor": "rgba(0,0,0,0)"}
-    )
-    fig5.update_layout(  # height=350,
-        font=dict(family="Calibri", size=15, color=font_color)
-    )
-    fig5.update_traces(
-        marker_color="yellow",
-        marker_line_color=font_color,
-        marker_line_width=2,
-        opacity=1,
+    fig4 = single_barplot(
+        x_axis=df_technical_potential["Country"],
+        y_axis=df_technical_potential["Theoretical_PV_GWh"],
+        title="Theoretical PV generation",
+        x_title="",
+        y_title="GWh/year",
     )
 
-    fig6 = go.Figure(
-        data=[
-            go.Bar(
-                x=df_technical_potential["Country"],
-                y=df_technical_potential["Wind_technical_GW"],
-                text=df_technical_potential["Wind_technical_GW"],
-            )
-        ]
-    )
-    fig6.update_layout(title="Technical wind capacity")
-    fig6.update_yaxes(
-        title_text="GW", showline=True, linecolor=line_color, gridcolor=line_color
-    )
-    fig6.update_xaxes(showline=True, linecolor=line_color)
-    fig6.update_layout(
-        {"plot_bgcolor": "rgba(0,0,0,0)", "paper_bgcolor": "rgba(0,0,0,0)"}
-    )
-    fig6.update_layout(  # height=350,
-        font=dict(family="Calibri", size=15, color=font_color)
-    )
-    fig6.update_traces(
-        marker_color="lightblue",
-        marker_line_color=font_color,
-        marker_line_width=2,
-        opacity=1,
+    fig5 = single_barplot(
+        x_axis=df_technical_potential["Country"],
+        y_axis=df_technical_potential["Theoretical_PV_GW"],
+        title="Theoretical PV capacity",
+        x_title="",
+        y_title="GW",
     )
 
-    fig7 = go.Figure(
-        data=[
-            go.Bar(
-                x=df_technical_potential["Country"],
-                y=df_technical_potential["PV_technical_GW"],
-                text=df_technical_potential["PV_technical_GW"],
-            )
-        ]
+    fig6 = single_barplot(
+        x_axis=df_technical_potential["Country"],
+        y_axis=df_technical_potential["Wind_technical_GW"],
+        title="Technical wind capacity",
+        x_title="",
+        y_title="GW",
     )
-    fig7.update_layout(title="Technical PV capacity")
-    fig7.update_yaxes(
-        title_text="GW", showline=True, linecolor=line_color, gridcolor=line_color
-    )
-    fig7.update_xaxes(showline=True, linecolor=line_color)
-    fig7.update_layout(
-        {"plot_bgcolor": "rgba(0,0,0,0)", "paper_bgcolor": "rgba(0,0,0,0)"}
-    )
-    fig7.update_layout(  # height=350,
-        font=dict(family="Calibri", size=15, color=font_color)
-    )
-    fig7.update_traces(
-        marker_color="yellow",
-        marker_line_color=font_color,
-        marker_line_width=2,
-        opacity=1,
-    )
-    # fig7.update_traces(texttemplate='%{text:.1s}')
 
-    fig8 = go.Figure(
-        data=[
-            go.Bar(
-                x=df_technical_potential["Country"],
-                y=df_technical_potential["PV_technical_GWh"],
-                text=df_technical_potential["PV_technical_GWh"],
-            )
-        ]
+    fig7 = single_barplot(
+        x_axis=df_technical_potential["Country"],
+        y_axis=df_technical_potential["PV_technical_GW"],
+        title="Technical PV capacity",
+        x_title="",
+        y_title="GW",
     )
-    fig8.update_layout(title="Technical PV generation")
-    fig8.update_yaxes(
-        title_text="GWh/year", showline=True, linecolor=line_color, gridcolor=line_color
+
+    fig8 = single_barplot(
+        x_axis=df_technical_potential["Country"],
+        y_axis=df_technical_potential["PV_technical_GWh"],
+        title="Technical PV generation",
+        x_title="",
+        y_title="GWh/year",
     )
-    fig8.update_xaxes(showline=True, linecolor=line_color)
-    fig8.update_layout(
-        {"plot_bgcolor": "rgba(0,0,0,0)", "paper_bgcolor": "rgba(0,0,0,0)"}
-    )
-    fig8.update_layout(  # height=350,
-        font=dict(family="Calibri", size=15, color=font_color)
-    )
-    fig8.update_traces(
-        marker_color="yellow",
-        marker_line_color=font_color,
-        marker_line_width=2,
-        opacity=1,
-    )
-    # fig8.update_traces(texttemplate='%{text:.1s}')
 
     return fig, fig2, fig3, fig4, fig5, fig6, fig7, fig8
 
@@ -3336,20 +2467,13 @@ def per_capita_renewables():
         wolrd_per_capita_RE_elec.Entity.isin(Country_List)
     ]
 
-    fig_use_cap = make_subplots(specs=[[{"secondary_y": False}]])
-    fig_use_cap.add_trace(
-        go.Bar(
-            x=countries,
-            y=renewable_electricity,
-            text=renewable_electricity.round(2),
-            name="This research",
-            marker_color="red",
-        )
-    )
-    # fig_use_cap.add_trace(go.Bar(x=wolrd_per_capita_RE_elec['Entity'], y=wolrd_per_capita_RE_elec['Low-carbon electricity per capita (kWh)'],text=wolrd_per_capita_RE_elec['Low-carbon electricity per capita (kWh)'].round(1), name='Our world in data',
-    #                       marker_color='green',
-    #                   ))
-    fig_use_cap.add_shape(
+    fig = single_barplot(title="Renewable electricity generation per capita",
+                         x_axis=countries,
+                         y_axis=renewable_electricity.round(2),
+                         x_title="UNSTATS",
+                         y_title="(MWh/year/person)")
+
+    fig.add_shape(
         type="line",
         line=dict(dash="dot", color="red"),
         x0=0,
@@ -3357,7 +2481,7 @@ def per_capita_renewables():
         y0=wolrd_average_per_capita_RE_elec,
         y1=wolrd_average_per_capita_RE_elec,
     )
-    fig_use_cap.add_shape(
+    fig.add_shape(
         type="line",
         line=dict(dash="dot", color="orange"),
         x0=0,
@@ -3365,7 +2489,7 @@ def per_capita_renewables():
         y0=wolrd_median_per_capita_RE_elec,
         y1=wolrd_median_per_capita_RE_elec,
     )
-    fig_use_cap.update_layout(
+    fig.update_layout(
         legend=dict(
             bgcolor="rgba(0,0,0,0)",
             yanchor="bottom",
@@ -3374,55 +2498,26 @@ def per_capita_renewables():
             xanchor="center",
             x=0.5,
         ),
-        font=dict(family="Calibri", size=16, color=font_color),
+        font=dict(family="Calibri", size=font_size, color=font_color),
         hovermode="x",
     )
-    fig_use_cap.add_annotation(
+    fig.add_annotation(
         x=0.8,
         y=wolrd_average_per_capita_RE_elec + 0.1,
         text="World average = {}".format(wolrd_average_per_capita_RE_elec.round(1)),
         showarrow=False,
         font=dict(color=font_color, size=16),
     )
-    fig_use_cap.add_annotation(
+    fig.add_annotation(
         x=0.8,
         y=wolrd_median_per_capita_RE_elec + 0.1,
         text="World median = {}".format(wolrd_median_per_capita_RE_elec.round(1)),
         showarrow=False,
         font=dict(color=font_color, size=16),
     )
-    fig_use_cap.update_layout(
-        {
-            "plot_bgcolor": "rgba(0,0,0,0)",
-            "paper_bgcolor": "rgba(0,0,0,0)",
-        }
-    )
-    fig_use_cap.update_yaxes(
-        title_text="Renewable electricity (MWh/year/person)",
-        showline=True,
-        rangemode="tozero",
-        linecolor=line_color,
-        gridcolor=line_color,
-    )
-    fig_use_cap.update_xaxes(
-        showline=True,
-        showgrid=False,
-        linecolor=line_color,
-    )
-    fig_use_cap.update_layout(title="Renewable electricity generation per capita")
-    fig_use_cap.update_traces(
-        marker_line_color=font_color, marker_line_width=0, opacity=1
-    )
-    fig_use_cap.update_yaxes(
-        rangemode="tozero", linecolor=line_color, gridcolor=line_color
-    )
-    fig_use_cap.update_xaxes(
-        showline=True,
-        linecolor=line_color,
-        title_text='<a href="http://unstats.un.org/unsd/energystats/pubs/balance"><sub>Source: Energy Balances, United Nations<sub></a>',
-    )
+    fig.update_layout(template=simple_template)
 
-    return fig_use_cap
+    return fig
 
 
 def per_capita_intensity():
@@ -3463,19 +2558,14 @@ def per_capita_intensity():
         df_GDP["GDP(million$)2019"] * 1000000
     )
 
-    fig_use_cap = make_subplots(specs=[[{"secondary_y": False}]])
-    fig_use_cap.add_trace(
-        go.Bar(
-            x=countries,
-            y=df_GDP["Demand_per_gdp"].round(1),
-            text=df_GDP["Demand_per_gdp"].round(1),
-            name="This research",
-            marker_color="red",
-        )
+    fig_use_cap = single_barplot(
+        title="Energy (primary, total) intensity  of economies",
+        x_axis=countries,
+        y_axis=df_GDP["Demand_per_gdp"].round(1),
+        x_title="UNSTATS",
+        y_title="(kWh/$ PPP GDP)",
     )
-    # fig_use_cap.add_trace(go.Bar(x=wolrd_per_capita_intensity['Entity'], y=wolrd_per_capita_intensity['Energy intensity level of primary energy (MJ/$2017 PPP GDP)'],text=wolrd_per_capita_intensity['Energy intensity level of primary energy (MJ/$2017 PPP GDP)'].round(1), name='Our world in data',
-    #                       marker_color='green',
-    #                   ))
+
     fig_use_cap.add_shape(
         type="line",
         line=dict(dash="dot", color="red"),
@@ -3492,62 +2582,22 @@ def per_capita_intensity():
         y0=wolrd_median_per_capita_intensity,
         y1=wolrd_median_per_capita_intensity,
     )
-    fig_use_cap.update_layout(
-        legend=dict(
-            bgcolor="rgba(0,0,0,0)",
-            yanchor="bottom",
-            orientation="h",
-            y=0.98,
-            xanchor="center",
-            x=0.5,
-        ),
-        font=dict(family="Calibri", size=16, color=font_color),
-        hovermode="x",
-    )
+
     fig_use_cap.add_annotation(
-        x=15,
-        y=wolrd_average_per_capita_intensity + 0.12,
+        x=6,
+        y=wolrd_average_per_capita_intensity + 0.25,
         text="World average = {}".format(wolrd_average_per_capita_intensity.round(1)),
         showarrow=False,
-        font=dict(color=font_color, size=16),
+        font=dict(color=font_color, size=15),
     )
     fig_use_cap.add_annotation(
-        x=15,
-        y=wolrd_median_per_capita_intensity + 0.12,
+        x=12,
+        y=wolrd_median_per_capita_intensity - 0.2,
         text="World median = {}".format(wolrd_median_per_capita_intensity.round(1)),
         showarrow=False,
-        font=dict(color=font_color, size=16),
+        font=dict(color=font_color, size=15),
     )
-    fig_use_cap.update_layout(
-        {
-            "plot_bgcolor": "rgba(0,0,0,0)",
-            "paper_bgcolor": "rgba(0,0,0,0)",
-        }
-    )
-    fig_use_cap.update_yaxes(
-        title_text="(kWh/$ PPP GDP)",
-        showline=True,
-        rangemode="tozero",
-        linecolor=line_color,
-        gridcolor=line_color,
-    )
-    fig_use_cap.update_xaxes(
-        showline=True,
-        showgrid=False,
-        linecolor=line_color,
-    )
-    fig_use_cap.update_layout(title="Energy (primary, total) intensity  of economies")
-    fig_use_cap.update_traces(
-        marker_line_color=font_color, marker_line_width=0, opacity=1
-    )
-    fig_use_cap.update_yaxes(
-        rangemode="tozero", linecolor=line_color, gridcolor=line_color
-    )
-    fig_use_cap.update_xaxes(
-        showline=True,
-        linecolor=line_color,
-        title_text='<a href="http://unstats.un.org/unsd/energystats/pubs/balance"><sub>Source: Energy Balances, United Nations<sub></a>',
-    )
+
     return fig_use_cap
 
 
@@ -3745,61 +2795,15 @@ def dependance_on_imports():
         100 * net_imports / total_supply_incl_int_transit
     )
 
-    fig_use_cap = make_subplots(specs=[[{"secondary_y": False}]])
-    fig_use_cap.add_trace(
-        go.Bar(
-            x=countries,
-            y=current_share_of_imports_inc_int_transit,
-            text=current_share_of_imports_inc_int_transit.round(0),
-            name="This research",
-            marker_color="green",
-        )
+    fig = single_barplot(
+        title="Share of net imports in total demand (including int transit))",
+        x_axis=countries,
+        y_axis=current_share_of_imports_inc_int_transit.round(0),
+        x_title="UNSTATS",
+        y_title="% of net imports",
     )
 
-    fig_use_cap.update_layout(
-        legend=dict(
-            bgcolor="rgba(0,0,0,0)",
-            yanchor="bottom",
-            orientation="h",
-            y=0.98,
-            xanchor="center",
-            x=0.5,
-        ),
-        font=dict(family="Calibri", size=16, color=font_color),
-        hovermode="x",
-    )
-
-    fig_use_cap.update_layout(
-        {
-            "plot_bgcolor": "rgba(0,0,0,0)",
-            "paper_bgcolor": "rgba(0,0,0,0)",
-        }
-    )
-    fig_use_cap.update_yaxes(
-        title_text="Dependance on net imports (%)",
-        linecolor=line_color,
-        gridcolor=line_color,
-    )
-    fig_use_cap.update_xaxes(
-        showline=True,
-        showgrid=False,
-        linecolor=line_color,
-    )
-    fig_use_cap.update_layout(
-        title="Dependence on net imports (share of net imports in total demand)"
-    )
-    fig_use_cap.update_traces(
-        marker_line_color=font_color, marker_line_width=0, opacity=1
-    )
-    fig_use_cap.update_yaxes(
-        rangemode="tozero", linecolor=line_color, gridcolor=line_color, zeroline=False
-    )
-    fig_use_cap.update_xaxes(
-        showline=True,
-        linecolor=line_color,
-        title_text='<a href="http://unstats.un.org/unsd/energystats/pubs/balance"><sub>Source: Energy Balances, United Nations<sub></a>',
-    )
-    return fig_use_cap
+    return fig
 
 
 def GDP_per_capita():
@@ -3818,31 +2822,16 @@ def GDP_per_capita():
     wolrd_median_GDP_per_capita = world_GDP_capita[
         "GDP per capita, PPP (constant 2017 international $)"
     ].median()
-    fig_use_cap = make_subplots(specs=[[{"secondary_y": False}]])
-    fig_use_cap.add_trace(
-        go.Bar(
-            x=summary_df["Country / Territory"],
-            y=summary_df["GDP Per Capita ($)"],
-            text=summary_df["GDP Per Capita ($)"],
-            name="This research",
-            marker_color="green",
-        )
+
+    fig = single_barplot(
+        title="GDP per capita and comparison with world's average",
+        x_axis=summary_df["Country / Territory"],
+        y_axis=summary_df["GDP Per Capita ($)"],
+        x_title="WID",
+        y_title="GDP per capita ($)",
     )
 
-    fig_use_cap.update_layout(
-        legend=dict(
-            bgcolor="rgba(0,0,0,0)",
-            yanchor="bottom",
-            orientation="h",
-            y=0.98,
-            xanchor="center",
-            x=0.5,
-        ),
-        font=dict(family="Calibri", size=16, color=font_color),
-        hovermode="x",
-    )
-
-    fig_use_cap.add_shape(
+    fig.add_shape(
         type="line",
         line=dict(dash="dot", color="red"),
         x0=0,
@@ -3850,7 +2839,7 @@ def GDP_per_capita():
         y0=wolrd_average_GDP_per_capita,
         y1=wolrd_average_GDP_per_capita,
     )
-    fig_use_cap.add_shape(
+    fig.add_shape(
         type="line",
         line=dict(dash="dot", color="orange"),
         x0=0,
@@ -3858,54 +2847,21 @@ def GDP_per_capita():
         y0=wolrd_median_GDP_per_capita,
         y1=wolrd_median_GDP_per_capita,
     )
-    fig_use_cap.add_annotation(
-        x=15,
-        y=wolrd_average_GDP_per_capita + 1000,
+    fig.add_annotation(
+        x=11,
+        y=wolrd_average_GDP_per_capita + 1300,
         text="World average = {}".format(wolrd_average_GDP_per_capita.round(0)),
         showarrow=False,
         font=dict(color=font_color, size=16),
     )
-    fig_use_cap.add_annotation(
-        x=15,
-        y=wolrd_median_GDP_per_capita + 1000,
+    fig.add_annotation(
+        x=11,
+        y=wolrd_median_GDP_per_capita + 1200,
         text="World median = {}".format(wolrd_median_GDP_per_capita.round(0)),
         showarrow=False,
         font=dict(color=font_color, size=16),
     )
-
-    fig_use_cap.update_layout(
-        {
-            "plot_bgcolor": "rgba(0,0,0,0)",
-            "paper_bgcolor": "rgba(0,0,0,0)",
-        }
-    )
-    fig_use_cap.update_yaxes(
-        title_text="GDP per Capita ($)",
-        showline=True,
-        rangemode="tozero",
-        linecolor=line_color,
-        gridcolor=line_color,
-    )
-    fig_use_cap.update_xaxes(
-        showline=True,
-        showgrid=False,
-        linecolor=line_color,
-    )
-    fig_use_cap.update_layout(
-        title="GDP per capita and comparison with world's average"
-    )
-    fig_use_cap.update_traces(
-        marker_line_color=font_color, marker_line_width=0, opacity=1
-    )
-    fig_use_cap.update_yaxes(
-        rangemode="tozero", linecolor=line_color, gridcolor=line_color
-    )
-    fig_use_cap.update_xaxes(
-        showline=True,
-        linecolor=line_color,
-        title_text='<a href="https://ourworldindata.org/grapher/per-capita-energy-use"><sub>Source: Our world in data <sub></a>',
-    )
-    return fig_use_cap
+    return fig
 
 
 def biomass_consumption_breakdown():
@@ -4034,6 +2990,7 @@ def navigation_and_int_maritime():
     df_final = df_final[
         df_final["Transactions(down)/Commodity(right)"].isin(list_of_consumers)
     ]
+
 
     fig = px.bar(
         df_final,
