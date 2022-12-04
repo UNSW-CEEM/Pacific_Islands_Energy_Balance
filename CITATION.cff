@@ -4,6 +4,8 @@ authors:
 - family-names: "Naderi"
   given-names: "Shayan"
   orcid: "https://orcid.org/0000-0002-1985-0254"
+- family-names: "MacGill"
+  given-names: "Iain"
 title: "Pacific islands energy balance"
 version: 1.0.0
 date-released: 2022-10-20
