@@ -248,7 +248,7 @@ def select_flow():
                     options=[
                         {"label": i, "value": i} for i in consumer_list
                     ],
-                    value=consumer_list[:4],
+                    value=["International marine bunkers","International aviation bunkers"],
                     style={'width': "100%", 'margin-left': "0px", 'fontColor': 'black', 'fontSize': 15,
                            'color': 'black'},
                     multi=True,
@@ -283,22 +283,24 @@ def select_flow():
     return farm_drpdwn_dbc
 
 
-def select_breakdown_details():
+def select_row_breakdown_details():
     path = 'Data/EnergyBalance'
     files = os.listdir(path)
     df = pd.read_csv("Data/EnergyBalance/{}/all_countries_df.csv".format(files[-1]))
-    sector_list = df["Transactions(down)/Commodity(right)"].unique()
+    row_list = df["Transactions(down)/Commodity(right)"].unique()
     dbc.Label("Select s sector", style={'margin-right': "5px"}),
 
     farm_drpdwn_dbc = dbc.FormGroup(
         [
-        dbc.Label("Select a sector  "),
+        dbc.Label("Select a row  "),
+        html.Br(),
+
         dbc.Select(
-        id="select-sector-for-breakdown",
+        id="select-row-for-breakdown",
         options=[
-            {"label": i, "value": i} for i in sector_list
+            {"label": i, "value": i} for i in row_list
         ],
-        value="All Oil",
+        value="Primary production",
         style={'width': "30%", 'margin-left': "0px", 'margin-right': "10px", 'fontColor': 'black',
                'fontSize': 15, 'color': 'black'},
 
@@ -316,23 +318,26 @@ def dynamic_column_components():
     df = pd.read_csv("Data/EnergyBalance/{}/all_countries_df.csv".format(files[-1]))
     provider_list = df["Transactions(down)/Commodity(right)"].unique()
     dbc.Label("Select s column", style={'margin-right': "5px"}),
-    columns = df.iloc[:,3:-3]
+    columns = df.iloc[:,3:-1]
     farm_drpdwn_dbc = dbc.FormGroup(
         [
-        dbc.Label("Select a sector  "),
+        dbc.Label("Select rows  "),
         dcc.Dropdown(
-        id="select-sector-for-dynamic-column",
+        id="select-rows-for-column-comparison",
         options=[
             {"label": i, "value": i} for i in provider_list
         ],
         value=["Primary production"],
-        style={'width': "30%", 'margin-left': "0px", 'margin-right': "10px", 'fontColor': 'black',
+        style={'width': "60%", 'margin-left': "0px", 'margin-right': "10px", 'fontColor': 'black',
                'fontSize': 15, 'color': 'black'},
-            multi=True,
-            searchable=True,
-            clearable=False,
+        # style={"width": '60%'},
+        multi=True,
+        searchable=True,
+        clearable=False,
     ),
         dbc.Label("Select a column"),
+        html.Br(),
+
         dbc.Select(
         id="select-dynamic-column",
         options=[
@@ -344,7 +349,9 @@ def dynamic_column_components():
 
     ),
             html.Br(),
-            dbc.Input(placeholder="Y axis title", id="y_axis_title_dynamic_column", className="mb-3", style={"width": '40%', }),
+            dbc.Label("Write the label for y axis"),
+            html.Br(),
+            dbc.Input(placeholder="Y axis title", id="y_axis_title_dynamic_column", className="mb-3", style={"width": '30%', }),
 
             html.Br(),
             dbc.Button("Add Figure", color="danger", id='update-button-dynamic-column', n_clicks=0,
@@ -356,7 +363,7 @@ def dynamic_column_components():
 
 Tracing_energy_flows = [
 
-    dbc.CardHeader(html.H5("Cross-country comparison of energy flows consumed in different sectors")),
+    dbc.CardHeader(html.H5("Cross-country comparison of % one row to other rows (e.g., % of imported oil products consumed for international transit)")),
     dbc.CardBody(
         [
             dcc.Loading(
@@ -386,7 +393,7 @@ Tracing_energy_flows = [
 
 breakdown_of_source_in_a_sector = [
 
-    dbc.CardHeader(html.H5("Cross-country comparison of breakdown of sources in one sector (e.g., final consumption, or households)")),
+    dbc.CardHeader(html.H5("Cross-country comparison of one row (e.g., % of final consumption from different energy sources)")),
     dbc.CardBody(
         [
             dcc.Loading(
@@ -398,7 +405,7 @@ breakdown_of_source_in_a_sector = [
                         color="warning",
                         style={"display": "none"},
                     ),
-                    select_breakdown_details(),
+                    select_row_breakdown_details(),
                     html.Br(),
                     # html.Div(dcc.Graph(id="cross_country_sankey_figure"),style=figure_border_style),
                     html.Div(id='Hidden_Div_breakdown_by_source', children=[0, 0], style={'display': 'none'}),
@@ -416,7 +423,7 @@ breakdown_of_source_in_a_sector = [
 
 dynamic_column_cross_country = [
 
-    dbc.CardHeader(html.H5("Cross-country comparison of a column (i.e., Electricity)")),
+    dbc.CardHeader(html.H5("Cross-country comparison of a column (i.e., Electricity primary production [TJ])")),
     dbc.CardBody(
         [
             dcc.Loading(

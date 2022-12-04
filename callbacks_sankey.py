@@ -118,7 +118,7 @@ def update_cross_country_comparison(n_clicks,clear_canvas,from_,to_,normalizatio
 
 
 
-
+# relative comparison of different rows
 @app.callback(
     [
     Output('Hidden_Div_breakdown', "children"),
@@ -164,25 +164,23 @@ def update_cross_country_comparison(n_clicks,clear_canvas,from_,consumer_list,ca
 
 
 
-
+# Breakdown of one row
 @app.callback(
     [
     Output('Hidden_Div_breakdown_by_source', "children"),
     Output('dynamic_callback_container_energy_breakdown_by_source', 'children')],
     [Input('update-button-sector-breakdown', 'n_clicks'),
     Input('update-button-sector-breakdown-clear', 'n_clicks')],
-    [State("select-sector-for-breakdown", "value"),
+    [State("select-row-for-breakdown", "value"),
     State('Hidden_Div_breakdown_by_source', "children"),
     State('dynamic_callback_container_energy_breakdown_by_source', 'children'),
      ]
 )
-def update_cross_country_comparison(n_clicks,clear_canvas,sector,hidden_div,div_children):
-    print("Hereee")
+def update_cross_country_comparison(n_clicks,clear_canvas,row,hidden_div,div_children):
 
     if n_clicks != hidden_div[0]:
 
-        fig = figures.dynamic_breakdown_of_sectors(sector=sector)
-        print("Here2")
+        fig = figures.dynamic_breakdown_of_one_row(row=row)
         new_child = html.Div(
             style={ 'outline': 'thin lightgrey solid', 'padding': 5,'marginLeft': 10, 'marginRight': 10,},#'display': 'inline-block',
             children=[
@@ -210,7 +208,7 @@ def update_cross_country_comparison(n_clicks,clear_canvas,sector,hidden_div,div_
     Output('dynamic_callback_container_dynamic_column', 'children')],
     [Input('update-button-dynamic-column', 'n_clicks'),
     Input('update-button-dynamic-column-clear', 'n_clicks')],
-    [State("select-sector-for-dynamic-column", "value"),
+    [State("select-rows-for-column-comparison", "value"),
     State("select-dynamic-column", "value"),
     State("y_axis_title_dynamic_column", "value"),
     State('Hidden-Div_dynamic_column', "children"),

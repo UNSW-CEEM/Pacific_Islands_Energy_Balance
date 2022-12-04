@@ -110,13 +110,11 @@ Transit = [
                                          style=figure_border_style), md=6),
                         dbc.Col(html.Div(dcc.Graph(id="total renewables", figure=figures.UNstats_plots(2019)[5]),
                                          style=figure_border_style), md=6),
-                        # dbc.Col(html.Div(dcc.Graph(id="renewable electricity", figure=figures.UNstats_plots(2019)[6]),
-                        #                  style=figure_border_style), md=6),
                     ]),
                     html.Br(),
                     dbc.Row([
-                        # dbc.Col(html.Div(dcc.Graph(id="final-vs-non-re-demand", figure=figures.land_use_plot()[4]),
-                        #                  style=figure_border_style), md=6),
+                        dbc.Col(html.Div(dcc.Graph(id="final-vs-non-re-demand", figure=figures.land_use_plot()[5]),
+                                         style=figure_border_style), md=6),
 
                         dbc.Col(html.Div(dcc.Graph(id="demand-per-capita", figure=figures.land_use_plot()[4]),
                                          style=figure_border_style), md=6),
@@ -150,7 +148,7 @@ Transit = [
                     dbc.Row([
                         dbc.Col(html.Div(dcc.Graph(id="dependance-on-imports", figure=figures.navigation_and_int_maritime()),
                                          style=figure_border_style), md=6),
-                        dbc.Col(html.Div(dcc.Graph(id="biomass-breakdown", figure=figures.biomass_consumption_breakdown()),
+                        dbc.Col(html.Div(dcc.Graph(id="lad-percentage", figure=figures.land_use_plot()[6]),
                                          style=figure_border_style), md=6),
                     ]),
 

@@ -144,13 +144,13 @@ def select_product():
                     {"label": i, "value": i} for i in product_list
                 ],
                 value=product_list[0],
-                style={'width': "40%", 'margin-left': "0px",'fontColor':'black','fontSize':15,'color':'black'},
+                style={'width': "50%", 'margin-left': "0px",'fontColor':'black','fontSize':15,'color':'black'},
                 multi=False,
                 searchable=True,
                 clearable=False,
             ),
-            dbc.Button("Add Figure", color="danger", id='update-button-cross-country-trace', n_clicks=0, className="me-1"),
-            dbc.Button("Clear Canvas", color="primary", id='update-button-trace-clear-canvas', n_clicks=0,
+            dbc.Button("Add Figure", color="danger", id='update-button-cross-country-products', n_clicks=0, className="me-1"),
+            dbc.Button("Clear Canvas", color="primary", id='update-button-products-clear-canvas', n_clicks=0,
                        className="me-1"),
 
         ],
@@ -161,7 +161,7 @@ def select_product():
 
 Cross_country_financial_flows = [
 
-    dbc.CardHeader(html.H5("User-defined cross-country comparison of Sankey diagrams")),
+    dbc.CardHeader(html.H5("User-defined cross-country comparison of import and export of a product")),
     dbc.CardBody(
         [
             dcc.Loading(

@@ -126,7 +126,6 @@ def fetch_all_countries_demand(Year,Unit='GWh',Use="Analysis"):
     wolrd_per_capita_use = wolrd_per_capita_use.sort_values('Year', ascending=False).drop_duplicates(['Entity'])
 
     wolrd_average_per_capita_use = wolrd_per_capita_use['Primary energy consumption per capita (kWh/person)'].mean()
-    wolrd_median_per_capita_use = wolrd_per_capita_use['Primary energy consumption per capita (kWh/person)'].median()
     df_pop = pd.read_csv('Data/Economic Indicators.csv')
     df_pop.rename(columns={'Country': 'Entity'}, inplace=True)
 
@@ -134,7 +133,7 @@ def fetch_all_countries_demand(Year,Unit='GWh',Use="Analysis"):
         "Population"] * wolrd_average_per_capita_use / 1000000  # GWh/year
 
     world_average_demand = df_pop['average_scenario_demand_GWh']/0.277778 # it is calculated on GWh > convert to TJ
-    Net_zero_scenario_demand_GWh = (df_pop["Population"] * 10 / 1000)/0.277778 #10MWh/person/year scenario >Tj
+    Net_zero_scenario_demand_GWh = np.array((df_pop["Population"] * 10 / 1000)/0.277778) #10MWh/person/year scenario >Tj
     if Unit == "GWh":
         non_RE_elec = non_RE_elec * 0.277778
         total_demand = total_demand * 0.277778
