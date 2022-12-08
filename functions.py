@@ -287,7 +287,7 @@ def calculate_PV_Wind_potential(available_land = 0.01,available_coastline = 0.1)
 
     Theoretical_PV_GW = Theoretical_PV_GW.astype(int)
     Theoretical_wind_GW = Theoretical_wind_GW.astype(float)
-    Theoretical_wind_GW = Theoretical_wind_GW.round(decimals= 2)
+    Theoretical_wind_GW = Theoretical_wind_GW.round(decimals= 1)
     Technical_PV_GW = Technical_PV_GW.astype(float)
     Technical_PV_GW = Technical_PV_GW.round(decimals=2)
 

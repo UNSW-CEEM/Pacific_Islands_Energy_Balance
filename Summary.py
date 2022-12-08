@@ -151,8 +151,6 @@ Transit = [
                         dbc.Col(html.Div(dcc.Graph(id="lad-percentage", figure=figures.land_use_plot()[6]),
                                          style=figure_border_style), md=6),
                     ]),
-
-
                 ],
                 type="default",
             )

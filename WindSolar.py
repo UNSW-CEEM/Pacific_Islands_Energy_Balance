@@ -90,6 +90,15 @@ Physical = [
                             dcc.Graph(id="Wind_thechnical_GWh", figure=figures.Solar_physical_resources()[2]),
                             style=figure_border_style), md=6),
                     ]),
+                    dbc.Row([
+                        dbc.Col(html.Div(
+                            dcc.Graph(id="theoretical_PV", figure=figures.Solar_physical_resources()[4]),
+                            style=figure_border_style), md=6),
+
+                        dbc.Col(html.Div(
+                            dcc.Graph(id="theoretical_wind", figure=figures.Solar_physical_resources()[8]),
+                            style=figure_border_style), md=6),
+                    ]),
                 ],
                 type="default",
             )

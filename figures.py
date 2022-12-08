@@ -8,7 +8,7 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
-mode = "report"
+mode = "app"
 color_dict = {"app": "white", "report": "black"}
 font_color = color_dict[mode]
 line_color = color_dict[mode]
@@ -2110,8 +2110,15 @@ def Solar_physical_resources():
         x_title="",
         y_title="GWh/year",
     )
+    fig9 = single_barplot(
+        x_axis=df_technical_potential["Country"],
+        y_axis=df_technical_potential["Theoretical_wind_GW"],
+        title="Theoretical wind capacity",
+        x_title="",
+        y_title="GW",
+    )
 
-    return fig, fig2, fig3, fig4, fig5, fig6, fig7, fig8
+    return fig, fig2, fig3, fig4, fig5, fig6, fig7, fig8, fig9
 
 
 def diesel_petrol_price(Fuel):
