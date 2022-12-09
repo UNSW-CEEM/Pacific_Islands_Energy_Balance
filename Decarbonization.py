@@ -18,7 +18,8 @@ dataset_year = dbc.FormGroup(
                 {"label": i, "value": i} for i in ['2017','2018','2019','2020']
             ],
             value='2019',
-            style={'width': "15%", 'margin-left': "15px"}
+            style={'width': "15%", 'margin-left': "15px"},
+            disabled=True
 
         )])
 
@@ -64,14 +65,27 @@ Decarbonization = [
                         [
                             dbc.Col(
                                 [
+                                    dbc.Label("Select a demand scenario"),
+                                    dbc.RadioItems(
+                                            id="radio-demand-scenario",
+                                            options=[
+                                                {"label": "Decarbonization", "value": 'Decarbonization'},
+                                                {"label": "Electrification of all sectors", "value": 'Electrification'},
+                                                {"label": "Net zero scenario by 2050 (10 MWh/person/year)", "value": 'Net_zero'},
+                                            ],
+                                            value='Electrification',
+                                            inline=False,
+                                            style={"fontSize": 14}
+                                        ),
+                                    html.Br(),
                                     dbc.Label("Fuel price and new genset cost"),
                                     generate_select(
                                         "genset-cost",
                                         "Genset cost: $/W",
-                                        0.5,
-                                        2.5,
-                                        0.1,
+                                        5,
+                                        15,
                                         1,
+                                        9,
                                     ),
 
                                     generate_select(
@@ -80,7 +94,7 @@ Decarbonization = [
                                         0.5,
                                         2.5,
                                         0.1,
-                                        1,
+                                        1.1,
                                     ),
                                     generate_select(
                                         "coal-price",
@@ -95,9 +109,9 @@ Decarbonization = [
                                         "carbon-price",
                                         "Carbon price: $/ton",
                                         0,
-                                        100,
-                                        0.1,
-                                        30,
+                                        250,
+                                        5,
+                                        50,
                                     ),
                                     dbc.Label("RE potential"),
                                     generate_select(
@@ -167,16 +181,19 @@ Decarbonization = [
                                     ),
                                     generate_select(
                                         "res-battery-size",
-                                        "residential battery size: kWh",
+                                        "Residential battery size: kWh",
                                         1,
-                                        10,
+                                        15,
                                         0.5,
-                                        2.5,
+                                        5,
+
                                     ),
 
+
+                                    dbc.Label("Community battery parameters"),
                                     generate_select(
                                         "storage-days",
-                                        "Storage Capacity (days):",
+                                        "Total (residential and community) storage capacity (days):",
                                         0,
                                         15,
                                         1,
@@ -235,12 +252,20 @@ Decarbonization = [
                                                 html.Div(
                                                     dcc.Graph(id="payback-periods"),
                                                     style=figure_border_style,
+                                                    # id = 'payback-periods',
                                                 ),
                                                 md=12,
                                             ),
                                             dbc.Col(
                                                 html.Div(
-                                                    dcc.Graph(id="installed-wind"),
+                                                    dcc.Graph(id="installed-storage"),
+                                                    style=figure_border_style,
+                                                ),
+                                                md=12,
+                                            ),
+                                            dbc.Col(
+                                                html.Div(
+                                                    dcc.Graph(id="installed-MW"),
                                                     style=figure_border_style,
                                                 ),
                                                 md=12,

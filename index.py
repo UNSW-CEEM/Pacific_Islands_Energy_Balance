@@ -6,6 +6,7 @@ from EnergyFlows import CONTENT_STYLE
 import callbacks
 import callbacks_sankey
 import callbacks_FinancialFlows
+import callbacks_modeling
 import dash_auth
 import warnings
 warnings.filterwarnings('ignore')
