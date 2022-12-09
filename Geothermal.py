@@ -7,10 +7,8 @@ from dash import dash_table
 
 geothermal_df = pd.read_csv('Data/Geothermal.csv')
 
-
 dataTable = dash_table.DataTable(
     data=geothermal_df.to_dict('records'),
-    # sort_action='native',
     style_header={
         'backgroundColor': 'rgb(30, 30, 30)',
         'fontWeight': 'bold',
@@ -29,13 +27,7 @@ dataTable = dash_table.DataTable(
     style_table={'height': '2000px','overflowY': 'auto'},
     columns=[{'name': i, 'id': i} for i in geothermal_df.columns],
     editable=False,
-    # page_size=20,
-    # style_data_conditional=[
-    #     {
-    #         'if': {'row_index': 'odd'},
-    #         'backgroundColor': 'rgb(40, 60, 50)'
-    #     }
-    # ],
+
     style_cell_conditional=([
         {'if': {'column_id': 'Country'},
          'width': '10%'},
@@ -82,7 +74,6 @@ dataTable = dash_table.DataTable(
                 'column_id': ['Potentials','Observed hot spring temperature','Geothermal investigations','Known geothermal locations',
                               'Youngest volcanism','Country']
             },
-            # 'textDecoration': 'underline',
             'backgroundColor': 'tomato',
             'color': 'black',
 
@@ -93,7 +84,6 @@ dataTable = dash_table.DataTable(
                 'column_id': ['Potentials','Observed hot spring temperature','Geothermal investigations','Known geothermal locations',
                               'Youngest volcanism','Country']
             },
-            # 'textDecoration': 'underline',
             'backgroundColor': '#FFAE42',
             'color': 'black',
 
@@ -104,7 +94,6 @@ dataTable = dash_table.DataTable(
                 'column_id': ['Potentials','Observed hot spring temperature','Geothermal investigations','Known geothermal locations',
                               'Youngest volcanism','Country']
             },
-            # 'textDecoration': 'underline',
             'backgroundColor': '#F1E788',
             'color': 'black',
 
@@ -116,7 +105,6 @@ dataTable = dash_table.DataTable(
                 'column_id': ['Potentials','Observed hot spring temperature','Geothermal investigations','Known geothermal locations',
                               'Youngest volcanism','Country']
             },
-            # 'textDecoration': 'underline',
             'backgroundColor': '#FFFF9F',
             'color': 'black',
 
@@ -201,7 +189,6 @@ BODY = dbc.Container(
         dbc.Row([dbc.Col(dbc.Card(geo)), ], style={"marginTop": 30,
                                                  }),
     ],
-    # className="mt-12",
     fluid=True
 )
 

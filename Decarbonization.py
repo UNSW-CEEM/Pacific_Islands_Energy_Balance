@@ -1,11 +1,7 @@
 from dash import html
 from dash import dcc
 import dash_bootstrap_components as dbc
-from app import app
-import pandas as pd
-import dash
-import os
-import dash_daq as daq
+
 from EnergyFlows import figure_border_style
 
 

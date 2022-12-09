@@ -62,7 +62,14 @@ def single_barplot(title, x_axis, y_axis, x_title, y_title, color="forestgreen")
 
 
 def multiple_barplot(
-    title, x_axis, y_axis_list, x_title, y_title, name_list, color_list, barmode,
+    title,
+    x_axis,
+    y_axis_list,
+    x_title,
+    y_title,
+    name_list,
+    color_list,
+    barmode,
 ):
     x_axis_title_dict = {
         "OEC": '<a href="https://oec.world/en/home-b"><sub>Source: The Observatory of Economic Complexity (OEC)<sub></a>',
@@ -440,496 +447,6 @@ def annual_demand(demand, growth_rate, decarb_rate):
     return fig
 
 
-def decarbonization_scenarios(
-    Country,
-    Efficiency,
-    oil_imports_2019,
-    demand,
-    growth_rate,
-    PV_cost,
-    rooftop_PV_cost,
-    res_batt_cost,
-    WindBatt_cost,
-    Wind_cost,
-    decarb_year,
-    total_wind_share,
-    small_PV_share,
-    small_wind_share,
-    PV_pot,
-    Wind_pot,
-    diesel_HHV,
-    diesel_price,
-    geothermal_switch,
-    geothermal_completion_year,
-    geothermal_MW,
-    geothermal_CF,
-    geothermal_CAPEX,
-    discount_rate,
-    inflation_rate,
-    emission_tonneperMWh,
-    CommBattery_size,
-    CommBatery_cost,
-    switch_battery,
-    emission_dollarpertonne,
-):
-
-    if geothermal_switch != [1]:
-        geothermal_MW = 0
-        geothermal_CF = 0
-    if switch_battery != [1]:
-        CommBatery_cost = 0
-        CommBattery_size = 0
-    geothermal_GWh = geothermal_MW * (geothermal_CF / 100) * 8760 / 1000
-
-    total_wind_share = total_wind_share / 100
-    small_PV_share = small_PV_share / 100
-    small_wind_share = small_wind_share / 100
-    total_PV_share = 1 - total_wind_share
-    large_wind_share = 1 - small_wind_share
-    large_PV_share = 1 - small_PV_share
-
-    demand_df = pd.DataFrame()
-    demand_list = []
-
-    demand_list.append(demand)
-    year_list = []
-    year = 2019
-    year_list.append(year)
-    for i in range(0, 31):
-        demand += demand * growth_rate / 100
-        demand_list.append(demand)
-        year += 1
-        year_list.append(year)
-    demand_list = demand_list[3:]
-    year_list = year_list[3:]
-    demand_df["Year"] = year_list
-    demand_df["Demand"] = demand_list  # GWh
-    demand_df["RE_cumulative"] = 0
-    demand_df["Geothermal_inst"] = 0
-    demand_df["Geothermal_GWh"] = 0
-    demand_df["Geothermal_inst_cost"] = 0
-    demand_df["Battery_inst_cost"] = 0
-    years = decarb_year - 2022
-
-    total_battery_cost = CommBatery_cost * CommBattery_size
-    installment_comm_battery = total_battery_cost / (years + 1)
-    # demand_df['Battery_inst_cost'][demand_df['Year'] == CommBattery_year] = CommBatery_cost*CommBattery_size #Million Dollar
-    demand_df["Battery_inst_cost"][
-        demand_df["Year"] <= decarb_year
-    ] = installment_comm_battery  # Million Dollar per year
-
-    demand_df["RE_cumulative"][demand_df["Year"] == decarb_year] = demand_df["Demand"][
-        demand_df["Year"] == decarb_year
-    ]  # GWh
-    demand_df["Geothermal_inst"][
-        demand_df["Year"] == geothermal_completion_year
-    ] = geothermal_MW  # MW
-    demand_df["Geothermal_GWh"][
-        demand_df["Year"] >= geothermal_completion_year
-    ] = geothermal_GWh  # GWh
-    demand_df["Geothermal_inst_cost"][
-        demand_df["Year"] <= geothermal_completion_year
-    ] = (geothermal_MW * geothermal_CAPEX * 1000000) / (
-        geothermal_completion_year - 2022 + 1
-    )  # $Dollar
-
-    if geothermal_completion_year <= decarb_year:
-        step = (
-            demand_df["Demand"][demand_df["Year"] == decarb_year] - geothermal_GWh
-        ) / (
-            years + 1
-        )  # GWh
-
-        if step.values[0] < 0:
-            step = 0
-    else:
-        step = (demand_df["Demand"][demand_df["Year"] == decarb_year]) / (
-            years + 1
-        )  # GWh
-
-    demand_df.at[0, "RE_cumulative"] = step
-    for i, row in demand_df.iterrows():
-        if i > 0:
-            demand_df.at[i, "RE_cumulative"] = (
-                demand_df.at[i - 1, "RE_cumulative"] + step
-            )  # GWh
-
-    demand_df["RE_cumulative"][demand_df["Year"] > decarb_year] = (
-        demand_df["Demand"] - demand_df["Geothermal_GWh"]
-    )
-    demand_df["RE_cumulative"][demand_df["RE_cumulative"] < 0] = 0
-
-    demand_df["Annual_RE"] = (
-        demand_df["RE_cumulative"].shift(-1) - demand_df["RE_cumulative"]
-    )
-    demand_df["Annual_RE"] = demand_df["Annual_RE"].mask(demand_df["Annual_RE"] < 0, 0)
-    demand_df["PV_inst"] = (demand_df["Annual_RE"] * total_PV_share) / PV_pot  # MW
-    demand_df["wind_inst"] = (
-        demand_df["Annual_RE"] * total_wind_share
-    ) / Wind_pot  # MW
-
-    demand_df["Small PV+B"] = (
-        demand_df["PV_inst"] * small_PV_share
-    ) / 0.7  # MW #30% less performance for rooftop
-    demand_df["Large PV"] = demand_df["PV_inst"] * large_PV_share  # MW
-    demand_df["Small Wind+B"] = demand_df["wind_inst"] * small_wind_share  # MW
-    demand_df["Large Wind"] = demand_df["wind_inst"] * large_wind_share  # MW
-
-    demand_df["RE_inst_cost"] = (
-        1000000
-        * (
-            demand_df["Small PV+B"] * rooftop_PV_cost
-            + demand_df["Small PV+B"] * 2 * res_batt_cost
-            + demand_df["Large PV"] * PV_cost
-        )
-        + 1000000
-        * demand_df["wind_inst"]
-        * (small_wind_share * WindBatt_cost + large_wind_share * Wind_cost)
-        + demand_df["Geothermal_inst_cost"]
-        + demand_df["Battery_inst_cost"] * 1000000
-    ) / 1000000  # M$
-
-    demand_df["non_RE_demand_TJ"] = (
-        demand_df["Demand"] - demand_df["RE_cumulative"] - demand_df["Geothermal_GWh"]
-    ) / 0.2777
-    demand_df["non_RE_demand_TJ"][demand_df["non_RE_demand_TJ"] < 0] = 0
-    demand_df["diesel_litre_dec"] = demand_df["non_RE_demand_TJ"] / (
-        diesel_HHV * Efficiency
-    )  # L
-    demand_df["diesel_cost_dec"] = (
-        demand_df["diesel_litre_dec"] * diesel_price / 1000000
-    )  # $MM
-    demand_df["diesel_litre_bs"] = (demand_df["Demand"] / 0.2777) / (
-        diesel_HHV * Efficiency
-    )
-    demand_df["diesel_cost_bs"] = (
-        demand_df["diesel_litre_bs"] * diesel_price / 1000000
-    )  # $MM
-
-    if Country == "New Caledonia":
-        # coal price is 400 USD/Tonne
-        demand_df["diesel_cost_dec"] = demand_df["diesel_cost_dec"] / 2
-        demand_df["Coal_dec_tonne"] = (
-            demand_df["non_RE_demand_TJ"] / 0.02931
-        )  # 0.02931TJ = 1 tonne of coal
-        demand_df["Coal_dec_tonne"] = demand_df["Coal_dec_tonne"] / 2
-        demand_df["coal_dec_mdollar"] = demand_df["Coal_dec_tonne"] * 400 / 1000000
-        demand_df["diesel_cost_bs"] = demand_df["diesel_cost_bs"] / 2
-        demand_df["coal_bs_tonne"] = (
-            demand_df["Demand"] / 0.2777
-        ) / 0.02931  # 0.02931TJ = 1 tonne of coal
-        demand_df["coal_bs_tonne"] = (
-            demand_df["coal_bs_tonne"] / 2
-        )  # 0.5 total demand is met by coal
-        demand_df["coal_bs_mdollar"] = demand_df["coal_bs_tonne"] * 400 / 1000000
-
-        demand_df["diesel_cost_bs"] = (
-            demand_df["diesel_cost_bs"] + demand_df["coal_bs_mdollar"]
-        )
-        demand_df["diesel_cost_dec"] = (
-            demand_df["diesel_cost_dec"] + demand_df["coal_dec_mdollar"]
-        )
-
-    demand_df["Diesel_cost_saving"] = (
-        demand_df["diesel_cost_bs"] - demand_df["diesel_cost_dec"]
-    )  # $MM
-    demand_df["Net_saving"] = (
-        demand_df["Diesel_cost_saving"] - demand_df["RE_inst_cost"]
-    )  # $MM
-    diesel_emission_intensity = emission_tonneperMWh * 1000  # t CO2-e/GWh
-    demand_df["Emission_bs_ton"] = demand_df["Demand"] * diesel_emission_intensity
-    demand_df["Emission_dec_ton"] = (
-        demand_df["Demand"] - demand_df["RE_cumulative"] - demand_df["Geothermal_GWh"]
-    ) * diesel_emission_intensity
-    demand_df["Emission_dec_ton"][demand_df["Emission_dec_ton"] < 0] = 0
-    demand_df["Emission_red"] = (
-        demand_df["Emission_bs_ton"] - demand_df["Emission_dec_ton"]
-    )
-    demand_df["Emission_red_cum"] = demand_df["Emission_red"].cumsum()
-    # add carbon price
-    demand_df["Emission_red_saving"] = (
-        demand_df["Emission_red"] * emission_dollarpertonne / 1000000
-    )  # million dolar
-    demand_df["Diesel_import_reduction"] = (
-        demand_df["diesel_litre_bs"] - demand_df["diesel_litre_dec"]
-    ) / 1000000  # Million Litre
-
-    demand_df["Net_saving_discounted"] = 0
-    demand_df["Emission_red_saving_discounted"] = 0
-    inflation_rate = inflation_rate / 100
-    discount_rate = discount_rate / 100
-
-    for i, row in demand_df.iterrows():
-        demand_df.at[i, "Net_saving_discounted"] = (
-            demand_df.at[i, "Net_saving"]
-            * ((1 + inflation_rate) / (1 + discount_rate)) ** i
-        )
-        demand_df.at[i, "Emission_red_saving_discounted"] = (
-            demand_df.at[i, "Emission_red_saving"]
-            * ((1 + inflation_rate) / (1 + discount_rate)) ** i
-        )
-    demand_df["Net_saving_cumsum"] = demand_df["Net_saving_discounted"].cumsum()
-    demand_df["Net_saving_emission_cumsum"] = demand_df[
-        "Emission_red_saving_discounted"
-    ].cumsum()
-
-    fig = go.Figure()
-    fig.add_trace(
-        go.Bar(
-            x=demand_df["Year"],
-            y=demand_df["Net_saving_discounted"],
-            name="Annual net saving",
-            marker_color="forestgreen",
-        ),
-    )
-    fig.update_yaxes(
-        title_text="Annual Saving ($m)",
-        showline=True,
-        showgrid=False,
-        linecolor=line_color,
-        gridcolor=line_color,
-        rangemode="tozero",
-    )
-    fig.update_xaxes(showgrid=False, showline=True, linecolor=line_color)
-    fig.update_layout(
-        height=350, font=dict(family="Calibri", size=16, color=font_color)
-    )
-    fig.update_layout(
-        {"plot_bgcolor": "rgba(0,0,0,0)", "paper_bgcolor": "rgba(0,0,0,0)"},
-        legend=dict(
-            bgcolor="rgba(0,0,0,0)",
-            yanchor="bottom",
-            orientation="h",
-            y=1.05,
-            xanchor="center",
-            x=0.5,
-        ),
-        hovermode="x",
-    )
-    fig.update_traces(marker_line_color=font_color, marker_line_width=1.5, opacity=1)
-    fig.update_layout(
-        title="Annual savings by achieving 100% RE in {}".format(decarb_year)
-    )
-    fig.update_layout(barmode="relative")
-
-    fig2 = go.Figure()
-    fig2.add_trace(
-        go.Bar(
-            x=year_list,
-            y=demand_df["Net_saving_cumsum"],
-            name="Cumulative net saving",
-            marker_color="forestgreen",
-        ),
-    )
-
-    fig2.update_yaxes(
-        title_text="Cumulative Saving ($m)",
-        showline=True,
-        showgrid=False,
-        linecolor=line_color,
-        gridcolor=line_color,
-    )
-    fig2.update_xaxes(showgrid=False, showline=True, linecolor=line_color)
-
-    fig2.update_layout(
-        height=350, font=dict(family="Calibri", size=16, color=font_color)
-    )
-    fig2.update_layout(
-        {"plot_bgcolor": "rgba(0,0,0,0)", "paper_bgcolor": "rgba(0,0,0,0)"},
-        legend=dict(
-            bgcolor="rgba(0,0,0,0)",
-            yanchor="bottom",
-            orientation="h",
-            y=1.05,
-            xanchor="center",
-            x=0.5,
-        ),
-        hovermode="x",
-    )
-    fig2.update_traces(marker_line_color=font_color, marker_line_width=1.5, opacity=1)
-
-    fig2.update_layout(
-        title="Cumulative Savings by achieving 100% RE in {}".format(decarb_year)
-    )
-    fig2.update_layout(barmode="relative")
-
-    fig3 = go.Figure()
-    fig3.add_trace(
-        go.Bar(
-            x=demand_df["Year"],
-            y=demand_df["Small PV+B"],
-            name="Small PV+B",
-            marker_color="forestgreen",
-        )
-    )
-    fig3.add_trace(
-        go.Bar(
-            x=demand_df["Year"],
-            y=demand_df["Large PV"],
-            name="Large PV",
-            marker_color="lightsalmon",
-        )
-    )
-    fig3.add_trace(
-        go.Bar(
-            x=demand_df["Year"],
-            y=demand_df["Small Wind+B"],
-            name="Small Wind+B",
-            marker_color="greenyellow",
-        )
-    )
-    fig3.add_trace(
-        go.Bar(
-            x=demand_df["Year"],
-            y=demand_df["Large Wind"],
-            name="Large Wind",
-            marker_color="orangered",
-        )
-    )
-
-    fig3.update_layout(
-        template=simple_template,
-        barmode="relative",
-        title="Breakdown of annual RE installation for 100% RE in {}".format(
-            decarb_year
-        ),
-    )
-
-    fig3.update_yaxes(
-        title_text="Installed Capacity (MW)",
-    )
-    fig4 = make_subplots(specs=[[{"secondary_y": True}]])
-
-    fig4.add_trace(
-        go.Bar(
-            x=demand_df["Year"],
-            y=demand_df["Emission_red"],
-            name="Annual emission reduction",
-            marker_color="forestgreen",
-        )
-    )
-    fig4.add_trace(
-        go.Scatter(
-            x=demand_df["Year"],
-            y=demand_df["Emission_red_cum"],
-            name="Cumulative emission reduction",
-            marker_color="lightsalmon",
-        ),
-        secondary_y=True,
-    )
-    fig4.update_layout(barmode="relative")
-    fig4.update_layout(
-        legend=dict(
-            bgcolor="rgba(0,0,0,0)",
-            yanchor="bottom",
-            orientation="h",
-            y=0.98,
-            xanchor="center",
-            x=0.5,
-        ),
-        font=dict(family="Calibri", size=16, color=font_color),
-    )
-    fig4.update_layout(
-        {
-            "plot_bgcolor": "rgba(0,0,0,0)",
-            "paper_bgcolor": "rgba(0,0,0,0)",
-        }
-    )
-    fig4.update_yaxes(
-        title_text="Annual (t CO2-e)",
-        showline=True,
-        linecolor=line_color,
-        gridcolor=line_color,
-    )
-    fig4.update_yaxes(
-        title_text="Cumulative (t CO2-e)",
-        secondary_y=True,
-        showline=True,
-        showgrid=False,
-        linecolor=line_color,
-        gridcolor=line_color,
-    )
-
-    fig4.update_xaxes(showline=True, linecolor=line_color)
-
-    fig4.update_layout(
-        title="Annaul CO2-e emission reduction by achieving 100% RE in {}".format(
-            decarb_year
-        )
-    )
-    # print(summary_df)
-    fig4.update_traces(marker_line_color=font_color, marker_line_width=1.5, opacity=1)
-
-    fig5 = make_subplots(specs=[[{"secondary_y": True}]])
-
-    fig5.add_trace(
-        go.Bar(
-            x=demand_df["Year"],
-            y=demand_df["Diesel_import_reduction"],
-            name="Annual",
-            marker_color="forestgreen",
-        )
-    )
-    fig5.add_trace(
-        go.Scatter(
-            x=demand_df["Year"],
-            y=demand_df["Diesel_import_reduction"].cumsum(),
-            name="Cumulative",
-            marker_color="lightsalmon",
-        ),
-        secondary_y=True,
-    )
-    fig5.add_trace(
-        go.Scatter(
-            x=demand_df["Year"],
-            y=[oil_imports_2019] * len(demand_df["Year"]),
-            name="Net oil products import in 2019",
-            marker_color="red",
-        ),
-        secondary_y=False,
-    )
-
-    fig5.update_layout(barmode="relative")
-    fig5.update_layout(
-        legend=dict(
-            bgcolor="rgba(0,0,0,0)",
-            yanchor="bottom",
-            orientation="h",
-            y=0.98,
-            xanchor="center",
-            x=0.5,
-        ),
-        font=dict(family="Calibri", size=16, color=font_color),
-    )
-    fig5.update_layout(
-        {
-            "plot_bgcolor": "rgba(0,0,0,0)",
-            "paper_bgcolor": "rgba(0,0,0,0)",
-        }
-    )
-    fig5.update_yaxes(
-        title_text="Annual (million Litre)",
-        showline=True,
-        linecolor=line_color,
-        gridcolor=line_color,
-    )
-    fig5.update_yaxes(
-        title_text="Cumulative (million Litre)",
-        secondary_y=True,
-        showline=True,
-        showgrid=False,
-        linecolor=line_color,
-        gridcolor=line_color,
-    )
-    fig5.update_xaxes(showline=True, linecolor=line_color)
-
-    fig5.update_layout(
-        title="Diesel import reduction by achieving 100% RE in {}".format(decarb_year)
-    )
-    fig5.update_traces(marker_line_color=font_color, marker_line_width=1.5, opacity=1)
-
-    return [fig, fig2, fig3, fig4, fig5]
-
 
 def rooftop_PV_plot(available_buildings, PV_size):
     rooftop_df = functions.calculate_rooftop_PV_potential(
@@ -1181,7 +698,7 @@ def land_use_plot():
     ]
     non_RE_demand = non_RE_demand.round(0)
     final_demand = final_demand.round(0)
-    net_zero_demand =functions.fetch_all_countries_demand(
+    net_zero_demand = functions.fetch_all_countries_demand(
         2019, Unit="GWh", Use="Analysis"
     )[16]
 
@@ -1213,13 +730,13 @@ def land_use_plot():
     PV_final_demand = 1.2 * final_demand / PV_pot  # MW
     PV_net_zero = 1.2 * net_zero_demand / PV_pot
     import numpy as np
+
     PV_area_non_RE = PV_non_RE / (100)  # 0.1kw/m2 # Converted to km2
     PV_area_non_RE_per = 100 * PV_area_non_RE / area
     PV_area_final_demand = PV_final_demand / (100)  # 0.1kw/m2
     PV_area_final_demand_per = 100 * PV_area_final_demand / area
-    PV_area_net_zero = PV_net_zero/100
-    PV_area_net_zero_per = 100 * PV_area_net_zero/area
-
+    PV_area_net_zero = PV_net_zero / 100
+    PV_area_net_zero_per = 100 * PV_area_net_zero / area
 
     final_demand_per_capita = (
         1000 * final_demand / df_pop["Population"]
@@ -1246,8 +763,8 @@ def land_use_plot():
         go.Bar(
             x=countries,
             y=Wind_MW_final,
-            name="Meeting the final demand",
-            marker_color="black",
+            name="Final electrified demand",
+            marker_color="forestgreen",
             text=Wind_MW_final,
         )
     )
@@ -1292,15 +809,15 @@ def land_use_plot():
         go.Bar(
             x=countries,
             y=percentage_of_coastline_final,
-            name="% coastline for final demand",
-            marker_color="black",
+            name="Final electrified demand",
+            marker_color="forestgreen",
         )
     )
     fig1.add_trace(
         go.Scatter(
             x=countries,
             y=percentage_of_coastline_non_RE,
-            name="% coastline for decarbonizing the electricity sector",
+            name="Decarbonizing of the electricity sector",
             marker_color="red",
             mode="markers",
         )
@@ -1349,13 +866,12 @@ def land_use_plot():
         go.Bar(
             x=countries,
             y=PV_final_demand,
-            name="Meeting the final demand",
-            marker_color="black",
+            name="Final electrified demand",
+            marker_color="forestgreen",
             text=PV_final_demand,
         )
     )
     fig2.update_layout(
-        # height=500,
         barmode="relative"
     )
     fig2.update_layout(
@@ -1474,19 +990,26 @@ def land_use_plot():
         y_title="Demand (MWh/year)",
         barmode="group",
     )
-    fig6= multiple_barplot(
+    fig6 = multiple_barplot(
         title="Proportion of land required for PV installation for three demand scenarios",
         x_axis=countries,
-        y_axis_list=[PV_area_non_RE_per,PV_area_final_demand_per,PV_area_net_zero_per],
-        color_list=["forestgreen", "lightsalmon","blue"],
-        name_list=["Decarbonizing the electricity sector", "Electrification of the final demand","Net zero emission scenario"],
+        y_axis_list=[
+            PV_area_non_RE_per,
+            PV_area_final_demand_per,
+            PV_area_net_zero_per,
+        ],
+        color_list=["forestgreen", "lightsalmon", "blue"],
+        name_list=[
+            "Decarbonizing the electricity sector",
+            "Electrification of the final demand",
+            "Net zero emission scenario",
+        ],
         x_title="UNSTATS",
         y_title="% of land",
         barmode="group",
     )
 
-
-    return fig, fig1, fig2, fig3, fig4,fig5,fig6
+    return fig, fig1, fig2, fig3, fig4, fig5, fig6
 
 
 def mapboxplot(Country, style):
@@ -2028,7 +1551,7 @@ def Solar_physical_resources():
         type="line",
         line=dict(dash="dot", color="red"),
         x0=0,
-        x1=len(df_technical_potential["Country"])-1,
+        x1=len(df_technical_potential["Country"]) - 1,
         y0=average_world_PV,
         y1=average_world_PV,
     )
@@ -2051,7 +1574,7 @@ def Solar_physical_resources():
         type="line",
         line=dict(dash="dot", color="red"),
         x0=0,
-        x1=len(df_technical_potential["Country"])-1,
+        x1=len(df_technical_potential["Country"]) - 1,
         y0=average_world_wind,
         y1=average_world_wind,
     )
@@ -2125,9 +1648,9 @@ def diesel_petrol_price(Fuel):
     import plotly.graph_objs as go
 
     df = pd.read_csv("Data/{}.csv".format(Fuel))  # USD c/Litre
-    Australia = df[(df["Country"]=='Australia')]['Tax included'].values[0]
-    NZ = df[(df["Country"]=='New Zealand')]['Tax included'].values[0]
-    df = df[(df["Country"]!='Australia')&(df["Country"]!='New Zealand')]
+    Australia = df[(df["Country"] == "Australia")]["Tax included"].values[0]
+    NZ = df[(df["Country"] == "New Zealand")]["Tax included"].values[0]
+    df = df[(df["Country"] != "Australia") & (df["Country"] != "New Zealand")]
     fig = go.Figure()
     fig.add_trace(
         go.Bar(
@@ -2142,7 +1665,7 @@ def diesel_petrol_price(Fuel):
         type="line",
         line=dict(dash="dot", color="red"),
         x0=0,
-        x1=len(df["Country"])-1,
+        x1=len(df["Country"]) - 1,
         y0=Australia,
         y1=Australia,
     )
@@ -2150,7 +1673,7 @@ def diesel_petrol_price(Fuel):
         type="line",
         line=dict(dash="dot", color="red"),
         x0=0,
-        x1=len(df["Country"])-1,
+        x1=len(df["Country"]) - 1,
         y0=NZ,
         y1=NZ,
     )
@@ -2178,9 +1701,10 @@ def diesel_petrol_price(Fuel):
         # gridcolor=line_color,
     )
 
-    fig.update_layout(template=simple_template,  # height=350,
+    fig.update_layout(
+        template=simple_template,  # height=350,
         # font=dict(family="Calibri", size=15, color=font_color),
-                      barmode="relative"
+        barmode="relative",
     )
     # fig.update_traces(marker_line_color=font_color, marker_line_width=2, opacity=1)
     # fig.update_layout(
@@ -2894,94 +2418,6 @@ def GDP_per_capita():
     )
     return fig
 
-
-def navigation_and_int_maritime():
-    import os
-    import plotly.express as px
-
-    list_of_consumers = ["International marine bunkers", "Domestic navigation"]
-    path = "Data/EnergyBalance"
-    path = "Data/EnergyBalance"
-    files = os.listdir(path)
-
-    df = pd.read_csv("Data/EnergyBalance/{}/all_countries_df.csv".format(files[-1]))
-    df = df[
-        [
-            "Country ({})".format(files[-1]),
-            "Transactions(down)/Commodity(right)",
-            "Total Energy",
-        ]
-    ]
-    df_final = pd.DataFrame()
-    for country in Country_List:
-        df_1 = df[df["Country ({})".format(files[-1])] == country]
-        total_primary_production = df_1.iloc[0, 2]
-        # print(primary_production)
-        # df_1.loc[:,'total_primary_production'] = total_primary_production
-        df_1.loc[:, "Total Energy"] = (
-            100 * abs(df_1.loc[:, "Total Energy"]) / total_primary_production
-        )  # df_1.loc[:,'total_primary_production']
-        if df_final.shape[0] == 0:
-            df_final = df_1
-        else:
-            df_final = pd.concat([df_final, df_1])
-    df_final = df_final[
-        df_final["Transactions(down)/Commodity(right)"].isin(list_of_consumers)
-    ]
-
-    fig = px.bar(
-        df_final,
-        x="Country ({})".format(files[-1]),
-        y="Total Energy",
-        color="Transactions(down)/Commodity(right)",
-    )
-    fig.update_layout(
-        legend=dict(
-            bgcolor="rgba(0,0,0,0)",
-            yanchor="bottom",
-            orientation="v",
-            # y=0.98,
-            xanchor="center",
-            # x=0.2
-        ),
-        font=dict(family="Calibri", size=16, color=font_color),
-        # hovermode="x"
-    )
-
-    fig.update_layout(
-        {
-            "plot_bgcolor": "rgba(0,0,0,0)",
-            "paper_bgcolor": "rgba(0,0,0,0)",
-        }
-    )
-    fig.update_yaxes(
-        title_text="% of total primary production",
-        showline=True,
-        rangemode="tozero",
-        linecolor=line_color,
-        gridcolor=line_color,
-    )
-    fig.update_xaxes(
-        showline=True,
-        showgrid=False,
-        linecolor=line_color,
-    )
-    fig.update_layout(
-        title="Primary production vs domestic and international marine transport"
-    )
-    fig.update_traces(marker_line_color=font_color, marker_line_width=0, opacity=1)
-    fig.update_layout(legend={"title_text": ""})
-
-    fig.update_yaxes(rangemode="tozero", linecolor=line_color, gridcolor=line_color)
-    fig.update_xaxes(
-        showline=True,
-        linecolor=line_color,
-        title_text='<a href="http://unstats.un.org/unsd/energystats/pubs/balance"><sub>Source: Energy Balances, United Nations<sub></a>',
-    ),
-    return fig
-
-
-# biomass_consumption_breakdown()
 
 
 def dynamic_breakdown_figure_generation(

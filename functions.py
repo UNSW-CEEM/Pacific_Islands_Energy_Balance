@@ -4,7 +4,6 @@ from EnergyFlows import Country_List
 
 def fetch_wind_PV_potential(Country):
     df_p = pd.read_excel('Data/Potentials.xlsx')
-    # print(df_p.loc[2, country],power_generated_GWh)
     Wind_pot = df_p.loc[2, Country]  # GWh/MW/year
     PV_pot = df_p.loc[0, Country]  # GWh/MW/year
     area = df_p.iloc[14][Country]  # km2
@@ -251,7 +250,6 @@ def Update_UNstats_database(year):
 
 def calculate_PV_Wind_potential(available_land = 0.01,available_coastline = 0.1):
     df_technical_potential = pd.DataFrame()
-    import plotly.graph_objs as go
     df = pd.read_excel('Data/Potentials.xlsx')
     countries = Country_List
     Wind_pot = df.iloc[2, 2:]  # GWh/MW/year
@@ -347,4 +345,3 @@ def calculate_rooftop_PV_potential(available_buildings = 0.3,PV_size = 2.5):
     return rooftop_df
 
 
-# calculate_PV_Wind_potential(available_land=0.02,available_coastline=0.1)

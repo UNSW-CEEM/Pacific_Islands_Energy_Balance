@@ -7,25 +7,30 @@ from EnergyFlows import Country_List
 import figures
 from EnergyFlows import figure_border_style
 
-styles = ["open-street-map", "carto-positron", "carto-darkmatter", "stamen-terrain", "stamen-toner",
-          "stamen-watercolor"]
+styles = [
+    "open-street-map",
+    "carto-positron",
+    "carto-darkmatter",
+    "stamen-terrain",
+    "stamen-toner",
+    "stamen-watercolor",
+]
+
+
 def select_map_style():
     farm_drpdwn_dbc = dbc.FormGroup(
         [
             dbc.Label("Map style"),
             dbc.RadioItems(
                 id="select-map-style",
-                options=[
-                    {"label": i, "value": i}
-                    for i in styles
-                ],
+                options=[{"label": i, "value": i} for i in styles],
                 value=styles[3],
                 inline=True
                 # style={'width': "25%", 'margin-left': "15px"}
             ),
         ],
         inline=True,
-        style={'marginLeft':35,'marginTop':25,'fontSize':20}
+        style={"marginLeft": 35, "marginTop": 25, "fontSize": 20},
     )
     return farm_drpdwn_dbc
 
@@ -36,18 +41,16 @@ def generate_single_country_drpdwn():
             dbc.Label("Select Country"),
             dbc.Select(
                 id="select-justcountry",
-                options=[
-                    {"label": i, "value": i}
-                    for i in Country_List
-                ],
+                options=[{"label": i, "value": i} for i in Country_List],
                 value=Country_List[0],
-                style={'width': "20%", 'margin-left': "15px"},
+                style={"width": "20%", "margin-left": "15px"},
             ),
         ],
         inline=True,
-        style={'marginLeft':35,'marginTop':25,'fontSize':20}
+        style={"marginLeft": 35, "marginTop": 25, "fontSize": 20},
     )
     return farm_drpdwn_dbc
+
 
 Physical = [
     dbc.CardHeader(html.H5("Available wind and solar resources")),
@@ -62,43 +65,107 @@ Physical = [
                         color="warning",
                         style={"display": "none"},
                     ),
-                    dbc.Row([
-                        dbc.Col(html.Div(dcc.Graph(id="PV_physical_resource",figure=figures.Solar_physical_resources()[0]), style=figure_border_style), md=6),
-                        dbc.Col(html.Div(dcc.Graph(id="Wind_physical_resource",figure=figures.Solar_physical_resources()[1]), style=figure_border_style), md=6),
-                    ]),
+                    dbc.Row(
+                        [
+                            dbc.Col(
+                                html.Div(
+                                    dcc.Graph(
+                                        id="PV_physical_resource",
+                                        figure=figures.Solar_physical_resources()[0],
+                                    ),
+                                    style=figure_border_style,
+                                ),
+                                md=6,
+                            ),
+                            dbc.Col(
+                                html.Div(
+                                    dcc.Graph(
+                                        id="Wind_physical_resource",
+                                        figure=figures.Solar_physical_resources()[1],
+                                    ),
+                                    style=figure_border_style,
+                                ),
+                                md=6,
+                            ),
+                        ]
+                    ),
                     html.Br(),
-
-                    dbc.Row([
-                        dbc.Col(
-                            html.Div(dcc.Graph(id="PV_technical_GW", figure=figures.Solar_physical_resources()[6]),
-                                     style=figure_border_style), md=6),
-
-                        # dbc.Col(
-                        #     html.Div(dcc.Graph(id="PV_theoretical_GW", figure=figures.Solar_physical_resources()[3]),
-                        #              style=figure_border_style), md=6),
-                        dbc.Col(html.Div(
-                            dcc.Graph(id="Wind_thechnical_MW", figure=figures.Solar_physical_resources()[5]),
-                            style=figure_border_style), md=6),
-                    ]),
+                    dbc.Row(
+                        [
+                            dbc.Col(
+                                html.Div(
+                                    dcc.Graph(
+                                        id="PV_technical_GW",
+                                        figure=figures.Solar_physical_resources()[6],
+                                    ),
+                                    style=figure_border_style,
+                                ),
+                                md=6,
+                            ),
+                            # dbc.Col(
+                            #     html.Div(dcc.Graph(id="PV_theoretical_GW", figure=figures.Solar_physical_resources()[3]),
+                            #              style=figure_border_style), md=6),
+                            dbc.Col(
+                                html.Div(
+                                    dcc.Graph(
+                                        id="Wind_thechnical_MW",
+                                        figure=figures.Solar_physical_resources()[5],
+                                    ),
+                                    style=figure_border_style,
+                                ),
+                                md=6,
+                            ),
+                        ]
+                    ),
                     html.Br(),
-                    dbc.Row([
-                        dbc.Col(html.Div(
-                            dcc.Graph(id="PV_technical_GWh", figure=figures.Solar_physical_resources()[7]),
-                            style=figure_border_style), md=6),
-
-                        dbc.Col(html.Div(
-                            dcc.Graph(id="Wind_thechnical_GWh", figure=figures.Solar_physical_resources()[2]),
-                            style=figure_border_style), md=6),
-                    ]),
-                    dbc.Row([
-                        dbc.Col(html.Div(
-                            dcc.Graph(id="theoretical_PV", figure=figures.Solar_physical_resources()[4]),
-                            style=figure_border_style), md=6),
-
-                        dbc.Col(html.Div(
-                            dcc.Graph(id="theoretical_wind", figure=figures.Solar_physical_resources()[8]),
-                            style=figure_border_style), md=6),
-                    ]),
+                    dbc.Row(
+                        [
+                            dbc.Col(
+                                html.Div(
+                                    dcc.Graph(
+                                        id="PV_technical_GWh",
+                                        figure=figures.Solar_physical_resources()[7],
+                                    ),
+                                    style=figure_border_style,
+                                ),
+                                md=6,
+                            ),
+                            dbc.Col(
+                                html.Div(
+                                    dcc.Graph(
+                                        id="Wind_thechnical_GWh",
+                                        figure=figures.Solar_physical_resources()[2],
+                                    ),
+                                    style=figure_border_style,
+                                ),
+                                md=6,
+                            ),
+                        ]
+                    ),
+                    dbc.Row(
+                        [
+                            dbc.Col(
+                                html.Div(
+                                    dcc.Graph(
+                                        id="theoretical_PV",
+                                        figure=figures.Solar_physical_resources()[4],
+                                    ),
+                                    style=figure_border_style,
+                                ),
+                                md=6,
+                            ),
+                            dbc.Col(
+                                html.Div(
+                                    dcc.Graph(
+                                        id="theoretical_wind",
+                                        figure=figures.Solar_physical_resources()[8],
+                                    ),
+                                    style=figure_border_style,
+                                ),
+                                md=6,
+                            ),
+                        ]
+                    ),
                 ],
                 type="default",
             )
@@ -120,10 +187,30 @@ Required_capacity = [
                         color="warning",
                         style={"display": "none"},
                     ),
-                    dbc.Row([
-                        dbc.Col(html.Div(dcc.Graph(id="wind_to_non_RE",figure=figures.land_use_plot()[0]), style=figure_border_style), md=6),
-                        dbc.Col(html.Div(dcc.Graph(id="Wind_to_final",figure=figures.land_use_plot()[2]), style=figure_border_style), md=6),
-                    ]),
+                    dbc.Row(
+                        [
+                            dbc.Col(
+                                html.Div(
+                                    dcc.Graph(
+                                        id="wind_to_non_RE",
+                                        figure=figures.land_use_plot()[0],
+                                    ),
+                                    style=figure_border_style,
+                                ),
+                                md=6,
+                            ),
+                            dbc.Col(
+                                html.Div(
+                                    dcc.Graph(
+                                        id="Wind_to_final",
+                                        figure=figures.land_use_plot()[2],
+                                    ),
+                                    style=figure_border_style,
+                                ),
+                                md=6,
+                            ),
+                        ]
+                    ),
                 ],
                 type="default",
             )
@@ -133,7 +220,9 @@ Required_capacity = [
 ]
 
 RE = [
-    dbc.CardHeader(html.H5("Coastline and land required for wind turbine and PV installations")),
+    dbc.CardHeader(
+        html.H5("Coastline and land required for wind turbine and PV installations")
+    ),
     dbc.CardBody(
         [
             dcc.Loading(
@@ -145,11 +234,29 @@ RE = [
                         color="warning",
                         style={"display": "none"},
                     ),
-                    dbc.Row([
-                        dbc.Col(html.Div(dcc.Graph(id="Wind_to_final",figure=figures.land_use_plot()[1]), style=figure_border_style), md=6),
-                        dbc.Col(html.Div(dcc.Graph(id="land-use", figure=figures.land_use_plot()[3]),
-                                         style=figure_border_style), md=6),
-                    ]),
+                    dbc.Row(
+                        [
+                            dbc.Col(
+                                html.Div(
+                                    dcc.Graph(
+                                        id="Wind_to_final",
+                                        figure=figures.land_use_plot()[1],
+                                    ),
+                                    style=figure_border_style,
+                                ),
+                                md=6,
+                            ),
+                            dbc.Col(
+                                html.Div(
+                                    dcc.Graph(
+                                        id="land-use", figure=figures.land_use_plot()[3]
+                                    ),
+                                    style=figure_border_style,
+                                ),
+                                md=6,
+                            ),
+                        ]
+                    ),
                 ],
                 type="default",
             )
@@ -159,7 +266,11 @@ RE = [
 ]
 
 Map = [
-    dbc.CardHeader(html.H5("Visual representation of land requirement for PV installation")),
+    dbc.CardHeader(
+        html.H5(
+            "Visual representation of land requirement for PV installation considering different demand scenarios"
+        )
+    ),
     dbc.CardBody(
         [
             dcc.Loading(
@@ -171,12 +282,24 @@ Map = [
                         color="warning",
                         style={"display": "none"},
                     ),
-                    dbc.Row([
-                        dbc.Col([generate_single_country_drpdwn(), select_map_style()], md=12),
-                    ]),
-                    dbc.Row([
-                        dbc.Col(html.Div(dcc.Graph(id="PV-map"), style=figure_border_style), md=12),
-                    ]),
+                    dbc.Row(
+                        [
+                            dbc.Col(
+                                [generate_single_country_drpdwn(), select_map_style()],
+                                md=12,
+                            ),
+                        ]
+                    ),
+                    dbc.Row(
+                        [
+                            dbc.Col(
+                                html.Div(
+                                    dcc.Graph(id="PV-map"), style=figure_border_style
+                                ),
+                                md=12,
+                            ),
+                        ]
+                    ),
                 ],
                 type="default",
             )
@@ -197,16 +320,55 @@ rooftop = [
                         color="warning",
                         style={"display": "none"},
                     ),
-                    dbc.Row([
-                        dbc.Col(html.Div(dcc.Graph(id="Pop-and-famil-size",figure=figures.rooftop_PV_plot(0.3,2.5)[0]), style=figure_border_style), md=6),
-                        dbc.Col(html.Div(dcc.Graph(id="number-of-buildings-rooftop",figure=figures.rooftop_PV_plot(0.3,2.5)[1]), style=figure_border_style), md=6),
-                    ]),
+                    dbc.Row(
+                        [
+                            dbc.Col(
+                                html.Div(
+                                    dcc.Graph(
+                                        id="Pop-and-famil-size",
+                                        figure=figures.rooftop_PV_plot(0.3, 2.5)[0],
+                                    ),
+                                    style=figure_border_style,
+                                ),
+                                md=6,
+                            ),
+                            dbc.Col(
+                                html.Div(
+                                    dcc.Graph(
+                                        id="number-of-buildings-rooftop",
+                                        figure=figures.rooftop_PV_plot(0.3, 2.5)[1],
+                                    ),
+                                    style=figure_border_style,
+                                ),
+                                md=6,
+                            ),
+                        ]
+                    ),
                     html.Br(),
-                    dbc.Row([
-                        dbc.Col(html.Div(dcc.Graph(id="rooftop-capacity", figure=figures.rooftop_PV_plot(0.3, 2.5)[3]),
-                                         style=figure_border_style), md=6),
-                        dbc.Col(html.Div(dcc.Graph(id="roofotp-generation",figure=figures.rooftop_PV_plot(0.3,2.5)[2]), style=figure_border_style), md=6),
-                    ]),
+                    dbc.Row(
+                        [
+                            dbc.Col(
+                                html.Div(
+                                    dcc.Graph(
+                                        id="rooftop-capacity",
+                                        figure=figures.rooftop_PV_plot(0.3, 2.5)[3],
+                                    ),
+                                    style=figure_border_style,
+                                ),
+                                md=6,
+                            ),
+                            dbc.Col(
+                                html.Div(
+                                    dcc.Graph(
+                                        id="roofotp-generation",
+                                        figure=figures.rooftop_PV_plot(0.3, 2.5)[2],
+                                    ),
+                                    style=figure_border_style,
+                                ),
+                                md=6,
+                            ),
+                        ]
+                    ),
                     html.Br(),
                 ],
                 type="default",
@@ -218,23 +380,51 @@ rooftop = [
 
 
 BODY = dbc.Container(
-
     [
-        dbc.Row([dbc.Col(dbc.Card(Physical)), ], style={"marginTop": 30,
-                                                  }),
-        dbc.Row([dbc.Col(dbc.Card(Required_capacity)), ], style={"marginTop": 30,
-                                                  }),
-        dbc.Row([dbc.Col(dbc.Card(RE)),], style={"marginTop": 30,
-                                                                }),
-        dbc.Row([dbc.Col(dbc.Card(Map)), ], style={"marginTop": 30,
-                                                  }),
-        dbc.Row([dbc.Col(dbc.Card(rooftop)), ], style={"marginTop": 30,
-                                                  }),
+        dbc.Row(
+            [
+                dbc.Col(dbc.Card(Physical)),
+            ],
+            style={
+                "marginTop": 30,
+            },
+        ),
+        dbc.Row(
+            [
+                dbc.Col(dbc.Card(Required_capacity)),
+            ],
+            style={
+                "marginTop": 30,
+            },
+        ),
+        dbc.Row(
+            [
+                dbc.Col(dbc.Card(RE)),
+            ],
+            style={
+                "marginTop": 30,
+            },
+        ),
+        dbc.Row(
+            [
+                dbc.Col(dbc.Card(Map)),
+            ],
+            style={
+                "marginTop": 30,
+            },
+        ),
+        dbc.Row(
+            [
+                dbc.Col(dbc.Card(rooftop)),
+            ],
+            style={
+                "marginTop": 30,
+            },
+        ),
     ],
     # className="mt-12",
-    fluid=True
+    fluid=True,
 )
 
 
 content = [BODY]
-

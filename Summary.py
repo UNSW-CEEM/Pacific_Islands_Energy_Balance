@@ -62,13 +62,9 @@ Transit = [
                         style={"display": "none"},
                     ),
                     dbc.Row([
-                        # figures.Update_UNstats_database(20),
-                        # figures.validation(),
                         dbc.Col(dataTable)
                     ]),
                     html.Br(),
-                    # EnergyFlows.generate_single_year_drpdwn(),
-                    # html.Br(),
                     dbc.Row([
                         dbc.Col(html.Div(dcc.Graph(id="generation_mix_GWh",figure=figures.generation_mix_plot()[0]), style=figure_border_style), md=6),
                         dbc.Col(html.Div(dcc.Graph(id="generation_mix_MW",figure=figures.generation_mix_plot()[1]), style=figure_border_style), md=6),
@@ -120,23 +116,23 @@ Transit = [
                                          style=figure_border_style), md=6),
                     ]),
                     html.Br(),
-                    dbc.Row([
-                        dbc.Col(html.Div(dcc.Graph(id="demand-per-capita-world", figure=figures.per_capita_comparison()),
-                                         style=figure_border_style), md=12),
-
-                    ]),
-                    html.Br(),
+                    # dbc.Row([
+                    #     dbc.Col(html.Div(dcc.Graph(id="demand-per-capita-world", figure=figures.per_capita_comparison()),
+                    #                      style=figure_border_style), md=12),
+                    #
+                    # ]),
+                    # html.Br(),
                     dbc.Row([
                         dbc.Col(html.Div(dcc.Graph(id="demand-per-capita-world", figure=figures.per_capita_renewables()),
                                          style=figure_border_style), md=6),
                         dbc.Col(html.Div(dcc.Graph(id="intensity-capita-world", figure=figures.per_capita_intensity()),
                                          style=figure_border_style), md=6),
                     ]),
-                    html.Br(),
-                    dbc.Row([
-                        dbc.Col(html.Div(dcc.Graph(id="share-of-imports", figure=figures.percentage_of_imports()),
-                                         style=figure_border_style), md=12),
-                    ]),
+                    # html.Br(),
+                    # dbc.Row([
+                    #     dbc.Col(html.Div(dcc.Graph(id="share-of-imports", figure=figures.percentage_of_imports()),
+                    #                      style=figure_border_style), md=12),
+                    # ]),
                     html.Br(),
                     dbc.Row([
                         dbc.Col(html.Div(dcc.Graph(id="dependance-on-imports", figure=figures.dependance_on_imports()),
@@ -145,12 +141,11 @@ Transit = [
                                          style=figure_border_style), md=6),
                     ]),
                     html.Br(),
-                    dbc.Row([
-                        dbc.Col(html.Div(dcc.Graph(id="dependance-on-imports", figure=figures.navigation_and_int_maritime()),
-                                         style=figure_border_style), md=6),
-                        dbc.Col(html.Div(dcc.Graph(id="lad-percentage", figure=figures.land_use_plot()[6]),
-                                         style=figure_border_style), md=6),
-                    ]),
+                    # dbc.Row([
+                    #
+                    #     dbc.Col(html.Div(dcc.Graph(id="lad-percentage", figure=figures.land_use_plot()[6]),
+                    #                      style=figure_border_style), md=6),
+                    # ]),
                 ],
                 type="default",
             )
@@ -172,4 +167,5 @@ BODY = dbc.Container(
 )
 
 
-content = [EnergyFlows.generate_single_year_drpdwn(),BODY]
+# content = [EnergyFlows.generate_single_year_drpdwn(),BODY]
+content = [BODY]
