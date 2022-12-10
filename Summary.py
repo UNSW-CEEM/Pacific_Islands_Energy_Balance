@@ -4,11 +4,8 @@ import dash_bootstrap_components as dbc
 
 from app import app
 import pandas as pd
-import dash
-import os
-import dash_daq as daq
+
 from EnergyFlows import figure_border_style
-import EnergyFlows
 from dash import dash_table
 import figures
 summary_df = pd.read_csv('Data/SummaryTable.csv')

@@ -1,16 +1,17 @@
-from dash.dependencies import Input, Output, ALL, State, MATCH, ALLSMALLER
+from dash.dependencies import Input, Output, State
 
 from app import app
 from EnergyFlows import Country_List
 from DecarbonizationFunctions import run_decarbonization_scenario
-from figures import single_barplot,multiple_barplot
+from figures import single_barplot, multiple_barplot
+
 
 @app.callback(
-
-       [Output("payback-periods", "figure"),
-        Output('installed-storage', 'figure'),
-        Output('installed-MW', 'figure'),
-],
+    [
+        Output("payback-periods", "figure"),
+        Output("installed-storage", "figure"),
+        Output("installed-MW", "figure"),
+    ],
     Input("update-button", "n_clicks"),
     [
         State("radio-demand-scenario", "value"),
@@ -61,25 +62,24 @@ def sensor_checklist(
     if n_clicks:
 
         Dict = {
-         "diesel_cap": genset_cap,
-         "rooftop": rooftop_PV_cost,
-         "resid_battery": sm_batt_cost,
-         "comm_battery": comm_bat_cost,
-         "large_PV": lg_PV_cost,
-         "wind": wind_cost,
-         "coal": coal_price,
-         "discount_rate": disc_rate,
-         "inflation_rate": infl_rate,
-         "diesel_price": diesel_price,
-         "storage_days": storage_days,
-         "gas$/m3": "Nan",
-         "emissiont/GWh_diesel": 1100,  # AEMO:0.7-1.5
-         "emissiont/GWh_blackCoal": 900,  # AEMO:0.7-1.5
-         "emissiont/GWh_brownCoal": 1200,  # AEMO:1.1-1.3
-         "carbon_price": carbon_price,  # $/tonne
-            "rooftop_size":rooftop_size,
-            "res_battery_size":res_bat_size
-
+            "diesel_cap": genset_cap,
+            "rooftop": rooftop_PV_cost,
+            "resid_battery": sm_batt_cost,
+            "comm_battery": comm_bat_cost,
+            "large_PV": lg_PV_cost,
+            "wind": wind_cost,
+            "coal": coal_price,
+            "discount_rate": disc_rate,
+            "inflation_rate": infl_rate,
+            "diesel_price": diesel_price,
+            "storage_days": storage_days,
+            "gas$/m3": "Nan",
+            "emissiont/GWh_diesel": 1100,  # AEMO:0.7-1.5
+            "emissiont/GWh_blackCoal": 900,  # AEMO:0.7-1.5
+            "emissiont/GWh_brownCoal": 1200,  # AEMO:1.1-1.3
+            "carbon_price": carbon_price,  # $/tonne
+            "rooftop_size": rooftop_size,
+            "res_battery_size": res_bat_size,
         }
 
         final_df, all_countries_result = run_decarbonization_scenario(
@@ -94,18 +94,39 @@ def sensor_checklist(
             input_dicts=Dict,
         )
 
+        fig = single_barplot(
+            title="Payback Period",
+            x_axis=Country_List,
+            y_axis=all_countries_result.iloc[6, 1:].values.tolist(),
+            x_title="",
+            y_title="Years",
+        )
+        fig2 = multiple_barplot(
+            title="Storage capacity",
+            x_axis=Country_List,
+            y_axis_list=[
+                all_countries_result.iloc[3, 1:].values.tolist(),
+                all_countries_result.iloc[4, 1:].values.tolist(),
+            ],
+            x_title="",
+            y_title="GWh",
+            name_list=["Residential battery", "Community battery"],
+            color_list=["forestgreen", "lightsalmon"],
+            barmode="group",
+        )
+        fig3 = multiple_barplot(
+            title="Storage capacity",
+            x_axis=Country_List,
+            y_axis_list=[
+                all_countries_result.iloc[0, 1:].values.tolist(),
+                all_countries_result.iloc[1, 1:].values.tolist(),
+                all_countries_result.iloc[2, 1:].values.tolist(),
+            ],
+            x_title="",
+            y_title="MW",
+            name_list=["Rooftop PV", "Utility PV", "Wind"],
+            color_list=["forestgreen", "lightsalmon", "blue"],
+            barmode="group",
+        )
 
-        fig = single_barplot(title="Payback Period",x_axis=Country_List,
-                             y_axis=all_countries_result.iloc[6,1:].values.tolist(),x_title="",y_title="Years")
-        fig2 = multiple_barplot(title="Storage capacity",x_axis=Country_List,
-                             y_axis_list=[all_countries_result.iloc[3,1:].values.tolist(),all_countries_result.iloc[4,1:].values.tolist()],
-                               x_title="",y_title="GWh",name_list=["Residential battery","Community battery"],
-                                color_list=["forestgreen", "lightsalmon"], barmode="group",)
-        fig3 = multiple_barplot(title="Storage capacity",x_axis=Country_List,
-                             y_axis_list=[all_countries_result.iloc[0,1:].values.tolist(),all_countries_result.iloc[1,1:].values.tolist(),
-                                          all_countries_result.iloc[2,1:].values.tolist()],
-                               x_title="",y_title="MW",name_list=["Rooftop PV","Utility PV","Wind"],
-                                color_list=["forestgreen", "lightsalmon","blue"], barmode="group",)
-
-        print(all_countries_result.head(10))
-        return fig,fig2,fig3
+        return fig, fig2, fig3

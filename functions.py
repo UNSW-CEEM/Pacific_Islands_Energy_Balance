@@ -157,7 +157,7 @@ def fetch_all_countries_demand(Year,Unit='GWh',Use="Analysis"):
         df_demand['World_average_demand'] = world_average_demand.round(0)
         df_demand['10MWh/person_GWh'] = Net_zero_scenario_demand_GWh.round(0)
 
-        df_demand.to_csv("demand_df_{}.csv".format(Unit))
+        # df_demand.to_csv("demand_df_{}.csv".format(Unit))
     return [Countries,total_demand,imports_oil,Int_marine_oil,Int_avi_oil,transformation,
             transformation_losses,renewables_in_total,
             renewable_electricity,non_RE_elec,all_imports,world_average_demand,
@@ -215,7 +215,7 @@ def all_countries_cross_comparison_unstats(Year,Unit,Use):
     summary_df['transport n.e.s_real'] = df[df['Transactions(down)/Commodity(right)'] == 'Transport n.e.s'][
         'All Oil'].values
 
-    summary_df.to_csv("Summary_df.csv")
+    # summary_df.to_csv("Summary_df.csv")
     return summary_df
 
 
@@ -312,7 +312,7 @@ def calculate_PV_Wind_potential(available_land = 0.01,available_coastline = 0.1)
 
     df_technical_potential['sum_of_wind_and_solar_GWh'] = df_technical_potential['PV_technical_GWh'] + df_technical_potential['Wind_technical_GWh']
 
-    df_technical_potential.to_csv("Wind({})_and_solar({})_technical_potential.csv".format(available_coastline,available_land))
+    # df_technical_potential.to_csv("Wind({})_and_solar({})_technical_potential.csv".format(available_coastline,available_land))
 
     return df_technical_potential
 
@@ -340,7 +340,7 @@ def calculate_rooftop_PV_potential(available_buildings = 0.3,PV_size = 2.5):
     rooftop_df['Generation_GWh'] = rooftop_PV_generation_GWh
 
 
-    rooftop_df.to_csv('rooftop_Pv_potential.csv')
+    # rooftop_df.to_csv('rooftop_Pv_potential.csv')
 
     return rooftop_df
 

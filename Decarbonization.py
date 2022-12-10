@@ -252,6 +252,7 @@ Decarbonization = [
                                                 ),
                                                 md=12,
                                             ),
+                                            html.Br(),
                                             dbc.Col(
                                                 html.Div(
                                                     dcc.Graph(id="installed-storage"),
@@ -259,6 +260,7 @@ Decarbonization = [
                                                 ),
                                                 md=12,
                                             ),
+                                            html.Br(),
                                             dbc.Col(
                                                 html.Div(
                                                     dcc.Graph(id="installed-MW"),

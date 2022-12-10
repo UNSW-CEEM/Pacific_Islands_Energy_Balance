@@ -12,7 +12,7 @@ mode = "app"
 color_dict = {"app": "white", "report": "black"}
 font_color = color_dict[mode]
 line_color = color_dict[mode]
-size_dict = {"app": 17, "report": 19}
+size_dict = {"app": 16, "report": 19}
 font_size = size_dict[mode]
 simple_template = dict(
     layout=go.Layout(
@@ -1457,9 +1457,6 @@ def cross_country_sankey(df, from_, to_, normalization):
     fig.update_layout(
         title="From {} to {} ({})".format(from_plain_text, to_plain_text, tail)
     )
-    # print(summary_df)
-    # fig.update_traces(marker_line_color=font_color, marker_line_width=1.5, opacity=1)
-    # fig.update_traces(texttemplate='%{text:.1s}')
     fig.update_layout(template=simple_template)
     return fig
 
@@ -1532,8 +1529,6 @@ def import_export_figure_dynamic(df, product):
 
 
 def Solar_physical_resources():
-    import plotly.graph_objs as go
-
     df_avg = pd.read_excel("Data/World_average_potentials.xlsx")
     average_world_PV = df_avg["World"][0]
     average_world_wind = df_avg["World"][2]
@@ -2238,7 +2233,7 @@ def percentage_of_imports():
     imports_df["Current_GWh"] = net_imports
     imports_df["Current_GWh"] = imports_df["Current_GWh"].clip(lower=0)
 
-    imports_df.to_csv("imports_for_scenarios.csv")
+    # imports_df.to_csv("imports_for_scenarios.csv")
 
     fig_use_cap = make_subplots(specs=[[{"secondary_y": False}]])
     fig_use_cap.add_trace(
