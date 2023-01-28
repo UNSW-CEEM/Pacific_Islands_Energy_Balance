@@ -7,25 +7,32 @@ from dash import dash_table
 bioEnergy_df = pd.read_excel("Data/Bioenergy quantification.xlsx")
 bio_table = dash_table.DataTable(
     data=bioEnergy_df.to_dict("records"),
+    style_table={
+        'width': '100%',
+        'margin': '0 0 0 0px',
+        'padding': '0 0px',
+        'overflowX': 'auto',
+        'overflowY': 'auto',
+    },
     style_header={
         "backgroundColor": "rgb(30, 30, 30)",
         "fontWeight": "bold",
         "marginLeft": 0,
         "textAlign": "center",
         "font-family": "Calibri",
+'whiteSpace': 'normal'
     },
     style_cell={
         "backgroundColor": "rgb(50, 50, 50)",
         "color": "white",
         "textAlign": "left",
-        "fontSize": 18,
+        "fontSize": 17,
         "font-family": "Calibri",
         "height": "auto",
         "overflow": "hidden",
         "textOverflow": "ellipsis",
     },
     style_data={
-        # 'whiteSpace': 'normal'
         "whiteSpace": "pre-line"
     },
     css=[

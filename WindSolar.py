@@ -197,7 +197,7 @@ Required_capacity = [
                                     ),
                                     style=figure_border_style,
                                 ),
-                                md=6,
+                                lg=6,md=12
                             ),
                             dbc.Col(
                                 html.Div(
@@ -207,7 +207,7 @@ Required_capacity = [
                                     ),
                                     style=figure_border_style,
                                 ),
-                                md=6,
+                                lg=6,md=12
                             ),
                         ]
                     ),
@@ -244,7 +244,7 @@ RE = [
                                     ),
                                     style=figure_border_style,
                                 ),
-                                md=6,
+                                lg=6,md=12
                             ),
                             dbc.Col(
                                 html.Div(
@@ -253,7 +253,7 @@ RE = [
                                     ),
                                     style=figure_border_style,
                                 ),
-                                md=6,
+                                lg=6,md=12
                             ),
                         ]
                     ),
@@ -330,7 +330,7 @@ rooftop = [
                                     ),
                                     style=figure_border_style,
                                 ),
-                                md=6,
+                                lg=6,md=12
                             ),
                             dbc.Col(
                                 html.Div(
@@ -340,7 +340,7 @@ rooftop = [
                                     ),
                                     style=figure_border_style,
                                 ),
-                                md=6,
+                                lg=6,md=12
                             ),
                         ]
                     ),
@@ -355,7 +355,7 @@ rooftop = [
                                     ),
                                     style=figure_border_style,
                                 ),
-                                md=6,
+                                lg=6,md=12
                             ),
                             dbc.Col(
                                 html.Div(
@@ -365,7 +365,7 @@ rooftop = [
                                     ),
                                     style=figure_border_style,
                                 ),
-                                md=6,
+                                lg=6,md=12
                             ),
                         ]
                     ),

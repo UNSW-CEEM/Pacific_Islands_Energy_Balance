@@ -34,7 +34,6 @@ def generate_select(id, title, min, max, step, value):
                         min=min,
                         max=max,
                     ),
-                    # dbc.InputGroupText(".00"),
                 ],
                 className="mb-3",
             ),
@@ -112,7 +111,7 @@ Decarbonization = [
                                     dbc.Label("RE potential"),
                                     generate_select(
                                         "available-land",
-                                        "% Available land (Arable and pasture):",
+                                        "% Available land(Arable and pasture):",
                                         0,
                                         100,
                                         1,
@@ -189,7 +188,7 @@ Decarbonization = [
                                     dbc.Label("Community battery parameters"),
                                     generate_select(
                                         "storage-days",
-                                        "Total (residential and community) storage capacity (days):",
+                                        "Total storage capacity (days):",
                                         0,
                                         15,
                                         1,
@@ -237,8 +236,9 @@ Decarbonization = [
                                         className="me-1",
                                     ),
                                 ],
-                                md=3,
+                                md=12,
                                 sm=12,
+                                lg=4,
                             ),
                             dbc.Col(
                                 [
@@ -273,7 +273,6 @@ Decarbonization = [
                                             "marginTop": 30,
                                         },
                                     ),
-                                    html.Br(),
 
                                     html.Br(),
 

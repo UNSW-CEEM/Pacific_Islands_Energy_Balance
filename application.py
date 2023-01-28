@@ -11,13 +11,13 @@ import dash_auth
 # import warnings
 # warnings.filterwarnings('ignore')
 
-# VALID_USERNAME_PASSWORD_PAIRS = {
-#     'hello': 'world'
-# }
-# auth = dash_auth.BasicAuth(
-#     app,
-#     VALID_USERNAME_PASSWORD_PAIRS
-# )
+VALID_USERNAME_PASSWORD_PAIRS = {
+    'CEEM': 'CEEM2022'
+}
+auth = dash_auth.BasicAuth(
+    app,
+    VALID_USERNAME_PASSWORD_PAIRS
+)
 
 app.layout = dbc.Container([
 
@@ -27,17 +27,18 @@ app.layout = dbc.Container([
                 [
                     dcc.Markdown(
                         """
-            # Pacific Islands Energy Balance
+            ## Pacific Islands Energy Balance
 
 
             [Source code and user guide](https://github.com/UNSW-CEEM/PICTs_Decarbonization) 
 
+            Developed by: [Shayan Naderi](https://www.linkedin.com/in/shayan-naderi-461aa097/) 
             """,
                         style={"color": "green"},
                     )
                 ],
                 # width=True,
-                lg=6,
+                lg=4,
                 sm=12,
                 md=12,
             ),
@@ -47,7 +48,7 @@ app.layout = dbc.Container([
                         src="assets/UNSWLogo.png", alt="UNSW Logo", height="100px"
                     ),
                 ],
-                lg=2,
+                lg=3,
                 sm=12,
                 md=4,
             ),

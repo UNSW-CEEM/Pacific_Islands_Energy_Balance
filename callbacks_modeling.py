@@ -115,7 +115,7 @@ def sensor_checklist(
             barmode="group",
         )
         fig3 = multiple_barplot(
-            title="Storage capacity",
+            title="Capacity",
             x_axis=Country_List,
             y_axis_list=[
                 all_countries_result.iloc[0, 1:].values.tolist(),
@@ -128,5 +128,6 @@ def sensor_checklist(
             color_list=["forestgreen", "lightsalmon", "blue"],
             barmode="group",
         )
+        fig3.update_layout(legend=dict(y=0.9,yanchor="bottom"))
 
         return fig, fig2, fig3

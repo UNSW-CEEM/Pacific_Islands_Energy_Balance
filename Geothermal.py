@@ -10,37 +10,39 @@ geothermal_df = pd.read_csv('Data/Geothermal.csv')
 dataTable = dash_table.DataTable(
     data=geothermal_df.to_dict('records'),
     style_header={
-        'backgroundColor': 'rgb(30, 30, 30)',
+        'backgroundColor': 'rgba(0, 0, 0,0)',
         'fontWeight': 'bold',
-        'marginLeft': 0,
-        'textAlign': 'center',
-        'font-family':'Calibri'
+        'border': '1px solid grey',
+        'textAlign': 'left',
+        'whiteSpace': 'normal',
     },
-    style_cell={
-        'backgroundColor': 'rgb(50, 50, 50)',
-        'color': 'white',
-        'textAlign': 'center','fontSize':18, 'font-family':'Calibri',
+    style_data={'border': '1px solid grey', 'whiteSpace': 'normal',
+                'height': 'auto',         'textAlign': 'left',
+},
+    style_as_list_view=False,
+    virtualization=False,
+    page_action="none",
+    css=[
+        {
+            "selector": ".dash-cell div.dash-cell-value",
+            "rule": "display: inline; white-space: inherit; overflow: inherit; text-overflow: inherit;",
+        }
+    ],
+    style_cell_conditional=[  # style_cell_c. refers to the whole table
+        {
+            'if': {'column_id': 'Country / Territory'},
+            'textAlign': 'left'
+        }
+    ],
+
+    style_table={
+        'width': '100%',
+        'margin': '0 0 0 0px',
+        'padding': '0 0px',
+        'overflowX': 'auto',
+        'overflowY': 'auto',
     },
-
-    fixed_rows={'headers': True, 'data': 0},
-    page_action='none',
-    style_table={'height': '2000px','overflowY': 'auto'},
-    columns=[{'name': i, 'id': i} for i in geothermal_df.columns],
-    editable=False,
-
-    style_cell_conditional=([
-        {'if': {'column_id': 'Country'},
-         'width': '10%'},
-        {'if': {'column_id': 'Youngest volcanism'},
-         'width': '20%'},
-        {'if': {'column_id': 'Known geothermal locations'},
-         'width': '20%'},
-        {'if': {'column_id': 'Geothermal investigations'},
-         'width': '15%'},
-        {'if': {'column_id': 'Observed hot spring temperature'},
-         'width': '20%'},
-        {'if': {'column_id': 'Potentials'},
-         'width': '17.5%'}]),
+    fixed_columns={'headers': True, 'data': 0},
 
     style_data_conditional=[
         {
@@ -119,18 +121,36 @@ high_pot_df = pd.read_csv('Data/Geothermal_high_potentials.csv',encoding='cp1252
 Table_high_pot = dash_table.DataTable(
     data=high_pot_df.to_dict('records'),
     style_header={
-        'backgroundColor': 'rgb(30, 30, 30)',
+        'backgroundColor': 'rgba(0, 0, 0,0)',
         'fontWeight': 'bold',
-        'marginLeft': 0,
-        'textAlign': 'center',
-        'font-family': 'Calibri'
+        'border': '1px solid grey',
+        'textAlign': 'left',
+        "font-family": "Calibri",
+
     },
-    style_cell={
-        'backgroundColor': 'rgb(50, 50, 50)',
-        'color': 'white',
-        'textAlign': 'center', 'fontSize': 18, 'font-family': 'Calibri',
-    },
-)
+    style_data={'border': '1px solid grey', 'whiteSpace': 'normal',
+                'height': 'auto', 'textAlign': 'left',
+                'backgroundColor': 'rgba(0, 0, 0,0)',
+
+                },
+    style_as_list_view=False,
+    virtualization=False,
+    page_action="none",
+    editable=False,
+    style_cell_conditional=[  # style_cell_c. refers to the whole table
+        {
+            'if': {'column_id': 'Country / Territory'},
+            'textAlign': 'left'
+        }
+    ],
+
+    style_table={
+        'width': '100%',
+        'margin': '0 0 0 0px',
+        'padding': '0 0px',
+        'overflowX': 'auto',
+        'overflowY': 'auto',
+    },)
 
 
 

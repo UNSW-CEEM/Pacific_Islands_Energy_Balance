@@ -202,7 +202,8 @@ def select_flow():
                     dbc.Col(
                         [
                             dbc.Label(
-                                "Energy supplied from", style={"margin-right": "5px"}
+                                "Energy supplied from", style={"margin-right": "5px",
+                                                               "font-size":16}
                             )
                         ],
                         md=1.5,
@@ -229,7 +230,8 @@ def select_flow():
                         md=4,
                     ),
                     dbc.Col(
-                        [dbc.Label("In the form of", style={"margin-right": "5px"})],
+                        [dbc.Label("In the form of", style={"margin-right": "5px",
+                                                            "font-size":16})],
                         md=1.5,
                     ),
                     dbc.Col(
@@ -257,7 +259,7 @@ def select_flow():
             html.Br(),
             dbc.Row(
                 [
-                    dbc.Col([dbc.Label("To")], md=0.5),
+                    dbc.Col([dbc.Label("To",style={"font-size":16})], md=0.5),
                     dbc.Col(
                         [
                             dcc.Dropdown(
@@ -283,7 +285,7 @@ def select_flow():
                         ],
                         md=6,
                     ),
-                    dbc.Col([dbc.Label("in the form of")], md=1.5),
+                    dbc.Col([dbc.Label("in the form of",style={"font-size":16})], md=1.5),
                     dbc.Col(
                         [
                             dbc.Select(

@@ -16,7 +16,7 @@ size_dict = {"app": 16, "report": 19}
 font_size = size_dict[mode]
 simple_template = dict(
     layout=go.Layout(
-        title=dict(font=dict(family="Calibri", size=22), y=0.98),
+        title=dict(font=dict(family="Calibri", size=20), y=0.95, yanchor="top"),
         plot_bgcolor="rgba(0,0,0,0)",
         paper_bgcolor="rgba(0,0,0,0)",
         font=dict(family="Calibri", size=font_size, color=font_color),
@@ -131,7 +131,7 @@ def imports_to_GDP(year):
     fig = single_barplot(
         x_axis=df_GDP["Country"],
         y_axis=df_GDP["net_imp_to_GDP"],
-        title="Ratio of net imported petroleum products to GDP",
+        title="Ratio of net imported <br> petroleum products to GDP",
         x_title="OEC",
         y_title="% of GDP",
     )
@@ -176,32 +176,22 @@ def import_export_figure(df_imp, df_exp, Interest_list, year):
             xanchor="center",
             x=1.07,
         ),
-        font=dict(family="Calibri", size=18, color=font_color),
+        font=dict(family="Calibri", size=font_size, color=font_color),
     )
-    fig.update_layout(
-        {
-            "plot_bgcolor": "rgba(0,0,0,0)",
-            "paper_bgcolor": "rgba(0,0,0,0)",
-        }
-    )
+    fig.update_layout(template=simple_template)
     fig.update_yaxes(
         title_text="Value (millions of $)",
-        showline=True,
-        linecolor=line_color,
-        gridcolor=line_color,
     )
     fig.update_xaxes(
-        showline=True,
-        linecolor=line_color,
         title_text='<a href="https://oec.world/en/home-b"><sub>Source: The Observatory of Economic Complexity (OEC)<sub></a>',
     )
 
     fig.update_layout(
-        title="{}, Total Imports = {}, Total Exports = {} (millions of $)".format(
+        title="{}, Total Imports = {},<br> Total Exports = {} (millions of $)".format(
             year, totalImports, totalExports
         )
     )
-    fig.update_traces(marker_line_color=font_color, marker_line_width=1.5, opacity=1)
+    # fig.update_traces(marker_line_color=font_color, marker_line_width=1.5, opacity=1)
     return fig
 
 
@@ -447,7 +437,6 @@ def annual_demand(demand, growth_rate, decarb_rate):
     return fig
 
 
-
 def rooftop_PV_plot(available_buildings, PV_size):
     rooftop_df = functions.calculate_rooftop_PV_potential(
         available_buildings=available_buildings, PV_size=PV_size
@@ -527,21 +516,21 @@ def UNstats_plots(year):
             summary_df["marine_to_import"].round(0),
             summary_df["aviation_to_import"].round(0),
         ],
-        title="% of imported oil consumed for international transit in {}".format(year),
+        title="% of imported oil consumed for international<br> transit in {}".format(year),
         x_title="UNSTATS",
         y_title="% of imported oil",
         name_list=["Int. marine bunkers", "Int. aviation bunkers"],
         color_list=["forestgreen", "lightsalmon"],
         barmode="relative",
     )
-
+    fig.update_layout(legend=dict(y=0.91,yanchor="bottom"))
     fig2 = multiple_barplot(
         x_axis=summary_df["Country"],
         y_axis_list=[
             summary_df["transformation_to_import"].round(0),
             summary_df["transformation_losses_to_import"].round(0),
         ],
-        title="% of imported oil transformed into electricity and transformation losses in {}".format(
+        title="% of imported oil transformed into electricity<br> and transformation losses in {}".format(
             year
         ),
         x_title="UNSTATS",
@@ -550,7 +539,7 @@ def UNstats_plots(year):
         color_list=["forestgreen", "lightsalmon"],
         barmode="group",
     )
-
+    fig2.update_layout(legend=dict(y=0.92,yanchor='bottom'))
     fig3 = go.Figure()
     fig3.add_trace(
         go.Bar(
@@ -610,11 +599,12 @@ def UNstats_plots(year):
     fig3.update_layout(
         template=simple_template,
         title=dict(
-            text="Breakdown of imported oil consumed for domestic transport in {}".format(
+            text="Breakdown of imported oil consumed<br> for domestic transport in {}".format(
                 year
             ),
-            y=0.98,
+            y=0.95,
         ),
+        legend=dict(y=0.92,yanchor="bottom"),
         barmode="relative",
     )
 
@@ -636,7 +626,7 @@ def UNstats_plots(year):
     fig6 = single_barplot(
         x_axis=summary_df["Country"],
         y_axis=summary_df["renewables_in_total"],
-        title="Total renewable energy (electricity and final consumption) used in {}".format(
+        title="Total renewable energy <br>(electricity and final consumption) in {}".format(
             year
         ),
         x_title="UNSTATS",
@@ -656,7 +646,7 @@ def UNstats_plots(year):
     fig8 = single_barplot(
         x_axis=summary_df["Country"],
         y_axis=summary_df["Renewables/Total_demand"],
-        title="Contribution of renewables in total demand (excluding int transit) in {}".format(
+        title="Contribution of renewables in total demand<br> (excluding int transit) in {}".format(
             year
         ),
         x_title="UNSTATS",
@@ -677,7 +667,7 @@ def UNstats_plots(year):
     fig9 = single_barplot(
         x_axis=summary_df["Country"],
         y_axis=summary_df["Renewables/capita"],
-        title="Renewable energy consumption per capita in {}".format(year),
+        title="Renewable energy consumption<br> per capita in {}".format(year),
         x_title="UNSTATS",
         y_title="MJ per capita",
     )
@@ -817,7 +807,7 @@ def land_use_plot():
         go.Scatter(
             x=countries,
             y=percentage_of_coastline_non_RE,
-            name="Decarbonizing of the electricity sector",
+            name="Decarbonizing the electricity sector",
             marker_color="red",
             mode="markers",
         )
@@ -841,7 +831,7 @@ def land_use_plot():
         }
     )
     fig1.update_xaxes(showline=True, showgrid=False, linecolor=line_color)
-    fig1.update_layout(title="Coastline required for wind turbine installation")
+    fig1.update_layout(title="Coastline required for wind energy")
     fig1.update_traces(marker_line_color=font_color, marker_line_width=1.5, opacity=1)
     fig1.update_yaxes(
         title_text="% of coastline",
@@ -871,9 +861,7 @@ def land_use_plot():
             text=PV_final_demand,
         )
     )
-    fig2.update_layout(
-        barmode="relative"
-    )
+    fig2.update_layout(barmode="relative")
     fig2.update_layout(
         legend=dict(
             bgcolor="rgba(0,0,0,0)",
@@ -1293,7 +1281,15 @@ def generation_mix_plot():
     )
 
     fig.update_layout(
-        title="Generation mix in 2019", template=simple_template, barmode="relative"
+        title="Generation mix in 2019", template=simple_template, barmode="relative",
+    # legend = dict(
+    #     bgcolor="rgba(0,0,0,0)",
+    #     yanchor="bottom",
+    #     orientation="h",
+    #     y=0.9,
+    #     xanchor="center",
+    #     x=0.5,
+    # ),
     )
 
     fig.update_yaxes(
@@ -1680,14 +1676,14 @@ def diesel_petrol_price(Fuel):
         font=dict(color=font_color, size=16),
     )
     fig.add_annotation(
-        x=0.8,
+        x=3,
         y=NZ + 10,
         text="New Zealand = {}".format(NZ.round(1)),
         showarrow=False,
         font=dict(color=font_color, size=16),
     )
     fig.update_layout(
-        title="Regional {} retail price for quarter 1, 2022 ".format(Fuel)
+        title="Regional {} retail price for <br>quarter 1, 2022 ".format(Fuel)
     )
     fig.update_yaxes(
         title_text="US cents/Litre",
@@ -1702,20 +1698,20 @@ def diesel_petrol_price(Fuel):
         barmode="relative",
     )
     # fig.update_traces(marker_line_color=font_color, marker_line_width=2, opacity=1)
-    # fig.update_layout(
-    #     legend=dict(
-    #         bgcolor="rgba(0,0,0,0)",
-    #         yanchor="bottom",
-    #         orientation="h",
-    #         y=1.05,
-    #         xanchor="center",
-    #         x=0.5,
-    #     )
-    # )
+    fig.update_layout(
+        legend=dict(
+            bgcolor="rgba(0,0,0,0)",
+            yanchor="middle",
+            orientation="h",
+            y=1.05,
+            xanchor="center",
+            x=0.5,
+        )
+    )
     fig.update_xaxes(
         # linecolor=line_color,
         # showline=True,
-        title_text='<a href="https://www.haletwomey.co.nz/"><sub>Source: Pacific Islands fuel supply, demand and comparison of regional prices 2022, Hale&Twomey <sub></a>',
+        title_text='<a href="https://www.haletwomey.co.nz/"><sub>Source: Pacific Islands fuel supply, demand and comparison of <br>regional prices 2022, Hale&Twomey <sub></a>',
     )
 
     return fig
@@ -1752,7 +1748,7 @@ def elec_price_plot():
         )
     )
 
-    fig.update_layout(title="Regional electricity retail price in 2019")
+    fig.update_layout(title="Electricity retail price in 2019")
     fig.update_yaxes(
         title_text="USD/kWh", showline=True, linecolor=line_color, gridcolor=line_color
     )
@@ -1761,7 +1757,7 @@ def elec_price_plot():
         {"plot_bgcolor": "rgba(0,0,0,0)", "paper_bgcolor": "rgba(0,0,0,0)"}
     )
     fig.update_layout(  # height=350,
-        font=dict(family="Calibri", size=18, color=font_color),
+        font=dict(family="Calibri", size=font_size, color=font_color),
     )
     fig.update_traces(marker_line_color=font_color, marker_line_width=2, opacity=1)
     fig.update_layout(
@@ -1769,9 +1765,9 @@ def elec_price_plot():
             bgcolor="rgba(0,0,0,0)",
             yanchor="bottom",
             orientation="h",
-            y=1.05,
-            xanchor="center",
-            x=0.5,
+            y=0.7,
+            xanchor="left",
+            x=0,
         )
     )
     fig.update_xaxes(
@@ -2109,7 +2105,7 @@ def per_capita_intensity():
     )
 
     fig_use_cap = single_barplot(
-        title="Energy (primary, total) intensity  of economies",
+        title="Energy (primary, total) intensity<br> of economies",
         x_axis=countries,
         y_axis=df_GDP["Demand_per_gdp"].round(1),
         x_title="UNSTATS",
@@ -2346,7 +2342,7 @@ def dependance_on_imports():
     )
 
     fig = single_barplot(
-        title="Share of net imports in total demand (including int transit))",
+        title="Share of net imports in <br>total demand (including int transit))",
         x_axis=countries,
         y_axis=current_share_of_imports_inc_int_transit.round(0),
         x_title="UNSTATS",
@@ -2374,7 +2370,7 @@ def GDP_per_capita():
     ].median()
 
     fig = single_barplot(
-        title="GDP per capita and comparison with world's average",
+        title="GDP per capita and<br> comparison with world's average",
         x_axis=summary_df["Country / Territory"],
         y_axis=summary_df["GDP Per Capita ($)"],
         x_title="WID",
@@ -2412,7 +2408,6 @@ def GDP_per_capita():
         font=dict(color=font_color, size=16),
     )
     return fig
-
 
 
 def dynamic_breakdown_figure_generation(
