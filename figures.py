@@ -523,8 +523,8 @@ def rooftop_PV_plot(available_buildings, PV_size):
         linecolor=line_color,
         title_text='<a href="http://purl.org/spc/digilib/doc/z8n4m"><sub>Source: 2020 Pacific Populations, SPC<sub></a>',
     )
-    if mode =='report':
-        fig.write_image("Results/high_res_figs/{}.png".format('Population_household_size'), scale=7, width=800)
+    # if mode =='report':
+    #     fig.write_image("Results/high_res_figs/{}.png".format('Population_household_size'), scale=7, width=800)
 
     title = "Number of homes available for rooftop PV"
     if mode == 'report':
@@ -536,8 +536,8 @@ def rooftop_PV_plot(available_buildings, PV_size):
         y_title="Number of homes",
         x_title="",
     )
-    if mode =='report':
-        fig2.write_image("Results/high_res_figs/{}.png".format('Number_of_homes_available_for_rooftop_PV'), scale=7, width=800)
+    # if mode =='report':
+    #     fig2.write_image("Results/high_res_figs/{}.png".format('Number_of_homes_available_for_rooftop_PV'), scale=7, width=800)
 
     title = "Potential rooftop PV generation"
     if mode == 'report':
@@ -549,8 +549,8 @@ def rooftop_PV_plot(available_buildings, PV_size):
         y_title="Generation (GWh/year)",
         x_title="",
     )
-    if mode =='report':
-        fig3.write_image("Results/high_res_figs/{}.png".format('Potential_rooftop_PV_generation'), scale=7, width=800)
+    # if mode =='report':
+    #     fig3.write_image("Results/high_res_figs/{}.png".format('Potential_rooftop_PV_generation'), scale=7, width=800)
 
     title = "Potential rooftop PV capacity"
     if mode == 'report':
@@ -562,8 +562,8 @@ def rooftop_PV_plot(available_buildings, PV_size):
         y_title="Capacity (MW)",
         x_title="",
     )
-    if mode =='report':
-        fig4.write_image("Results/high_res_figs/{}.png".format('Potential_rooftop_PV_capacity'), scale=7, width=800)
+    # if mode =='report':
+    #     fig4.write_image("Results/high_res_figs/{}.png".format('Potential_rooftop_PV_capacity'), scale=7, width=800)
 
     return [fig, fig2, fig3, fig4]
 
@@ -726,7 +726,6 @@ def UNstats_plots(year):
         x_title="UNSTATS",
         y_title="% of total energy imports",
     )
-    fig_re_imp.write_image("renewables_to_total_imports.png")
 
     fig9 = single_barplot(
         x_axis=summary_df["Country"],
@@ -1053,7 +1052,7 @@ def land_use_plot():
             "yanchor": "top",
         }
     )
-    fig3.write_image("Results/high_res_figs/{}.png".format('Breakdown_of_land_area'), scale=7, width=800)
+    # fig3.write_image("Results/high_res_figs/{}.png".format('Breakdown_of_land_area'), scale=7, width=800)
 
     fig4 = multiple_barplot(
         title="Demand per capita",
@@ -1461,9 +1460,9 @@ def generation_mix_plot():
         title_text='<a href="https://www.irena.org/Statistics/Statistical-Profiles"><sub>Source: Country Profiles, IRENA<sub></a>',
     )
 
-    if mode == 'report':
-        fig.write_image("Results/high_res_figs/{}.png".format('Generation_Mix'), scale=7,width=800)
-        fig2.write_image("Results/high_res_figs/{}.png".format("Capacity_Mix"), scale=7,width=800)
+    # if mode == 'report':
+    #     fig.write_image("Results/high_res_figs/{}.png".format('Generation_Mix'), scale=7,width=800)
+    #     fig2.write_image("Results/high_res_figs/{}.png".format("Capacity_Mix"), scale=7,width=800)
 
 
     return [fig, fig2]
@@ -1562,12 +1561,12 @@ def cross_country_sankey(df, from_, to_, normalization):
         fig.update_layout(
             title="From {} to {} ({})".format(from_plain_text, to_plain_text, tail)
         )
-    if mode == 'report':
-        from_plain_text=from_plain_text.replace(':',"_")
-        from_plain_text=from_plain_text.replace(' ',"_")
-        fig.update_layout(margin=dict(r=0,t=0,b=0))
-        fig.write_image("Results/high_res_figs/From_{}_to_{}_({}).png".format(from_plain_text, to_plain_text, tail),
-                        scale=7, width=800)
+    # if mode == 'report':
+    #     from_plain_text=from_plain_text.replace(':',"_")
+    #     from_plain_text=from_plain_text.replace(' ',"_")
+    #     fig.update_layout(margin=dict(r=0,t=0,b=0))
+    #     fig.write_image("Results/high_res_figs/From_{}_to_{}_({}).png".format(from_plain_text, to_plain_text, tail),
+    #                     scale=7, width=800)
     return fig
 
 
@@ -1634,8 +1633,8 @@ def import_export_figure_dynamic(df, product, year):
     fig.update_traces(marker_line_color=font_color, marker_line_width=1.5, opacity=1)
     # fig.update_traces(texttemplate='%{text:.1s}')
     fig.update_layout(yaxis_range=[min - 10, max + 5])
-    if mode == 'report':
-        fig.write_image("Results/high_res_figs/{}.png".format("Imports-exports_values"), scale=7,width=800)
+    # if mode == 'report':
+    #     fig.write_image("Results/high_res_figs/{}.png".format("Imports-exports_values"), scale=7,width=800)
 
 
 
@@ -1674,8 +1673,8 @@ def Solar_physical_resources():
         showarrow=False,
         font=dict(color=font_color, size=18),
     )
-    if mode == 'report':
-        fig.write_image("Results/high_res_figs/{}.png".format("available-solar-resource"), scale=7,width=800)
+    # if mode == 'report':
+    #     fig.write_image("Results/high_res_figs/{}.png".format("available-solar-resource"), scale=7,width=800)
 
     fig2 = single_barplot(
         x_axis=df_technical_potential["Country"],
@@ -1699,8 +1698,8 @@ def Solar_physical_resources():
         showarrow=False,
         font=dict(color=font_color, size=18),
     )
-    if mode == 'report':
-        fig2.write_image("Results/high_res_figs/{}.png".format("available-wind-resource"), scale=7,width=800)
+    # if mode == 'report':
+    #     fig2.write_image("Results/high_res_figs/{}.png".format("available-wind-resource"), scale=7,width=800)
 
     fig3 = single_barplot(
         x_axis=df_technical_potential["Country"],
@@ -1840,8 +1839,8 @@ def diesel_petrol_price(Fuel):
         # showline=True,
         title_text='<a href="https://www.haletwomey.co.nz/"><sub>Source: Pacific Islands fuel supply, demand and comparison of <br>regional prices 2022, Hale&Twomey <sub></a>',
     )
-    if mode =='report':
-        fig.write_image("Results/high_res_figs/{}.png".format("Regional_{}_retail_price_for_quarter_1_2022".format(Fuel)), scale=7, width=800)
+    # if mode =='report':
+    #     fig.write_image("Results/high_res_figs/{}.png".format("Regional_{}_retail_price_for_quarter_1_2022".format(Fuel)), scale=7, width=800)
 
     return fig
 
@@ -1904,8 +1903,8 @@ def elec_price_plot():
         title_text='<a href="chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/http://ura.gov.vu/attachments/article/67/Comparative%20Report%20-%20Pacific%20Region%20Electricity%20Bills%20June%202016.pdf"><sub>Source: Pacific Region Electricity Bills 2019, Utilities Regulatory Authority (URA) <sub></a>',
         tickangle=35
     )
-    if mode =='report':
-        fig.write_image("Results/high_res_figs/{}.png".format('regional_electricity_prices'), scale=7, width=1300)
+    # if mode =='report':
+    #     fig.write_image("Results/high_res_figs/{}.png".format('regional_electricity_prices'), scale=7, width=1300)
 
 
     return fig
@@ -2201,8 +2200,8 @@ def per_capita_renewables():
         font=dict(color=font_color, size=16),
     )
     fig.update_layout(template=simple_template)
-    if mode == 'report':
-        fig.write_image("Results/high_res_figs/{}.png".format("Renewable_electricity_generation_per_capita"), scale=5,width=800)
+    # if mode == 'report':
+    #     fig.write_image("Results/high_res_figs/{}.png".format("Renewable_electricity_generation_per_capita"), scale=5,width=800)
 
 
 
@@ -2289,8 +2288,8 @@ def per_capita_intensity():
         showarrow=False,
         font=dict(color=font_color, size=15),
     )
-    if mode == 'report':
-        fig_use_cap.write_image("Results/high_res_figs/{}.png".format("Energy_(primary,_total)_intensity_of_economies"), scale=7,width=800)
+    # if mode == 'report':
+    #     fig_use_cap.write_image("Results/high_res_figs/{}.png".format("Energy_(primary,_total)_intensity_of_economies"), scale=7,width=800)
 
 
 
@@ -2506,8 +2505,8 @@ def dependance_on_imports():
         x_title="UNSTATS",
         y_title="% of net imports",
     )
-    if mode == 'report':
-        fig.write_image("Results/high_res_figs/{}.png".format(n_title), scale=5)
+    # if mode == 'report':
+    #     fig.write_image("Results/high_res_figs/{}.png".format(n_title), scale=5)
 
     return fig
 
@@ -2567,8 +2566,8 @@ def GDP_per_capita():
         showarrow=False,
         font=dict(color=font_color, size=16),
     )
-    if mode == 'report':
-        fig.write_image("Results/high_res_figs/{}.png".format('GDP_per_capita'), scale=5,width=800)
+    # if mode == 'report':
+    #     fig.write_image("Results/high_res_figs/{}.png".format('GDP_per_capita'), scale=5,width=800)
     return fig
 
 
@@ -2731,8 +2730,8 @@ def dynamic_breakdown_of_one_row(row):
         title_text='<a href="http://unstats.un.org/unsd/energystats/pubs/balance"><sub>Source: Energy Balances, United Nations<sub></a>',
     )
 
-    if mode == 'report':
-        fig.write_image("Results/high_res_figs/Dynamic_breakdown_of_{}.png".format(row), scale=7,width=1300)
+    # if mode == 'report':
+    #     fig.write_image("Results/high_res_figs/Dynamic_breakdown_of_{}.png".format(row), scale=7,width=1300)
 
     return fig
 
@@ -2772,8 +2771,8 @@ def dynamic_one_column_multiple_source(column, provider, y_axis_title):
     fig.update_xaxes(
         title_text='<a href="http://unstats.un.org/unsd/energystats/pubs/balance"><sub>Source: Energy Balances, United Nations<sub></a>',
     )
-    if mode == 'report':
-        fig.write_image("Results/high_res_figs/Column_breakdown_of_{}.png".format(column), scale=7,width=1300)
+    # if mode == 'report':
+    #     fig.write_image("Results/high_res_figs/Column_breakdown_of_{}.png".format(column), scale=7,width=1300)
 
     return fig
 
