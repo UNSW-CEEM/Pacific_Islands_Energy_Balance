@@ -59,7 +59,6 @@ def calculate_renewable_technical_potential(
     rooftop_potential = rooftop_df[rooftop_df["Country"] == country][
         "Generation_GWh"
     ].values[0]
-    # print(PV_technical_potential,Wind_technical_potential,rooftop_potential)
 
     total = PV_technical_potential + Wind_technical_potential + rooftop_potential
     return {
@@ -347,7 +346,6 @@ def calculate_diesel_price(country,cost_dic):
     diesel_price = diesel_price  # 20c less than retails price
     diesel_price = diesel_price / 100  # convert to $ from cents
 
-    # print(diesel_price)
     return diesel_price
 
 
@@ -364,7 +362,6 @@ def run_decarbonization_scenario(
 ):
     df_GDP = pd.read_csv("Data/Economic Indicators.csv")
 
-    # demand_scenario = ["Decarbonization","Electrification","Net_zero"]
     costs = {
         "optimistic": {
             "diesel_cap": 3,
@@ -382,7 +379,7 @@ def run_decarbonization_scenario(
             "emissiont/GWh_diesel": 1100,  # AEMO:0.7-1.5
             "emissiont/GWh_blackCoal": 900,  # AEMO:0.7-1.5
             "emissiont/GWh_brownCoal": 1200,  # AEMO:1.1-1.3
-            "carbon_price": 100,  # $/tonne
+            "carbon_price": 0,  # $/tonne
             "rooftop_size": 2.5,
             "res_battery_size": 5
         },  # $/W
@@ -396,14 +393,13 @@ def run_decarbonization_scenario(
             "coal": 400,
             "discount_rate": 6,
             "inflation_rate": 3,
-            "inflation_rate": 3,
             "diesel_dif": 20,
             "storage_days": 5,
             "gas$/m3": "Nan",
             "emissiont/GWh_diesel": 1100,  # AEMO:0.7-1.5
             "emissiont/GWh_blackCoal": 1000,  # AEMO:0.7-1.5
             "emissiont/GWh_brownCoal": 1200,  # AEMO:1.1-1.3
-            "carbon_price": 100,  # $/tonne
+            "carbon_price": 0,  # $/tonne
             "rooftop_size": 2.5,
             "res_battery_size": 5
         },
@@ -467,11 +463,11 @@ def run_decarbonization_scenario(
             payback_period = 0
         gdp_to_cost = int(100 * GDP / (total_cost / 1000000))
         all_countries_result[country] = [
-            round(capacity_dic["Rooftop_MW"],1),
-            round(capacity_dic["Large_PV_MW"],0),
+            round(capacity_dic["Rooftop_MW"],2),
+            round(capacity_dic["Large_PV_MW"],2),
             round(capacity_dic["Wind_MW"],1),
-            round(capacity_dic["residential_battery_GWh"],2),
-            round(capacity_dic["Community_battery_GWh"],1),
+            round(capacity_dic["residential_battery_GWh"],5),
+            round(capacity_dic["Community_battery_GWh"],5),
             capacity_dic["total_GWh"],
             int(payback_period),
             total_cost,
@@ -511,7 +507,7 @@ if __name__ == "__main__":
                 avaialble_coastline=0.1,
                 avaialble_buildings=0.3,
                 PV_size=2.5,
-                decarb_year=2030,
+                decarb_year=2040,
                 input_dicts=None
             )
 

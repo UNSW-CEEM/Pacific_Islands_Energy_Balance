@@ -64,8 +64,7 @@ def update_options(year,country):
      ]
 )
 def update_cross_country_comparison_financial(n_clicks,clear_canvas,product,hidden_div,div_children):
-    # print("n_clicks: ",n_clicks,"hidden_div:    ",hidden_div,"Product   ",product)
-
+    selected_year = 2020
     if n_clicks != hidden_div[0]:
         import_values = []
         export_values = []
@@ -73,8 +72,8 @@ def update_cross_country_comparison_financial(n_clicks,clear_canvas,product,hidd
 
 
         for country in Country_List:
-            df_exp = pd.read_csv("Data/{}/Exports-{}---Click-to-Select-a-Product.csv".format(country, 2019))
-            df_imp = pd.read_csv("Data/{}/Imports-{}---Click-to-Select-a-Product.csv".format(country, 2019))
+            df_exp = pd.read_csv("Data/{}/Exports-{}---Click-to-Select-a-Product.csv".format(country, selected_year))
+            df_imp = pd.read_csv("Data/{}/Imports-{}---Click-to-Select-a-Product.csv".format(country, selected_year))
             df_imp['Trade Value'] = -df_imp['Trade Value']/1000000 #to million $
             df_exp['Trade Value'] = df_exp['Trade Value']/1000000 #to million $
 
@@ -83,7 +82,6 @@ def update_cross_country_comparison_financial(n_clicks,clear_canvas,product,hidd
 
             a_exp = df_exp['Trade Value']
             a_imp = df_imp['Trade Value']
-            # print(country,'     reside inja',  a_imp, type(a_exp))
             try:
                 if len(a_exp) == 0:
                     a_exp = 0
@@ -103,7 +101,8 @@ def update_cross_country_comparison_financial(n_clicks,clear_canvas,product,hidd
         df_cross_country['Country'] = Country_List
         df_cross_country['export_values'] = export_values
         df_cross_country['import_values'] = import_values
-        fig = figures.import_export_figure_dynamic(df_cross_country,product)
+        df_cross_country = df_cross_country.sort_values('Country')
+        fig = figures.import_export_figure_dynamic(df_cross_country,product,year = selected_year)
 
         new_child = html.Div(
             style={'display': 'inline-block', 'outline': 'thin lightgrey solid', 'padding': 10},

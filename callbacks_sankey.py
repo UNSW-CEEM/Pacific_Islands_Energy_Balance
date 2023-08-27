@@ -22,18 +22,13 @@ def sensor_checklist(year,country):
     [Output('select-to', 'options'),
      Output('select-to', 'value')
      ],
-    # Input('update-button-cross-country-to', 'n_clicks'),
     Input("select-from", "value"),
 
 )
 def update_options3(from_):
-    # if n_clicks:
-
     items = []
     df = pd.read_csv("Data/Sankey/csv/{}/{}.csv".format(2019, 'PNG'))
     df = df[df[' (from)'] == from_]
-
-    #     to_list = df[' (to)'].tolist()
 
     for i in df[' (to)']:
         items.append(i)
@@ -47,7 +42,6 @@ def update_options3(from_):
 
 @app.callback(
     [
-        # Output('cross_country_sankey_figure', 'figure'),
     Output('Hidden-Div_trend', "children"),
     Output('dynamic_callback_container', 'children')],
     [Input('update-button-cross-country-figure', 'n_clicks'),
@@ -55,11 +49,13 @@ def update_options3(from_):
     [State("select-from", "value"),
     State("select-to", "value"),
     State("radio-normalization-sankey", "value"),
+    State("export-df-sankey-cross-country", "value"),
     State('Hidden-Div_trend', "children"),
     State('dynamic_callback_container', 'children')
      ]
 )
-def update_cross_country_comparison(n_clicks,clear_canvas,from_,to_,normalization,hidden_div,div_children):
+def update_cross_country_comparison(n_clicks,clear_canvas,from_,to_,normalization,export_df,hidden_div,div_children):
+    import re
     if n_clicks != hidden_div[0]:
         values = []
         normalized_values = []
@@ -108,6 +104,14 @@ def update_cross_country_comparison(n_clicks,clear_canvas,from_,to_,normalizatio
             ]
         )
         div_children.append(new_child)
+        if export_df !=[]:
+            # from_ = re.sub("\s\s+" , " ", from_)
+            # to_ = re.sub("\s\s+" , " ", to_)
+            # df_cross_country.to_csv("Results/cross_country/cross_country_sankey.csv".format(from_.replace(" ", "_"),
+            #                                                                                           to_.replace(" ", "_"),
+            #                                                                                           str(normalization).replace(" ", "_")))
+            pass # This is disabled for the online version. This feature is used for generating reports
+
 
     elif clear_canvas != hidden_div[1]:
         div_children = []
@@ -136,10 +140,7 @@ def update_cross_country_comparison(n_clicks,clear_canvas,from_,to_,normalizatio
 )
 def update_cross_country_comparison(n_clicks,clear_canvas,from_,consumer_list,carrier,carrier_destination,hidden_div,div_children,y_axis_title):
     if n_clicks != hidden_div[0]:
-        # print("Hereee")
-
         fig = figures.dynamic_breakdown_figure_generation(y_axis_title=y_axis_title,from_=from_,list_of_consumers=consumer_list,carrier=carrier,destination_carrier=carrier_destination)
-        # print("Here2")
         new_child = html.Div(
             style={ 'outline': 'thin lightgrey solid', 'padding': 5,'marginLeft': 10, 'marginRight': 10,},#'display': 'inline-block',
             children=[
@@ -153,6 +154,10 @@ def update_cross_country_comparison(n_clicks,clear_canvas,from_,consumer_list,ca
             ]
         )
         div_children.append(new_child)
+        if figures.mode == 'report':
+            fig.write_image("Results/high_res_figs/from{}_to_{}.png".format(from_,consumer_list[0]), scale=7,width=1500)
+
+
 
     elif clear_canvas != hidden_div[1]:
         div_children = []

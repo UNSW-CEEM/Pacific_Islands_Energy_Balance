@@ -102,7 +102,7 @@ Transit = [
                                 html.Div(
                                     dcc.Graph(
                                         id="final-demand",
-                                        figure=figures.UNstats_plots(2019)[4],
+                                        figure=figures.UNstats_plots(2020)[4],
                                     ),
                                     style=figure_border_style,
                                 ),
@@ -113,7 +113,7 @@ Transit = [
                                 html.Div(
                                     dcc.Graph(
                                         id="transit_figure1",
-                                        figure=figures.UNstats_plots(2019)[7],
+                                        figure=figures.UNstats_plots(2020)[7],
                                     ),
                                     style=figure_border_style,
                                 ),
@@ -129,7 +129,7 @@ Transit = [
                                 html.Div(
                                     dcc.Graph(
                                         id="Oil-imports",
-                                        figure=figures.UNstats_plots(2019)[3],
+                                        figure=figures.UNstats_plots(2020)[3],
                                     ),
                                     style=figure_border_style,
                                 ),
@@ -140,7 +140,7 @@ Transit = [
                                 html.Div(
                                     dcc.Graph(
                                         id="imports-to-GDP",
-                                        figure=figures.imports_to_GDP(2019)[0],
+                                        figure=figures.imports_to_GDP(2020)[0],
                                     ),
                                     style=figure_border_style,
                                 ),
@@ -156,7 +156,7 @@ Transit = [
                                 html.Div(
                                     dcc.Graph(
                                         id="import-per-capita",
-                                        figure=figures.imports_to_GDP(2019)[1],
+                                        figure=figures.imports_to_GDP(2020)[1],
                                     ),
                                     style=figure_border_style,
                                 ),
@@ -167,7 +167,7 @@ Transit = [
                                 html.Div(
                                     dcc.Graph(
                                         id="renewables-per-capita",
-                                        figure=figures.UNstats_plots(2019)[8],
+                                        figure=figures.UNstats_plots(2020)[8],
                                     ),
                                     style=figure_border_style,
                                 ),
@@ -183,7 +183,7 @@ Transit = [
                                 html.Div(
                                     dcc.Graph(
                                         id="transit_figure3",
-                                        figure=figures.UNstats_plots(2019)[2],
+                                        figure=figures.UNstats_plots(2020)[2],
                                     ),
                                     style=figure_border_style,
                                 ),
@@ -197,7 +197,7 @@ Transit = [
                                 html.Div(
                                     dcc.Graph(
                                         id="transit_figure2",
-                                        figure=figures.UNstats_plots(2019)[1],
+                                        figure=figures.UNstats_plots(2020)[1],
                                     ),
                                     style=figure_border_style,
                                 ),
@@ -211,7 +211,7 @@ Transit = [
                                 html.Div(
                                     dcc.Graph(
                                         id="final-demand",
-                                        figure=figures.UNstats_plots(2019)[0],
+                                        figure=figures.UNstats_plots(2020)[0],
                                     ),
                                     style=figure_border_style,
                                 ),
@@ -222,7 +222,7 @@ Transit = [
                                 html.Div(
                                     dcc.Graph(
                                         id="total renewables",
-                                        figure=figures.UNstats_plots(2019)[5],
+                                        figure=figures.UNstats_plots(2020)[5],
                                     ),
                                     style=figure_border_style,
                                 ),
@@ -304,6 +304,21 @@ Transit = [
                                     dcc.Graph(
                                         id="GDP-per-capita",
                                         figure=figures.GDP_per_capita(),
+                                    ),
+                                    style=figure_border_style,
+                                ),
+                                lg=6,
+                                md=12,
+                            ),
+                        ]
+                    ),
+                    dbc.Row(
+                        [
+                            dbc.Col(
+                                html.Div(
+                                    dcc.Graph(
+                                        id="three-demand-scenarios",
+                                        figure=figures.land_use_plot()[6],
                                     ),
                                     style=figure_border_style,
                                 ),

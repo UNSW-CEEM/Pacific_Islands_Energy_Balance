@@ -77,10 +77,10 @@ Decarbonization = [
                                     generate_select(
                                         "genset-cost",
                                         "Genset cost: $/W",
-                                        5,
+                                        1,
                                         15,
                                         1,
-                                        9,
+                                        2,
                                     ),
 
                                     generate_select(

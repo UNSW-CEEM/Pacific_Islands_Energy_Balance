@@ -7,17 +7,8 @@ import callbacks
 import callbacks_sankey
 import callbacks_FinancialFlows
 import callbacks_modeling
-import dash_auth
-# import warnings
-# warnings.filterwarnings('ignore')
 
-VALID_USERNAME_PASSWORD_PAIRS = {
-    'CEEM': 'CEEM2022'
-}
-auth = dash_auth.BasicAuth(
-    app,
-    VALID_USERNAME_PASSWORD_PAIRS
-)
+
 
 app.layout = dbc.Container([
 
@@ -28,9 +19,6 @@ app.layout = dbc.Container([
                     dcc.Markdown(
                         """
             ## Pacific Islands Energy Balance
-
-
-            [Source code and user guide](https://github.com/UNSW-CEEM/PICTs_Decarbonization) 
 
             Developed by: [Shayan Naderi](https://www.linkedin.com/in/shayan-naderi-461aa097/) 
             """,

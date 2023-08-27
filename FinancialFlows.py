@@ -175,12 +175,10 @@ Cross_country_financial_flows = [
                     ),
                     select_product(),
                     html.Br(),
-                    # html.Div(dcc.Graph(id="cross_country_sankey_figure"),style=figure_border_style),
                     html.Div(id='Hidden-Div_trend_financial_flows', children=[0, 0], style={'display': 'none'}),
                     html.Div(id='dynamic_callback_container_financial_flows', children=[],
                              style={'margin-top': '15px', 'margin-left': '20px','margin-right': '20px'}),
                     html.Br(),
-                    # html.Div(dcc.Graph(id="Sankey_elec_figure"),style=figure_border_style)
                 ],
                 type="default",
             )

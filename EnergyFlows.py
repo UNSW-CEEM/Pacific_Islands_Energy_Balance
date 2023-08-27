@@ -28,7 +28,8 @@ Country_List = [
     "PNG",
     "Fiji",
 ]
-Year_List = ["2019", "2018", "2017"]
+
+Year_List = ["2020","2019", "2018", "2017"]
 
 
 def generate_select_country_drpdwn():
@@ -102,6 +103,11 @@ def select_sankey_flows():
                 n_clicks=0,
                 className="me-1",
             ),
+            dcc.Checklist(
+                ['Export data'],
+                inline=True,
+                id="export-df-sankey-cross-country"
+            )
         ],
         inline=True,
         style={"marginLeft": 35, "marginTop": 25, "fontSize": 25},
@@ -501,7 +507,7 @@ Tracing_energy_flows = [
 breakdown_of_source_in_a_sector = [
     dbc.CardHeader(
         html.H5(
-            "Cross-country comparison of one row (e.g., % of final consumption from different energy sources)"
+            "Breakdown of rows by energy sources in all countries (e.g., % final consumption from different energy sources)"
         )
     ),
     dbc.CardBody(

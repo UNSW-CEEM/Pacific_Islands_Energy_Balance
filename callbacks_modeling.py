@@ -111,7 +111,7 @@ def sensor_checklist(
             x_title="",
             y_title="GWh",
             name_list=["Residential battery", "Community battery"],
-            color_list=["forestgreen", "lightsalmon"],
+            color_list=["#0033CC", "#33CCFF"],
             barmode="group",
         )
         fig3 = multiple_barplot(
@@ -125,7 +125,7 @@ def sensor_checklist(
             x_title="",
             y_title="MW",
             name_list=["Rooftop PV", "Utility PV", "Wind"],
-            color_list=["forestgreen", "lightsalmon", "blue"],
+            color_list=["#0033CC", "#33CCFF", "blue"],
             barmode="group",
         )
         fig3.update_layout(legend=dict(y=0.9,yanchor="bottom"))
