@@ -4,6 +4,7 @@ venv
 /.idea
 
 
+
 .env
 .DS_Store
 *.pyc
