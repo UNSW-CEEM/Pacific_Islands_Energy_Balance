@@ -6,8 +6,7 @@ orphan: true
 
 ```{todolist}
 ```
-1- Add files for medium sized houses
+1- Automating the process for updating the database. Every year, UNstats releases new data (data for 2 years ago)
 
-2- The load profile limits the duration of simulations. add the load profile for spring as well. It comes
-from the file "three_month_demand.csv".
+2- Add the simulation tool for each individual country
 
