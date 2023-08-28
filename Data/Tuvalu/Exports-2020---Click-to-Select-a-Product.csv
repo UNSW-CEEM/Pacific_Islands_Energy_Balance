@@ -1,0 +1,106 @@
+"Section ID","Section","HS2 ID","HS2","HS4 ID","HS4","Trade Value"
+1,"Animal Products",103,"Fish, crustaceans, & molluscs",10303,"Non-fillet Frozen Fish",10344542
+2,"Vegetable Products",210,"Cereals",21006,"Rice",3410
+5,"Mineral Products",527,"Mineral fuels, mineral oils and products of their distillation",52710,"Refined Petroleum",251
+6,"Chemical Products",628,"Inorganic chemicals",62804,"Hydrogen",444
+6,"Chemical Products",630,"Pharmaceutical products",63002,"Vaccines, blood, antisera, toxins and cultures",1595
+6,"Chemical Products",630,"Pharmaceutical products",63004,"Packaged Medicaments",9824
+6,"Chemical Products",638,"Chemical products n.e.s.",63822,"Laboratory Reagents",10637
+7,"Plastics and Rubbers",739,"Plastics & articles thereof",73921,"Other Plastic Sheetings",78
+7,"Plastics and Rubbers",739,"Plastics & articles thereof",73923,"Plastic Lids",48
+7,"Plastics and Rubbers",739,"Plastics & articles thereof",73924,"Plastic Housewares",94
+7,"Plastics and Rubbers",739,"Plastics & articles thereof",73926,"Other Plastic Products",947
+7,"Plastics and Rubbers",740,"Rubber & articles thereof",74011,"Rubber Tires",2670
+7,"Plastics and Rubbers",740,"Rubber & articles thereof",74016,"Other Rubber Products",213
+8,"Animal Hides",842,"Leather articles",84202,"Trunks and Cases",1379
+9,"Wood Products",944,"Wood, wood articles, & charcoal",94407,"Sawn Wood",4834
+9,"Wood Products",944,"Wood, wood articles, & charcoal",94415,"Wood Crates",432.00000000000006
+11,"Textiles",1153,"Vegetable textile fibers, paper yarn & fabrics",115308,"Other Vegetable Fibers Yarn",834.0000000000001
+11,"Textiles",1156,"Wadding, felt, nonwovens, twin, ropes, & articles thereof",115608,"Netting",3671.0000000000005
+11,"Textiles",1161,"Knitted clothing accesories",116104,"Knit Women's Suits",993
+11,"Textiles",1161,"Knitted clothing accesories",116105,"Knit Men's Shirts",2284.0000000000005
+11,"Textiles",1161,"Knitted clothing accesories",116107,"Knit Men's Undergarments",26074
+11,"Textiles",1161,"Knitted clothing accesories",116108,"Knit Women's Undergarments",3771
+11,"Textiles",1161,"Knitted clothing accesories",116109,"Knit T-shirts",1713
+11,"Textiles",1161,"Knitted clothing accesories",116110,"Knit Sweaters",917
+11,"Textiles",1161,"Knitted clothing accesories",116114,"Other Knit Garments",204
+11,"Textiles",1162,"Non-knitted clothing accesories",116202,"Non-Knit Women's Coats",141
+11,"Textiles",1162,"Non-knitted clothing accesories",116203,"Non-Knit Men's Suits",545
+11,"Textiles",1162,"Non-knitted clothing accesories",116204,"Non-Knit Women's Suits",527
+11,"Textiles",1162,"Non-knitted clothing accesories",116205,"Non-Knit Men's Shirts",1206
+11,"Textiles",1162,"Non-knitted clothing accesories",116206,"Non-Knit Women's Shirts",800
+11,"Textiles",1162,"Non-knitted clothing accesories",116209,"Non-Knit Babies' Garments",9.000000000000002
+12,"Footwear and Headwear",1264,"Footwear",126402,"Rubber Footwear",13.000000000000002
+12,"Footwear and Headwear",1265,"Headgear",126504,"Hats",1401
+12,"Footwear and Headwear",1265,"Headgear",126506,"Other Headwear",2
+13,"Stone And Glass",1368,"Stone, plaster, cement, asbestos, mica.",136805,"Abrasive Powder",19
+14,"Precious Metals",1471,"Precious stones, metals, & pearls",147110,"Platinum",9867
+14,"Precious Metals",1471,"Precious stones, metals, & pearls",147116,"Pearl Products",2693
+14,"Precious Metals",1471,"Precious stones, metals, & pearls",147118,"Coin",80920
+15,"Metals",1572,"Iron & steel",157204,"Scrap Iron",11697.000000000002
+15,"Metals",1573,"Iron or steel articles",157311,"Iron Gas Containers",21428
+15,"Metals",1573,"Iron or steel articles",157318,"Iron Fasteners",46
+15,"Metals",1573,"Iron or steel articles",157320,"Iron Springs",2381
+15,"Metals",1573,"Iron or steel articles",157326,"Other Iron Products",375
+15,"Metals",1582,"Tools & cutlery",158202,"Hand Saws",19
+15,"Metals",1582,"Tools & cutlery",158204,"Wrenches",39
+15,"Metals",1582,"Tools & cutlery",158205,"Other Hand Tools",352
+15,"Metals",1582,"Tools & cutlery",158207,"Interchangeable Tool Parts",221
+15,"Metals",1582,"Tools & cutlery",158209,"Tool Plates",633
+15,"Metals",1582,"Tools & cutlery",158211,"Knives",891
+15,"Metals",1583,"Miscellaneous metal products",158301,"Padlocks",109
+15,"Metals",1583,"Miscellaneous metal products",158305,"Metal Office Supplies",103.00000000000001
+16,"Machines",1684,"Machinery, mechanical appliances, & parts",168403,"Central Heating Boilers",8789
+16,"Machines",1684,"Machinery, mechanical appliances, & parts",168409,"Engine Parts",793
+16,"Machines",1684,"Machinery, mechanical appliances, & parts",168411,"Gas Turbines",5806
+16,"Machines",1684,"Machinery, mechanical appliances, & parts",168412,"Other Engines",1294
+16,"Machines",1684,"Machinery, mechanical appliances, & parts",168413,"Liquid Pumps",22.000000000000004
+16,"Machines",1684,"Machinery, mechanical appliances, & parts",168421,"Centrifuges",69
+16,"Machines",1684,"Machinery, mechanical appliances, & parts",168422,"Washing and Bottling Machines",68
+16,"Machines",1684,"Machinery, mechanical appliances, & parts",168424,"Liquid Dispersing Machines",369
+16,"Machines",1684,"Machinery, mechanical appliances, & parts",168431,"Excavation Machinery",4434
+16,"Machines",1684,"Machinery, mechanical appliances, & parts",168438,"Industrial Food Preperation Machinery",12
+16,"Machines",1684,"Machinery, mechanical appliances, & parts",168443,"Industrial Printers",41.99999999999999
+16,"Machines",1684,"Machinery, mechanical appliances, & parts",168447,"Knitting Machines",1054
+16,"Machines",1684,"Machinery, mechanical appliances, & parts",168466,"Metalworking Machine Parts",150
+16,"Machines",1684,"Machinery, mechanical appliances, & parts",168467,"Motor-working Tools",13.000000000000002
+16,"Machines",1684,"Machinery, mechanical appliances, & parts",168471,"Computers",7416.000000000001
+16,"Machines",1684,"Machinery, mechanical appliances, & parts",168473,"Office Machine Parts",134
+16,"Machines",1684,"Machinery, mechanical appliances, & parts",168479,"Machinery Having Individual Functions",98833
+16,"Machines",1684,"Machinery, mechanical appliances, & parts",168480,"Metal Molds",499
+16,"Machines",1684,"Machinery, mechanical appliances, & parts",168481,"Valves",304
+16,"Machines",1684,"Machinery, mechanical appliances, & parts",168482,"Ball Bearings",10
+16,"Machines",1684,"Machinery, mechanical appliances, & parts",168483,"Transmissions",106
+16,"Machines",1684,"Machinery, mechanical appliances, & parts",168485,"Boat Propellers",21105
+16,"Machines",1685,"Electrical machinery and electronics",168501,"Electric Motors",71
+16,"Machines",1685,"Electrical machinery and electronics",168503,"Electric Motor Parts",213
+16,"Machines",1685,"Electrical machinery and electronics",168504,"Electrical Transformers",22378
+16,"Machines",1685,"Electrical machinery and electronics",168523,"Blank Audio Media",8464
+16,"Machines",1685,"Electrical machinery and electronics",168525,"Broadcasting Equipment",1033
+16,"Machines",1685,"Electrical machinery and electronics",168526,"Navigation Equipment",165
+16,"Machines",1685,"Electrical machinery and electronics",168528,"Video Displays",2061.0000000000005
+16,"Machines",1685,"Electrical machinery and electronics",168529,"Broadcasting Accessories",3331
+16,"Machines",1685,"Electrical machinery and electronics",168531,"Audio Alarms",265
+16,"Machines",1685,"Electrical machinery and electronics",168536,"Low-voltage Protection Equipment",8075
+16,"Machines",1685,"Electrical machinery and electronics",168538,"Electrical Power Accessories",11532
+16,"Machines",1685,"Electrical machinery and electronics",168539,"Electric Filament",89.00000000000001
+16,"Machines",1685,"Electrical machinery and electronics",168542,"Integrated Circuits",16427
+16,"Machines",1685,"Electrical machinery and electronics",168543,"Other Electrical Machinery",23111
+16,"Machines",1685,"Electrical machinery and electronics",168544,"Insulated Wire",6157
+17,"Transportation",1787,"Cars, tractors, trucks & parts thereof.",178708,"Motor vehicles; parts and accessories (8701 to 8705)",3777.9999999999995
+17,"Transportation",1787,"Cars, tractors, trucks & parts thereof.",178711,"Motorcycles and cycles",207
+17,"Transportation",1787,"Cars, tractors, trucks & parts thereof.",178714,"Bi-Wheel Vehicle Parts",2625
+17,"Transportation",1789,"Ships, boats, & floating structures",178902,"Fishing Ships",43571.00000000001
+18,"Instruments",1890,"Optical, photo, & film equipment; medical instruments",189004,"Eyewear",832
+18,"Instruments",1890,"Optical, photo, & film equipment; medical instruments",189006,"Cameras",129023
+18,"Instruments",1890,"Optical, photo, & film equipment; medical instruments",189022,"X-Ray Equipment",1668753
+18,"Instruments",1890,"Optical, photo, & film equipment; medical instruments",189025,"Hydrometers",1194
+18,"Instruments",1890,"Optical, photo, & film equipment; medical instruments",189027,"Chemical Analysis Instruments",5013
+18,"Instruments",1891,"Clocks, watches, & parts",189102,"Base Metal Watches",70
+20,"Miscellaneous",2094,"Furniture, bedding, lamps, & prefab buildings",209403,"Other Furniture",12747
+20,"Miscellaneous",2095,"Toys, games, & sports",209503,"Other toys",293
+20,"Miscellaneous",2095,"Toys, games, & sports",209506,"Sports Equipment",6447
+20,"Miscellaneous",2096,"Misc. manufactures",209607,"Zippers",36.00000000000001
+20,"Miscellaneous",2096,"Misc. manufactures",209608,"Pens",109
+21,"Arts and Antiques",2197,"Art & antiques",219704,"Revenue Stamps",2508
+21,"Arts and Antiques",2197,"Art & antiques",219705,"Collector's Items",349

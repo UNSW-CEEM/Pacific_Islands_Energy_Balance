@@ -1,0 +1,514 @@
+Section ID,Section,HS2 ID,HS2,HS4 ID,HS4,Trade Value
+1,Animal Products,101,Live animals,10103,Pigs,2045
+1,Animal Products,101,Live animals,10106,Other Animals,75
+1,Animal Products,102,Meat and edible meat offal,10201,Bovine Meat,23999
+1,Animal Products,102,Meat and edible meat offal,10202,Frozen Bovine Meat,17658
+1,Animal Products,102,Meat and edible meat offal,10203,Pig Meat,4486
+1,Animal Products,102,Meat and edible meat offal,10204,Sheep and Goat Meat,42238
+1,Animal Products,102,Meat and edible meat offal,10206,Edible Offal,9934
+1,Animal Products,102,Meat and edible meat offal,10207,Poultry Meat,109440
+1,Animal Products,102,Meat and edible meat offal,10208,Other Meat,4084
+1,Animal Products,102,Meat and edible meat offal,10209,Animal Fat,2114
+1,Animal Products,102,Meat and edible meat offal,10210,Preserved Meat,6922
+1,Animal Products,103,"Fish and crustaceans, molluscs and other aquatic invertebrates",10302,Non-fillet Fresh Fish,339105
+1,Animal Products,103,"Fish and crustaceans, molluscs and other aquatic invertebrates",10303,Non-fillet Frozen Fish,11004256
+1,Animal Products,103,"Fish and crustaceans, molluscs and other aquatic invertebrates",10304,Fish Fillets,4392284
+1,Animal Products,103,"Fish and crustaceans, molluscs and other aquatic invertebrates",10305,Processed Fish,706
+1,Animal Products,103,"Fish and crustaceans, molluscs and other aquatic invertebrates",10306,Crustaceans,1267
+1,Animal Products,103,"Fish and crustaceans, molluscs and other aquatic invertebrates",10307,Molluscs,1727600
+1,Animal Products,104,Dairy products and other edible products of animal origin,10401,Milk,33487
+1,Animal Products,104,Dairy products and other edible products of animal origin,10402,Concentrated Milk,46899
+1,Animal Products,104,Dairy products and other edible products of animal origin,10403,Fermented Milk Products,4156
+1,Animal Products,104,Dairy products and other edible products of animal origin,10405,Butter,13200
+1,Animal Products,104,Dairy products and other edible products of animal origin,10406,Cheese,1969
+1,Animal Products,104,Dairy products and other edible products of animal origin,10407,Eggs,9089
+1,Animal Products,104,Dairy products and other edible products of animal origin,10408,Processed Egg Products,5370
+1,Animal Products,104,Dairy products and other edible products of animal origin,10410,Other Edible Animal Products,2690
+1,Animal Products,105,Animal originated products; not elsewhere specified or included,10505,Bird Feathers and Skins,234
+2,Vegetable Products,206,Trees and other live plants,20602,Other Live Plants,37
+2,Vegetable Products,206,Trees and other live plants,20603,Cut Flowers,151
+2,Vegetable Products,206,Trees and other live plants,20604,Foliage,37
+2,Vegetable Products,207,Vegetables and certain roots and tubers; edible,20701,Potatoes,7193
+2,Vegetable Products,207,Vegetables and certain roots and tubers; edible,20702,Tomatoes,982
+2,Vegetable Products,207,Vegetables and certain roots and tubers; edible,20703,Onions,5057
+2,Vegetable Products,207,Vegetables and certain roots and tubers; edible,20704,Cabbages,1797
+2,Vegetable Products,207,Vegetables and certain roots and tubers; edible,20705,Lettuce,3124
+2,Vegetable Products,207,Vegetables and certain roots and tubers; edible,20706,Root Vegetables,8482
+2,Vegetable Products,207,Vegetables and certain roots and tubers; edible,20707,Cucumbers,724
+2,Vegetable Products,207,Vegetables and certain roots and tubers; edible,20709,Other Vegetables,50263
+2,Vegetable Products,207,Vegetables and certain roots and tubers; edible,20710,Frozen Vegetables,41627
+2,Vegetable Products,207,Vegetables and certain roots and tubers; edible,20711,Preserved Vegetables,563
+2,Vegetable Products,207,Vegetables and certain roots and tubers; edible,20712,Dried Vegetables,7136
+2,Vegetable Products,207,Vegetables and certain roots and tubers; edible,20713,Dried Legumes,39
+2,Vegetable Products,207,Vegetables and certain roots and tubers; edible,20714,Cassava,1635637
+2,Vegetable Products,208,"Fruit and nuts, edible; peel of citrus fruit or melons",20801,"Coconuts, Brazil Nuts, and Cashews",689659
+2,Vegetable Products,208,"Fruit and nuts, edible; peel of citrus fruit or melons",20802,Other Nuts,151
+2,Vegetable Products,208,"Fruit and nuts, edible; peel of citrus fruit or melons",20803,Bananas,33215
+2,Vegetable Products,208,"Fruit and nuts, edible; peel of citrus fruit or melons",20804,Tropical Fruits,573
+2,Vegetable Products,208,"Fruit and nuts, edible; peel of citrus fruit or melons",20805,Citrus,12259
+2,Vegetable Products,208,"Fruit and nuts, edible; peel of citrus fruit or melons",20807,Melons,1271
+2,Vegetable Products,208,"Fruit and nuts, edible; peel of citrus fruit or melons",20808,Apples and Pears,23882
+2,Vegetable Products,208,"Fruit and nuts, edible; peel of citrus fruit or melons",20809,Pitted Fruits,8150
+2,Vegetable Products,208,"Fruit and nuts, edible; peel of citrus fruit or melons",20810,Other Fruits,70785
+2,Vegetable Products,208,"Fruit and nuts, edible; peel of citrus fruit or melons",20811,Frozen Fruits and Nuts,224313
+2,Vegetable Products,208,"Fruit and nuts, edible; peel of citrus fruit or melons",20813,Dried Fruits,9636
+2,Vegetable Products,209,"Coffee, tea, mate and spices",20902,Tea,482
+2,Vegetable Products,209,"Coffee, tea, mate and spices",20904,Pepper,567
+2,Vegetable Products,209,"Coffee, tea, mate and spices",20905,Vanilla,1574
+2,Vegetable Products,209,"Coffee, tea, mate and spices",20910,Spices,1115
+2,Vegetable Products,210,Cereals,21004,Oats,441
+2,Vegetable Products,210,Cereals,21005,Corn,226
+2,Vegetable Products,210,Cereals,21006,Rice,39089
+2,Vegetable Products,211,"Products of the milling industry; malt, starches, inulin, wheat gluten",21101,Wheat Flours,1093
+2,Vegetable Products,211,"Products of the milling industry; malt, starches, inulin, wheat gluten",21102,Cereal Flours,2802
+2,Vegetable Products,211,"Products of the milling industry; malt, starches, inulin, wheat gluten",21103,Cereal Meal and Pellets,531
+2,Vegetable Products,211,"Products of the milling industry; malt, starches, inulin, wheat gluten",21104,Processed Cereals,98
+2,Vegetable Products,211,"Products of the milling industry; malt, starches, inulin, wheat gluten",21105,Potato Flours,146155
+2,Vegetable Products,211,"Products of the milling industry; malt, starches, inulin, wheat gluten",21106,Legume Flours,34476
+2,Vegetable Products,212,Oil seeds and oleaginous fruits,21203,Copra,30983
+2,Vegetable Products,212,Oil seeds and oleaginous fruits,21207,Other Oily Seeds,6994
+2,Vegetable Products,212,Oil seeds and oleaginous fruits,21211,Perfume Plants,90506
+2,Vegetable Products,212,Oil seeds and oleaginous fruits,21212,"Locust beans, seaweed, sugar beet, cane, for food",269372
+2,Vegetable Products,213,"Lac; gums, resins and other vegetable saps and extracts",21302,Vegetable Saps,4950
+2,Vegetable Products,214,Vegetable plaiting materials,21401,Vegetable Plaiting Materials,37
+3,Animal and Vegetable Bi-Products,315,Animal or vegetable fats and oils and their cleavage products,31512,Seed Oils,368
+3,Animal and Vegetable Bi-Products,315,Animal or vegetable fats and oils and their cleavage products,31513,Coconut Oil,2499044
+3,Animal and Vegetable Bi-Products,315,Animal or vegetable fats and oils and their cleavage products,31515,Other Pure Vegetable Oils,52
+3,Animal and Vegetable Bi-Products,315,Animal or vegetable fats and oils and their cleavage products,31516,Other Vegetable Oils,4516
+3,Animal and Vegetable Bi-Products,315,Animal or vegetable fats and oils and their cleavage products,31517,Margarine,1886
+4,Foodstuffs,416,"Meat, fish or crustaceans, molluscs or other aquatic invertebrates",41601,Sausages,27017
+4,Foodstuffs,416,"Meat, fish or crustaceans, molluscs or other aquatic invertebrates",41602,Other Prepared Meat,89900
+4,Foodstuffs,416,"Meat, fish or crustaceans, molluscs or other aquatic invertebrates",41603,Animal Extracts,1303
+4,Foodstuffs,416,"Meat, fish or crustaceans, molluscs or other aquatic invertebrates",41604,Processed Fish,198444
+4,Foodstuffs,416,"Meat, fish or crustaceans, molluscs or other aquatic invertebrates",41605,Processed Crustaceans,1077
+4,Foodstuffs,417,Sugars and sugar confectionery,41701,Raw Sugar,13974
+4,Foodstuffs,417,Sugars and sugar confectionery,41704,Confectionery Sugar,9375
+4,Foodstuffs,418,Cocoa and cocoa preparations,41801,Cocoa Beans,227870
+4,Foodstuffs,418,Cocoa and cocoa preparations,41803,Cocoa Paste,12874
+4,Foodstuffs,418,Cocoa and cocoa preparations,41804,Cocoa Butter,1848
+4,Foodstuffs,418,Cocoa and cocoa preparations,41805,Cocoa Powder,8455
+4,Foodstuffs,418,Cocoa and cocoa preparations,41806,Chocolate,9177
+4,Foodstuffs,419,"Preparations of cereals, flour, starch or milk; pastrycooks' products",41901,Malt Extract,280
+4,Foodstuffs,419,"Preparations of cereals, flour, starch or milk; pastrycooks' products",41902,Pasta,15829
+4,Foodstuffs,419,"Preparations of cereals, flour, starch or milk; pastrycooks' products",41903,Tapioca,143
+4,Foodstuffs,419,"Preparations of cereals, flour, starch or milk; pastrycooks' products",41904,Prepared Cereals,3396
+4,Foodstuffs,419,"Preparations of cereals, flour, starch or milk; pastrycooks' products",41905,Baked Goods,263184
+4,Foodstuffs,420,"Preparations of vegetables, fruit, nuts or other parts of plants",42001,Pickled Foods,571
+4,Foodstuffs,420,"Preparations of vegetables, fruit, nuts or other parts of plants",42004,Other Frozen Vegetables,13077
+4,Foodstuffs,420,"Preparations of vegetables, fruit, nuts or other parts of plants",42005,Other Processed Vegetables,1594
+4,Foodstuffs,420,"Preparations of vegetables, fruit, nuts or other parts of plants",42006,Sugar Preserved Foods,717749
+4,Foodstuffs,420,"Preparations of vegetables, fruit, nuts or other parts of plants",42007,Jams,2310
+4,Foodstuffs,420,"Preparations of vegetables, fruit, nuts or other parts of plants",42008,Other Processed Fruits and Nuts,1977761
+4,Foodstuffs,420,"Preparations of vegetables, fruit, nuts or other parts of plants",42009,Fruit Juice,3984132
+4,Foodstuffs,421,Miscellaneous edible preparations,42101,Coffee and Tea Extracts,6814
+4,Foodstuffs,421,Miscellaneous edible preparations,42102,Yeast,28523
+4,Foodstuffs,421,Miscellaneous edible preparations,42103,Sauces and Seasonings,90546
+4,Foodstuffs,421,Miscellaneous edible preparations,42104,Soups and Broths,1102
+4,Foodstuffs,421,Miscellaneous edible preparations,42105,Ice Cream,19905
+4,Foodstuffs,421,Miscellaneous edible preparations,42106,Other Edible Preparations,220481
+4,Foodstuffs,422,"Beverages, spirits and vinegar",42201,Water,24070
+4,Foodstuffs,422,"Beverages, spirits and vinegar",42202,Flavored Water,20240
+4,Foodstuffs,422,"Beverages, spirits and vinegar",42203,Beer,2382594
+4,Foodstuffs,422,"Beverages, spirits and vinegar",42204,Wine,81716
+4,Foodstuffs,422,"Beverages, spirits and vinegar",42206,Other Fermented Beverages,131429
+4,Foodstuffs,422,"Beverages, spirits and vinegar",42207,Alcohol > 80% ABV,4000
+4,Foodstuffs,422,"Beverages, spirits and vinegar",42208,Hard Liquor,73581
+4,Foodstuffs,422,"Beverages, spirits and vinegar",42209,Vinegar,133
+4,Foodstuffs,423,"Food industries, residues and wastes thereof; prepared animal fodder",42301,Animal Meal and Pellets,1211226
+4,Foodstuffs,423,"Food industries, residues and wastes thereof; prepared animal fodder",42303,Starch Residue,8
+4,Foodstuffs,423,"Food industries, residues and wastes thereof; prepared animal fodder",42306,Other Vegetable Residues,62730
+4,Foodstuffs,423,"Food industries, residues and wastes thereof; prepared animal fodder",42309,Animal Food,12391
+4,Foodstuffs,424,Tobacco and manufactured tobacco substitutes,42402,Rolled Tobacco,505158
+4,Foodstuffs,424,Tobacco and manufactured tobacco substitutes,42403,Processed Tobacco,1452
+5,Mineral Products,525,"Salt; sulphur; earths, stone; plastering materials, lime and cement",52501,Salt,1309
+5,Mineral Products,525,"Salt; sulphur; earths, stone; plastering materials, lime and cement",52505,Sand,12042
+5,Mineral Products,525,"Salt; sulphur; earths, stone; plastering materials, lime and cement",52506,Quartz,5616
+5,Mineral Products,525,"Salt; sulphur; earths, stone; plastering materials, lime and cement",52514,Slate,2009
+5,Mineral Products,525,"Salt; sulphur; earths, stone; plastering materials, lime and cement",52516,Granite,11294
+5,Mineral Products,525,"Salt; sulphur; earths, stone; plastering materials, lime and cement",52517,Gravel and Crushed Stone,5482
+5,Mineral Products,525,"Salt; sulphur; earths, stone; plastering materials, lime and cement",52519,Magnesium Carbonate,349
+5,Mineral Products,525,"Salt; sulphur; earths, stone; plastering materials, lime and cement",52521,Limestone,4981
+5,Mineral Products,525,"Salt; sulphur; earths, stone; plastering materials, lime and cement",52523,Cement,80338
+5,Mineral Products,525,"Salt; sulphur; earths, stone; plastering materials, lime and cement",52530,Other Mineral,3
+5,Mineral Products,527,"Mineral fuels, mineral oils and products of their distillation",52707,Coal Tar Oil,187
+5,Mineral Products,527,"Mineral fuels, mineral oils and products of their distillation",52709,Crude Petroleum,87458
+5,Mineral Products,527,"Mineral fuels, mineral oils and products of their distillation",52710,Refined Petroleum,11994484
+5,Mineral Products,527,"Mineral fuels, mineral oils and products of their distillation",52711,Petroleum Gas,86333
+5,Mineral Products,527,"Mineral fuels, mineral oils and products of their distillation",52713,Petroleum Coke,13172
+5,Mineral Products,527,"Mineral fuels, mineral oils and products of their distillation",52714,Asphalt,2442
+6,Chemical Products,628,"Inorganic chemicals; organic and inorganic compounds of precious metals; of rare earth metals, of radio-active elements and of isotopes",62811,Other Inorganic Acids,108062
+6,Chemical Products,628,"Inorganic chemicals; organic and inorganic compounds of precious metals; of rare earth metals, of radio-active elements and of isotopes",62833,Sulfates,75
+6,Chemical Products,629,Organic chemicals,62903,Halogenated Hydrocarbons,119
+6,Chemical Products,629,Organic chemicals,62928,Hydrazine or Hydroxylamine Derivatives,47165
+6,Chemical Products,630,Pharmaceutical products,63002,"Blood, antisera, vaccines, toxins and cultures",184
+6,Chemical Products,630,Pharmaceutical products,63003,Unpackaged Medicaments,4505
+6,Chemical Products,630,Pharmaceutical products,63004,Packaged Medicaments,71634
+6,Chemical Products,630,Pharmaceutical products,63006,Special Pharmaceuticals,10182
+6,Chemical Products,632,"Tanning or dyeing extracts; tannins and their derivatives; dyes, pigments and other colouring matter; paints, varnishes; putty, other mastics; inks",63204,Synthetic Coloring Matter,974
+6,Chemical Products,632,"Tanning or dyeing extracts; tannins and their derivatives; dyes, pigments and other colouring matter; paints, varnishes; putty, other mastics; inks",63208,Nonaqueous Paints,1523
+6,Chemical Products,632,"Tanning or dyeing extracts; tannins and their derivatives; dyes, pigments and other colouring matter; paints, varnishes; putty, other mastics; inks",63209,Aqueous Paints,7746
+6,Chemical Products,632,"Tanning or dyeing extracts; tannins and their derivatives; dyes, pigments and other colouring matter; paints, varnishes; putty, other mastics; inks",63210,Other Paints,7659
+6,Chemical Products,632,"Tanning or dyeing extracts; tannins and their derivatives; dyes, pigments and other colouring matter; paints, varnishes; putty, other mastics; inks",63213,Artistry Paints,4579
+6,Chemical Products,632,"Tanning or dyeing extracts; tannins and their derivatives; dyes, pigments and other colouring matter; paints, varnishes; putty, other mastics; inks",63214,Glaziers Putty,2465
+6,Chemical Products,632,"Tanning or dyeing extracts; tannins and their derivatives; dyes, pigments and other colouring matter; paints, varnishes; putty, other mastics; inks",63215,Ink,244
+6,Chemical Products,633,"Essential oils and resinoids; perfumery, cosmetic or toilet preparations",63301,Essential Oils,889
+6,Chemical Products,633,"Essential oils and resinoids; perfumery, cosmetic or toilet preparations",63302,Scented Mixtures,1183
+6,Chemical Products,633,"Essential oils and resinoids; perfumery, cosmetic or toilet preparations",63303,Perfumes,9465
+6,Chemical Products,633,"Essential oils and resinoids; perfumery, cosmetic or toilet preparations",63304,Beauty Products,6038
+6,Chemical Products,633,"Essential oils and resinoids; perfumery, cosmetic or toilet preparations",63305,Hair Products,6117
+6,Chemical Products,633,"Essential oils and resinoids; perfumery, cosmetic or toilet preparations",63306,Dental Products,3614
+6,Chemical Products,633,"Essential oils and resinoids; perfumery, cosmetic or toilet preparations",63307,Shaving Products,5112
+6,Chemical Products,634,"Soap, organic surface-active agents; washing, lubricating, polishing or scouring preparations; artificial or prepared waxes, candles and similar articles, modelling pastes, dental waxes"" and dental preparations with a basis of plaster""",63401,Soap,371952
+6,Chemical Products,634,"Soap, organic surface-active agents; washing, lubricating, polishing or scouring preparations; artificial or prepared waxes, candles and similar articles, modelling pastes, dental waxes"" and dental preparations with a basis of plaster""",63402,Cleaning Products,13781
+6,Chemical Products,634,"Soap, organic surface-active agents; washing, lubricating, polishing or scouring preparations; artificial or prepared waxes, candles and similar articles, modelling pastes, dental waxes"" and dental preparations with a basis of plaster""",63404,Waxes,312
+6,Chemical Products,634,"Soap, organic surface-active agents; washing, lubricating, polishing or scouring preparations; artificial or prepared waxes, candles and similar articles, modelling pastes, dental waxes"" and dental preparations with a basis of plaster""",63405,Polishes and Creams,1561
+6,Chemical Products,635,Albuminoidal substances; modified starches; glues; enzymes,63505,Dextrins,132
+6,Chemical Products,635,Albuminoidal substances; modified starches; glues; enzymes,63506,Glues,5594
+6,Chemical Products,635,Albuminoidal substances; modified starches; glues; enzymes,63507,Enzymes,290
+6,Chemical Products,636,Explosives; pyrotechnic products; matches; pyrophoric alloys; certain combustible preparations,63606,Pyrophoric Alloys,18
+6,Chemical Products,637,Photographic or cinematographic goods,63707,Photographic Chemicals,5420
+6,Chemical Products,638,Chemical products n.e.s.,63803,Tall Oil,7
+6,Chemical Products,638,Chemical products n.e.s.,63804,Wood Pulp Lyes,9848
+6,Chemical Products,638,Chemical products n.e.s.,63805,Turpentine,304
+6,Chemical Products,638,Chemical products n.e.s.,63808,Pesticides,3327
+6,Chemical Products,638,Chemical products n.e.s.,63810,Metal Pickling Preparations,378
+6,Chemical Products,638,Chemical products n.e.s.,63811,Antiknock,37
+6,Chemical Products,638,Chemical products n.e.s.,63812,Prepared Rubber Accelerators,1448
+6,Chemical Products,638,Chemical products n.e.s.,63814,Organic Composite Solvents,83
+6,Chemical Products,638,Chemical products n.e.s.,63816,Refractory Cements,259150
+6,Chemical Products,638,Chemical products n.e.s.,63819,Hydraulic Brake Fluid,1207
+6,Chemical Products,638,Chemical products n.e.s.,63820,Antifreeze,737
+6,Chemical Products,638,Chemical products n.e.s.,63822,Laboratory Reagents,24
+6,Chemical Products,638,Chemical products n.e.s.,63823,"Industrial Fatty Acids, Oils and Alcohols",172085
+7,Plastics and Rubbers,739,Plastics and articles thereof,73905,Other Vinyl Polymers,513580
+7,Plastics and Rubbers,739,Plastics and articles thereof,73907,Polyacetals,7049
+7,Plastics and Rubbers,739,Plastics and articles thereof,73910,Silicone,220
+7,Plastics and Rubbers,739,Plastics and articles thereof,73915,Scrap Plastic,27
+7,Plastics and Rubbers,739,Plastics and articles thereof,73917,Plastic Pipes,13192
+7,Plastics and Rubbers,739,Plastics and articles thereof,73918,Plastic Floor Coverings,1591
+7,Plastics and Rubbers,739,Plastics and articles thereof,73919,Self-adhesive Plastics,11165
+7,Plastics and Rubbers,739,Plastics and articles thereof,73921,Other Plastic Sheetings,1057
+7,Plastics and Rubbers,739,Plastics and articles thereof,73922,Plastic Wash Basins,2376
+7,Plastics and Rubbers,739,Plastics and articles thereof,73923,Plastic Lids,246785
+7,Plastics and Rubbers,739,Plastics and articles thereof,73924,Plastic Housewares,88728
+7,Plastics and Rubbers,739,Plastics and articles thereof,73925,Plastic Building Materials,46942
+7,Plastics and Rubbers,739,Plastics and articles thereof,73926,Other Plastic Products,89675
+7,Plastics and Rubbers,740,Rubber and articles thereof,74002,Synthetic Rubber,740345
+7,Plastics and Rubbers,740,Rubber and articles thereof,74010,Rubber Belting,63
+7,Plastics and Rubbers,740,Rubber and articles thereof,74011,Rubber Tires,939
+7,Plastics and Rubbers,740,Rubber and articles thereof,74012,Used Rubber Tires,491
+7,Plastics and Rubbers,740,Rubber and articles thereof,74016,Other Rubber Products,95446
+8,Animal Hides,842,"Articles of leather; saddlery and harness; travel goods, handbags and similar containers; articles of animal gut (other than silk-worm gut)",84201,Saddlery,18385
+8,Animal Hides,842,"Articles of leather; saddlery and harness; travel goods, handbags and similar containers; articles of animal gut (other than silk-worm gut)",84202,Trunks and Cases,85929
+8,Animal Hides,842,"Articles of leather; saddlery and harness; travel goods, handbags and similar containers; articles of animal gut (other than silk-worm gut)",84205,Other Leather Articles,13317
+9,Wood Products,944,Wood and articles of wood; wood charcoal,94403,Rough Wood,25793
+9,Wood Products,944,Wood and articles of wood; wood charcoal,94404,Wood Stakes,109
+9,Wood Products,944,Wood and articles of wood; wood charcoal,94407,Sawn Wood,17914
+9,Wood Products,944,Wood and articles of wood; wood charcoal,94408,Veneer Sheets,312
+9,Wood Products,944,Wood and articles of wood; wood charcoal,94410,Particle Board,7397
+9,Wood Products,944,Wood and articles of wood; wood charcoal,94411,Wood Fiberboard,1939
+9,Wood Products,944,Wood and articles of wood; wood charcoal,94412,Plywood,44707
+9,Wood Products,944,Wood and articles of wood; wood charcoal,94414,Wood Frames,75
+9,Wood Products,944,Wood and articles of wood; wood charcoal,94416,Wood Barrels,340
+9,Wood Products,944,Wood and articles of wood; wood charcoal,94417,Wooden Tool Handles,18
+9,Wood Products,944,Wood and articles of wood; wood charcoal,94418,Wood Carpentry,6490
+9,Wood Products,944,Wood and articles of wood; wood charcoal,94419,Wood Kitchenware,559
+9,Wood Products,944,Wood and articles of wood; wood charcoal,94420,Wood Ornaments,3180
+9,Wood Products,944,Wood and articles of wood; wood charcoal,94421,Other Wood Articles,20482
+9,Wood Products,945,Cork and articles of cork,94504,Agglomerated Cork,120
+9,Wood Products,946,"Manufactures of straw, esparto or other plaiting materials; basketware and wickerwork",94601,Plaiting Products,23010
+9,Wood Products,946,"Manufactures of straw, esparto or other plaiting materials; basketware and wickerwork",94602,Basketwork,416
+10,Paper Goods,1047,Pulp of wood or other fibrous cellulosic material; waste and scrap of paper or paperboard,104707,Recovered Paper,20
+10,Paper Goods,1048,"Paper and paperboard; articles of paper pulp, of paper or paperboard",104802,Uncoated Paper,2673
+10,Paper Goods,1048,"Paper and paperboard; articles of paper pulp, of paper or paperboard",104803,Facial Tissue,927
+10,Paper Goods,1048,"Paper and paperboard; articles of paper pulp, of paper or paperboard",104807,Composite Paper,1048
+10,Paper Goods,1048,"Paper and paperboard; articles of paper pulp, of paper or paperboard",104810,Kaolin Coated Paper,576
+10,Paper Goods,1048,"Paper and paperboard; articles of paper pulp, of paper or paperboard",104816,Other Carbon Paper,2510
+10,Paper Goods,1048,"Paper and paperboard; articles of paper pulp, of paper or paperboard",104817,Letter Stock,101
+10,Paper Goods,1048,"Paper and paperboard; articles of paper pulp, of paper or paperboard",104818,Toilet Paper,24594
+10,Paper Goods,1048,"Paper and paperboard; articles of paper pulp, of paper or paperboard",104819,Paper Containers,4463
+10,Paper Goods,1048,"Paper and paperboard; articles of paper pulp, of paper or paperboard",104820,Paper Notebooks,11885
+10,Paper Goods,1048,"Paper and paperboard; articles of paper pulp, of paper or paperboard",104821,Paper Labels,1069
+10,Paper Goods,1048,"Paper and paperboard; articles of paper pulp, of paper or paperboard",104823,Shaped Paper,3
+10,Paper Goods,1049,"Printed books, newspapers, pictures and other products of the printing industry; manuscripts, typescripts and plans",104901,Brochures,17104
+10,Paper Goods,1049,"Printed books, newspapers, pictures and other products of the printing industry; manuscripts, typescripts and plans",104902,Newspapers,44
+10,Paper Goods,1049,"Printed books, newspapers, pictures and other products of the printing industry; manuscripts, typescripts and plans",104907,Postage Stamps,696
+10,Paper Goods,1049,"Printed books, newspapers, pictures and other products of the printing industry; manuscripts, typescripts and plans",104910,Calendars,5
+10,Paper Goods,1049,"Printed books, newspapers, pictures and other products of the printing industry; manuscripts, typescripts and plans",104911,Other Printed Material,11770
+11,Textiles,1152,Cotton,115201,Raw Cotton,37
+11,Textiles,1152,Cotton,115208,Light Pure Woven Cotton,1040
+11,Textiles,1152,Cotton,115209,Heavy Pure Woven Cotton,156
+11,Textiles,1153,Vegetable textile fibres; paper yarn and woven fabrics of paper yarn,115303,Jute and Other Textile Fibers,18
+11,Textiles,1153,Vegetable textile fibres; paper yarn and woven fabrics of paper yarn,115305,Coconut and Other Vegetable Fibers,45
+11,Textiles,1154,Man-made filaments,115401,Artificial Filament Sewing Thread,9
+11,Textiles,1154,Man-made filaments,115407,Synthetic Filament Yarn Woven Fabric,3973
+11,Textiles,1155,Man-made staple fibres,115512,Synthetic Fabrics,213000
+11,Textiles,1155,Man-made staple fibres,115516,Woven Fabric of Synthetic Staple Fibers,34
+11,Textiles,1156,"Wadding, felt and nonwovens, special yarns; twine, cordage, ropes and cables and articles thereof",115602,Felt,1291
+11,Textiles,1156,"Wadding, felt and nonwovens, special yarns; twine, cordage, ropes and cables and articles thereof",115603,Non-woven Textiles,2500
+11,Textiles,1156,"Wadding, felt and nonwovens, special yarns; twine, cordage, ropes and cables and articles thereof",115604,Rubber Textiles,2975
+11,Textiles,1157,Carpets and other textile floor coverings,115701,Knotted Carpets,227
+11,Textiles,1157,Carpets and other textile floor coverings,115702,Hand-Woven Rugs,398
+11,Textiles,1157,Carpets and other textile floor coverings,115703,Tufted Carpets,77558
+11,Textiles,1158,Woven fabrics,115802,Terry Fabric,159
+11,Textiles,1158,Woven fabrics,115807,Labels,20
+11,Textiles,1159,Textile fabrics,115901,Gum Coated Textile Fabric,7
+11,Textiles,1159,Textile fabrics,115903,Plastic Coated Textile Fabric,72851
+11,Textiles,1160,Knitted or chrocheted fabrics,116002,Light Rubberized Knitted Fabric,349428
+11,Textiles,1161,Knitted or crocheted apparel and clothing accessories,116101,Knit Men's Coats,529
+11,Textiles,1161,Knitted or crocheted apparel and clothing accessories,116103,Knit Men's Suits,1988
+11,Textiles,1161,Knitted or crocheted apparel and clothing accessories,116104,Knit Women's Suits,21058
+11,Textiles,1161,Knitted or crocheted apparel and clothing accessories,116105,Knit Men's Shirts,19049
+11,Textiles,1161,Knitted or crocheted apparel and clothing accessories,116106,Knit Women's Shirts,5677
+11,Textiles,1161,Knitted or crocheted apparel and clothing accessories,116109,Knit T-shirts,36372
+11,Textiles,1161,Knitted or crocheted apparel and clothing accessories,116110,Knit Sweaters,900
+11,Textiles,1161,Knitted or crocheted apparel and clothing accessories,116112,Knit Active Wear,5592
+11,Textiles,1161,Knitted or crocheted apparel and clothing accessories,116114,Other Knit Garments,18
+11,Textiles,1161,Knitted or crocheted apparel and clothing accessories,116115,Knit Socks and Hosiery,1856
+11,Textiles,1161,Knitted or crocheted apparel and clothing accessories,116117,Other Knit Clothing Accessories,216
+11,Textiles,1162,Non-knit or crocheted apparel and clothing accessories,116201,Non-Knit Men's Coats,52105
+11,Textiles,1162,Non-knit or crocheted apparel and clothing accessories,116202,Non-Knit Women's Coats,1620
+11,Textiles,1162,Non-knit or crocheted apparel and clothing accessories,116203,Non-Knit Men's Suits,13105
+11,Textiles,1162,Non-knit or crocheted apparel and clothing accessories,116204,Non-Knit Women's Suits,216406
+11,Textiles,1162,Non-knit or crocheted apparel and clothing accessories,116205,Non-Knit Men's Shirts,91243
+11,Textiles,1162,Non-knit or crocheted apparel and clothing accessories,116206,Non-Knit Women's Shirts,15138
+11,Textiles,1162,Non-knit or crocheted apparel and clothing accessories,116207,Non-Knit Men's Undergarments,4717
+11,Textiles,1162,Non-knit or crocheted apparel and clothing accessories,116208,Non-Knit Women's Undergarments,412
+11,Textiles,1162,Non-knit or crocheted apparel and clothing accessories,116209,Non-Knit Babies' Garments,24113
+11,Textiles,1162,Non-knit or crocheted apparel and clothing accessories,116210,Felt or Coated Fabric Garments,4953
+11,Textiles,1162,Non-knit or crocheted apparel and clothing accessories,116211,Non-Knit Active Wear,8908
+11,Textiles,1162,Non-knit or crocheted apparel and clothing accessories,116212,Other Women's Undergarments,563
+11,Textiles,1162,Non-knit or crocheted apparel and clothing accessories,116214,Scarves,276
+11,Textiles,1162,Non-knit or crocheted apparel and clothing accessories,116215,Neck Ties,341
+11,Textiles,1162,Non-knit or crocheted apparel and clothing accessories,116217,Other Non-Knit Clothing Accessories,221
+11,Textiles,1163,"Textiles, made up articles; sets; worn clothing and worn textile articles; rags",116302,House Linens,856
+11,Textiles,1163,"Textiles, made up articles; sets; worn clothing and worn textile articles; rags",116303,Window Dressings,113
+11,Textiles,1163,"Textiles, made up articles; sets; worn clothing and worn textile articles; rags",116306,"Awnings, Tents, and Sails",321
+11,Textiles,1163,"Textiles, made up articles; sets; worn clothing and worn textile articles; rags",116307,Other Cloth Articles,698
+11,Textiles,1163,"Textiles, made up articles; sets; worn clothing and worn textile articles; rags",116308,Packaged Sewing Sets,5616
+11,Textiles,1163,"Textiles, made up articles; sets; worn clothing and worn textile articles; rags",116309,Used Clothing,643
+12,Footwear and Headwear,1264,Footwear; gaiters and the like; parts of such articles,126402,Rubber Footwear,84696
+12,Footwear and Headwear,1264,Footwear; gaiters and the like; parts of such articles,126403,Leather Footwear,2701
+12,Footwear and Headwear,1264,Footwear; gaiters and the like; parts of such articles,126404,Textile Footwear,99
+12,Footwear and Headwear,1264,Footwear; gaiters and the like; parts of such articles,126405,Other Footwear,354
+12,Footwear and Headwear,1264,Footwear; gaiters and the like; parts of such articles,126406,Footwear Parts,923228
+12,Footwear and Headwear,1265,Headgear and parts thereof,126505,Knitted Hats,552
+12,Footwear and Headwear,1265,Headgear and parts thereof,126506,Other Headwear,60328
+12,Footwear and Headwear,1266,"Umbrellas, sun umbrellas, walking-sticks, seat sticks, whips, riding crops; and parts thereof",126601,Umbrellas,205156
+12,Footwear and Headwear,1267,"Feathers and down, prepared; and articles made of feather or of down; artificial flowers; articles of human hair",126702,Artificial Vegetation,1266
+13,Stone And Glass,1368,"Stone, plaster, cement, asbestos, mica or similar materials; articles thereof",136802,Building Stone,307
+13,Stone And Glass,1368,"Stone, plaster, cement, asbestos, mica or similar materials; articles thereof",136804,Milling Stones,113
+13,Stone And Glass,1368,"Stone, plaster, cement, asbestos, mica or similar materials; articles thereof",136808,Vegetable Fiber,1276
+13,Stone And Glass,1368,"Stone, plaster, cement, asbestos, mica or similar materials; articles thereof",136810,Cement Articles,4141
+13,Stone And Glass,1368,"Stone, plaster, cement, asbestos, mica or similar materials; articles thereof",136811,Asbestos Cement Articles,3317
+13,Stone And Glass,1369,Ceramic products,136901,Bricks,5749
+13,Stone And Glass,1369,Ceramic products,136902,Refractory Bricks,347
+13,Stone And Glass,1369,Ceramic products,136904,Ceramic Bricks,75
+13,Stone And Glass,1369,Ceramic products,136906,Ceramic Pipes,80
+13,Stone And Glass,1369,Ceramic products,136908,Glazed Ceramics,6311
+13,Stone And Glass,1369,Ceramic products,136910,Bathroom Ceramics,106
+13,Stone And Glass,1369,Ceramic products,136911,Porcelain Tableware,47
+13,Stone And Glass,1370,Glass and glassware,137007,Safety Glass,828
+13,Stone And Glass,1370,Glass and glassware,137009,Glass Mirrors,56
+13,Stone And Glass,1370,Glass and glassware,137010,Glass Bottles,21691
+13,Stone And Glass,1370,Glass and glassware,137013,Interior Decorative Glassware,1664
+13,Stone And Glass,1370,Glass and glassware,137015,Eyewear and Clock Glass,75
+13,Stone And Glass,1370,Glass and glassware,137018,Glass Beads,9
+13,Stone And Glass,1370,Glass and glassware,137019,Glass Fibers,68
+14,Precious Metals,1471,"Precious metals, gems and jewelry",147101,Pearls,668
+14,Precious Metals,1471,"Precious metals, gems and jewelry",147112,Precious Metal Scraps,79070
+14,Precious Metals,1471,"Precious metals, gems and jewelry",147116,Pearl Products,202
+14,Precious Metals,1471,"Precious metals, gems and jewelry",147117,Imitation Jewellery,8520
+14,Precious Metals,1471,"Precious metals, gems and jewelry",147118,Coin,16762
+15,Metals,1572,Iron and steel,157202,Ferroalloys,1818
+15,Metals,1572,Iron and steel,157204,Scrap Iron,609790
+15,Metals,1572,Iron and steel,157212,Large Coated Flat-Rolled Iron,7007
+15,Metals,1572,Iron and steel,157213,Hot-Rolled Iron Bars,9650
+15,Metals,1572,Iron and steel,157215,Other Iron Bars,535
+15,Metals,1572,Iron and steel,157222,Other Stainless Steel Bars,19
+15,Metals,1572,Iron and steel,157223,Stainless Steel Wire,2286
+15,Metals,1572,Iron and steel,157228,Other Steel Bars,25894
+15,Metals,1572,Iron and steel,157229,Steel Wire,645
+15,Metals,1573,Iron or steel articles,157305,Other Large Iron Pipes,246
+15,Metals,1573,Iron or steel articles,157307,Iron Pipe Fittings,546
+15,Metals,1573,Iron or steel articles,157308,Iron Structures,27494
+15,Metals,1573,Iron or steel articles,157309,Large Iron Containers,1855
+15,Metals,1573,Iron or steel articles,157310,Small Iron Containers,150
+15,Metals,1573,Iron or steel articles,157311,Iron Gas Containers,6686
+15,Metals,1573,Iron or steel articles,157312,Stranded Iron Wire,1378
+15,Metals,1573,Iron or steel articles,157313,Barbed Wire,1957
+15,Metals,1573,Iron or steel articles,157314,Iron Cloth,12135
+15,Metals,1573,Iron or steel articles,157317,Iron Nails,9502
+15,Metals,1573,Iron or steel articles,157318,Iron Fasteners,69813
+15,Metals,1573,Iron or steel articles,157320,Iron Springs,378
+15,Metals,1573,Iron or steel articles,157321,Iron Stovetops,4958
+15,Metals,1573,Iron or steel articles,157323,Iron Housewares,217
+15,Metals,1573,Iron or steel articles,157324,Iron Toiletry,5073
+15,Metals,1573,Iron or steel articles,157325,Other Cast Iron Products,26895
+15,Metals,1573,Iron or steel articles,157326,Other Iron Products,191803
+15,Metals,1574,Copper and articles thereof,157404,Scrap Copper,347651
+15,Metals,1574,Copper and articles thereof,157415,Copper Fasteners,747
+15,Metals,1574,Copper and articles thereof,157418,Copper Housewares,136
+15,Metals,1576,Aluminium and articles thereof,157601,Raw Aluminium,96986
+15,Metals,1576,Aluminium and articles thereof,157602,Scrap Aluminium,89123
+15,Metals,1576,Aluminium and articles thereof,157606,Aluminium Plating,75
+15,Metals,1576,Aluminium and articles thereof,157607,Aluminium Foil,18731
+15,Metals,1576,Aluminium and articles thereof,157608,Aluminium Pipes,10940
+15,Metals,1576,Aluminium and articles thereof,157609,Aluminium Pipe Fittings,75
+15,Metals,1576,Aluminium and articles thereof,157610,Aluminium Structures,50410
+15,Metals,1576,Aluminium and articles thereof,157611,Large Aluminium Containers,472
+15,Metals,1576,Aluminium and articles thereof,157613,Aluminium Gas Containers,7344
+15,Metals,1576,Aluminium and articles thereof,157616,Other Aluminium Products,4810
+15,Metals,1579,Zinc and articles thereof,157907,Other Zinc Products,31293
+15,Metals,1580,Tin; articles thereof,158001,Raw Tin,200
+15,Metals,1580,Tin; articles thereof,158007,Other Tin Products,120
+15,Metals,1582,Tools and cutlery,158201,Garden Tools,866
+15,Metals,1582,Tools and cutlery,158202,Hand Saws,1044
+15,Metals,1582,Tools and cutlery,158203,Hand Tools,646
+15,Metals,1582,Tools and cutlery,158204,Wrenches,133059
+15,Metals,1582,Tools and cutlery,158205,Other Hand Tools,8175
+15,Metals,1582,Tools and cutlery,158206,Tool Sets,3859
+15,Metals,1582,Tools and cutlery,158207,Interchangeable Tool Parts,765
+15,Metals,1582,Tools and cutlery,158208,Cutting Blades,18
+15,Metals,1582,Tools and cutlery,158215,Cutlery Sets,3096
+15,Metals,1583,Metal; miscellaneous products of base metal,158301,Padlocks,9028
+15,Metals,1583,Metal; miscellaneous products of base metal,158302,Metal Mountings,79283
+15,Metals,1583,Metal; miscellaneous products of base metal,158303,Safes,946
+15,Metals,1583,Metal; miscellaneous products of base metal,158304,Filing Cabinets,449
+15,Metals,1583,Metal; miscellaneous products of base metal,158305,Metal Office Supplies,4
+15,Metals,1583,Metal; miscellaneous products of base metal,158306,Bells and Other Metal Ornaments,203
+15,Metals,1583,Metal; miscellaneous products of base metal,158309,Metal Stoppers,5286
+15,Metals,1583,Metal; miscellaneous products of base metal,158310,Metal Signs,3
+16,Machines,1684,Machinery and appliances,168407,Spark-Ignition Engines,114048
+16,Machines,1684,Machinery and appliances,168409,Engine Parts,150044
+16,Machines,1684,Machinery and appliances,168410,Hydraulic Turbines,31906
+16,Machines,1684,Machinery and appliances,168411,Gas Turbines,383
+16,Machines,1684,Machinery and appliances,168413,Liquid Pumps,21785
+16,Machines,1684,Machinery and appliances,168414,Air Pumps,358948
+16,Machines,1684,Machinery and appliances,168415,Air Conditioners,967
+16,Machines,1684,Machinery and appliances,168416,Liquid Fuel Furnaces,113
+16,Machines,1684,Machinery and appliances,168418,Refrigerators,28188
+16,Machines,1684,Machinery and appliances,168419,Other Heating Machinery,19103
+16,Machines,1684,Machinery and appliances,168421,Centrifuges,18504
+16,Machines,1684,Machinery and appliances,168422,Washing and Bottling Machines,89
+16,Machines,1684,Machinery and appliances,168423,Scales,2847
+16,Machines,1684,Machinery and appliances,168424,Liquid Dispersing Machines,1675
+16,Machines,1684,Machinery and appliances,168427,Fork-Lifts,22727
+16,Machines,1684,Machinery and appliances,168428,Lifting Machinery,27500
+16,Machines,1684,Machinery and appliances,168429,Large Construction Vehicles,1552
+16,Machines,1684,Machinery and appliances,168430,Other Construction Vehicles,189
+16,Machines,1684,Machinery and appliances,168431,Excavation Machinery,1200
+16,Machines,1684,Machinery and appliances,168438,Industrial Food Preperation Machinery,15
+16,Machines,1684,Machinery and appliances,168443,Industrial Printers,524452
+16,Machines,1684,Machinery and appliances,168448,Knitting Machine Accessories,500
+16,Machines,1684,Machinery and appliances,168450,Household Washing Machines,151
+16,Machines,1684,Machinery and appliances,168451,Textile Processing Machines,7672
+16,Machines,1684,Machinery and appliances,168452,Sewing Machines,85
+16,Machines,1684,Machinery and appliances,168461,Metalworking Machines,189
+16,Machines,1684,Machinery and appliances,168465,Woodworking machines,37
+16,Machines,1684,Machinery and appliances,168466,Metalworking Machine Parts,994
+16,Machines,1684,Machinery and appliances,168467,Motor-working Tools,2278
+16,Machines,1684,Machinery and appliances,168468,Soldering and Welding Machinery,75
+16,Machines,1684,Machinery and appliances,168471,Computers,104681
+16,Machines,1684,Machinery and appliances,168472,Other Office Machines,270
+16,Machines,1684,Machinery and appliances,168473,Office Machine Parts,128027
+16,Machines,1684,Machinery and appliances,168474,Stone Processing Machines,7933
+16,Machines,1684,Machinery and appliances,168476,Vending Machines,1458
+16,Machines,1684,Machinery and appliances,168478,Tobacco Processing Machines,181
+16,Machines,1684,Machinery and appliances,168479,Machinery Having Individual Functions,26728
+16,Machines,1684,Machinery and appliances,168480,Metal Molds,122429
+16,Machines,1684,Machinery and appliances,168481,Valves,14374
+16,Machines,1684,Machinery and appliances,168482,Ball Bearings,4628
+16,Machines,1684,Machinery and appliances,168483,Transmissions,3405
+16,Machines,1684,Machinery and appliances,168485,Boat Propellers,110
+16,Machines,1685,Electrical machinery and equipment,168501,Electric Motors,9310
+16,Machines,1685,Electrical machinery and equipment,168504,Electrical Transformers,160370
+16,Machines,1685,Electrical machinery and equipment,168506,Batteries,2626
+16,Machines,1685,Electrical machinery and equipment,168507,Electric Batteries,125483
+16,Machines,1685,Electrical machinery and equipment,168509,Other Domestic Electric Housewares,36
+16,Machines,1685,Electrical machinery and equipment,168511,Electrical Ignitions,545
+16,Machines,1685,Electrical machinery and equipment,168512,Electrical Lighting and Signalling Equipment,76431
+16,Machines,1685,Electrical machinery and equipment,168513,Portable Lighting,1477
+16,Machines,1685,Electrical machinery and equipment,168515,Electric Soldering Equipment,164
+16,Machines,1685,Electrical machinery and equipment,168516,Electric Heaters,49157
+16,Machines,1685,Electrical machinery and equipment,168517,Telephones,641493
+16,Machines,1685,Electrical machinery and equipment,168518,Microphones and Headphones,7468
+16,Machines,1685,Electrical machinery and equipment,168519,Sound Recording Equipment,150
+16,Machines,1685,Electrical machinery and equipment,168521,Video Recording Equipment,1287
+16,Machines,1685,Electrical machinery and equipment,168523,Blank Audio Media,2489
+16,Machines,1685,Electrical machinery and equipment,168525,Broadcasting Equipment,1504392
+16,Machines,1685,Electrical machinery and equipment,168526,Navigation Equipment,55912
+16,Machines,1685,Electrical machinery and equipment,168528,Video Displays,1734801
+16,Machines,1685,Electrical machinery and equipment,168529,Broadcasting Accessories,549
+16,Machines,1685,Electrical machinery and equipment,168531,Audio Alarms,319
+16,Machines,1685,Electrical machinery and equipment,168532,Electrical Capacitors,1091
+16,Machines,1685,Electrical machinery and equipment,168533,Electrical Resistors,13980
+16,Machines,1685,Electrical machinery and equipment,168534,Printed Circuit Boards,4980
+16,Machines,1685,Electrical machinery and equipment,168536,Low-voltage Protection Equipment,496679
+16,Machines,1685,Electrical machinery and equipment,168537,Electrical Control Boards,5590
+16,Machines,1685,Electrical machinery and equipment,168538,Electrical Power Accessories,144190
+16,Machines,1685,Electrical machinery and equipment,168539,Electric Filament,151
+16,Machines,1685,Electrical machinery and equipment,168541,Semiconductor Devices,8920
+16,Machines,1685,Electrical machinery and equipment,168542,Integrated Circuits,1016360
+16,Machines,1685,Electrical machinery and equipment,168543,Other Electrical Machinery,11689
+16,Machines,1685,Electrical machinery and equipment,168544,Insulated Wire,1980596
+16,Machines,1685,Electrical machinery and equipment,168547,Metal Insulating Fittings,422524
+16,Machines,1685,Electrical machinery and equipment,168548,Electrical Parts,49275
+17,Transportation,1786,Railway and other rolling stock,178609,Shipping containers,2544
+17,Transportation,1787,Vehicles and their parts,178702,Buses,42614
+17,Transportation,1787,Vehicles and their parts,178703,Cars,74686
+17,Transportation,1787,Vehicles and their parts,178704,Delivery Trucks,50226
+17,Transportation,1787,Vehicles and their parts,178708,Vehicle Parts,370383
+17,Transportation,1787,Vehicles and their parts,178711,Motorcycles,1325
+17,Transportation,1787,Vehicles and their parts,178712,Bicycles,6159
+17,Transportation,1787,Vehicles and their parts,178713,Wheelchairs,91
+17,Transportation,1787,Vehicles and their parts,178714,Bi-Wheel Vehicle Parts,46745
+17,Transportation,1787,Vehicles and their parts,178716,Trailers,349
+17,Transportation,1788,"Aircraft, spacecraft and parts thereof",178802,"Planes, Helicopters, and/or Spacecraft",799938
+17,Transportation,1788,"Aircraft, spacecraft and parts thereof",178803,Aircraft Parts,22942
+17,Transportation,1789,"Ships, boats and floating structures",178902,Fishing Ships,5680
+17,Transportation,1789,"Ships, boats and floating structures",178903,Recreational Boats,21283
+17,Transportation,1789,"Ships, boats and floating structures",178907,Other Floating Structures,151
+18,Instruments,1890,Instruments and apparatus,189001,Optical Fibers,7152
+18,Instruments,1890,Instruments and apparatus,189006,Cameras,382
+18,Instruments,1890,Instruments and apparatus,189013,LCDs,36
+18,Instruments,1890,Instruments and apparatus,189015,Surveying Equipment,6194
+18,Instruments,1890,Instruments and apparatus,189018,Medical Instruments,38988
+18,Instruments,1890,Instruments and apparatus,189019,Therapeutic Appliances,17
+18,Instruments,1890,Instruments and apparatus,189021,Orthopedic Appliances,122
+18,Instruments,1890,Instruments and apparatus,189022,X-Ray Equipment,4004
+18,Instruments,1890,Instruments and apparatus,189024,Tensile Testing Machines,404
+18,Instruments,1890,Instruments and apparatus,189026,Gas and Liquid Flow Measuring Instruments,73018
+18,Instruments,1890,Instruments and apparatus,189027,Chemical Analysis Instruments,165292
+18,Instruments,1890,Instruments and apparatus,189028,Utility Meters,38353
+18,Instruments,1890,Instruments and apparatus,189029,Revolution Counters,32418
+18,Instruments,1890,Instruments and apparatus,189030,Oscilloscopes,47864
+18,Instruments,1890,Instruments and apparatus,189031,Other Measuring Instruments,1091
+18,Instruments,1890,Instruments and apparatus,189032,Thermostats,34506
+18,Instruments,1891,Clocks and watches,189102,Base Metal Watches,1258
+18,Instruments,1891,Clocks and watches,189105,Other Clocks,1349
+18,Instruments,1892,Musical instruments,189201,Pianos,3105
+18,Instruments,1892,Musical instruments,189202,String Instruments,1126
+18,Instruments,1892,Musical instruments,189206,Percussion,1191
+20,Miscellaneous,2094,Furniture,209401,Seats,52453
+20,Miscellaneous,2094,Furniture,209403,Other Furniture,212124
+20,Miscellaneous,2094,Furniture,209404,Mattresses,57933
+20,Miscellaneous,2094,Furniture,209405,Light Fixtures,4159
+20,Miscellaneous,2094,Furniture,209406,Prefabricated Buildings,40252
+20,Miscellaneous,2095,Toys and games,209503,Models and Stuffed Animals,53095
+20,Miscellaneous,2095,Toys and games,209504,Video and Card Games,37
+20,Miscellaneous,2095,Toys and games,209505,Party Decorations,7
+20,Miscellaneous,2095,Toys and games,209506,Sports Equipment,94849
+20,Miscellaneous,2095,Toys and games,209507,Fishing and Hunting Equipment,567
+20,Miscellaneous,2096,Miscellaneous manufactured articles,209601,Worked Ivory and Bone,2303
+20,Miscellaneous,2096,Miscellaneous manufactured articles,209602,Vegetable and Mineral Carvings,67
+20,Miscellaneous,2096,Miscellaneous manufactured articles,209603,Brooms,57032
+20,Miscellaneous,2096,Miscellaneous manufactured articles,209608,Pens,13790
+20,Miscellaneous,2096,Miscellaneous manufactured articles,209609,Pencils and Crayons,34
+20,Miscellaneous,2096,Miscellaneous manufactured articles,209613,Lighters,2886
+20,Miscellaneous,2096,Miscellaneous manufactured articles,209614,Smoking Pipes,1075
+20,Miscellaneous,2096,Miscellaneous manufactured articles,209616,Scent Sprays,161
+20,Miscellaneous,2096,Miscellaneous manufactured articles,209617,Vacuum Flask,8746
+21,Arts and Antiques,2197,Works of art; collectors' pieces and antiques,219701,Paintings,297
+21,Arts and Antiques,2197,Works of art; collectors' pieces and antiques,219703,Sculptures,6426
+21,Arts and Antiques,2197,Works of art; collectors' pieces and antiques,219705,Collector's Items,2440

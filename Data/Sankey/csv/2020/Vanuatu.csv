@@ -1,0 +1,28 @@
+﻿"Category"," (from)"," (to)"," (weight)"," (color)"
+"highcharts-u81slsh-3530","Oil Products: Imports","Oil Products",3578,
+"highcharts-u81slsh-3531","Electricity: Primary Production","Other Electricity & Heat",76,
+"highcharts-u81slsh-3532","BioFuels: Primary Production","BioFuels",840,
+"highcharts-u81slsh-3533","BioFuels","Other Transformation",17,
+"highcharts-u81slsh-3534","Oil Products","Oil: Supplied",3578,
+"highcharts-u81slsh-3535","Other Electricity & Heat","Other Electricity & Heat 3",76,
+"highcharts-u81slsh-3536","BioFuels","BioFuels: Supplied",823,
+"highcharts-u81slsh-3537","Oil: Supplied","PowerStations",540,
+"highcharts-u81slsh-3538","BioFuels: Supplied","PowerStations",8,
+"highcharts-u81slsh-3539","PowerStations","Electricity & Heat: Supplied",205,
+"highcharts-u81slsh-3540","Statistical Diff: Sec 2","Electricity & Heat: Supplied",12,"#121212"
+"highcharts-u81slsh-3541","Other Electricity & Heat 3","Electricity & Heat: Supplied",76,
+"highcharts-u81slsh-3542","Oil: Supplied","Oil: Final Consumption",2367,
+"highcharts-u81slsh-3543","Oil: Supplied","Bunkers",671,
+"highcharts-u81slsh-3544","Electricity & Heat: Supplied","Own Use",11,
+"highcharts-u81slsh-3545","Electricity & Heat: Supplied","Electricity & Heat: Final Consumption",263,
+"highcharts-u81slsh-3546","BioFuels: Supplied","BioFuels: Final Consumption",814,
+"highcharts-u81slsh-3547","Electricity & Heat: Supplied","Losses",19,"#808080"
+"highcharts-u81slsh-3548","PowerStations","Transformation Losses",343,"#808080"
+"highcharts-u81slsh-3549","Oil: Final Consumption","Transport",2247,
+"highcharts-u81slsh-3550","Oil: Final Consumption","Households",91,
+"highcharts-u81slsh-3551","Oil: Final Consumption","Non-Energy use",30,
+"highcharts-u81slsh-3552","Electricity & Heat: Final Consumption","Manufacturing",100,
+"highcharts-u81slsh-3553","Electricity & Heat: Final Consumption","Households",91,
+"highcharts-u81slsh-3554","Electricity & Heat: Final Consumption","Commerce",67,
+"highcharts-u81slsh-3555","Electricity & Heat: Final Consumption","N.E.S",5,
+"highcharts-u81slsh-3556","BioFuels: Final Consumption","Households",814,

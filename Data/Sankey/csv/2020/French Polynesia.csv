@@ -1,0 +1,27 @@
+﻿"Category"," (from)"," (to)"," (weight)"," (color)"
+"highcharts-u81slsh-3001","Oil Products: Imports","Oil Products",11913,
+"highcharts-u81slsh-3002","Electricity: Primary Production","Other Electricity & Heat",724,
+"highcharts-u81slsh-3003","Heat: Primary Production","Other Electricity & Heat",80,
+"highcharts-u81slsh-3004","BioFuels: Primary Production","BioFuels",43,
+"highcharts-u81slsh-3005","BioFuels: Imports","BioFuels",3,
+"highcharts-u81slsh-3006","BioFuels","Other Transformation",14,
+"highcharts-u81slsh-3007","Oil Products","Oil: Supplied",11913,
+"highcharts-u81slsh-3008","Stock Changes: Sec 2","Oil: Supplied",13,"#121212"
+"highcharts-u81slsh-3009","Other Electricity & Heat","Other Electricity & Heat 3",804,
+"highcharts-u81slsh-3010","BioFuels","BioFuels: Supplied",32,
+"highcharts-u81slsh-3011","Oil: Supplied","PowerStations",4453,
+"highcharts-u81slsh-3012","PowerStations","Electricity & Heat: Supplied",1672,
+"highcharts-u81slsh-3013","Other Electricity & Heat 3","Electricity & Heat: Supplied",804,
+"highcharts-u81slsh-3014","Oil: Supplied","Oil: Final Consumption",7474,
+"highcharts-u81slsh-3015","Electricity & Heat: Supplied","Own Use",1,
+"highcharts-u81slsh-3016","Electricity & Heat: Supplied","Electricity & Heat: Final Consumption",2324,
+"highcharts-u81slsh-3017","BioFuels: Supplied","BioFuels: Final Consumption",32,
+"highcharts-u81slsh-3018","Electricity & Heat: Supplied","Losses",152,"#808080"
+"highcharts-u81slsh-3019","PowerStations","Transformation Losses",2781,"#808080"
+"highcharts-u81slsh-3020","Oil: Final Consumption","Transport",6422,
+"highcharts-u81slsh-3021","Oil: Final Consumption","Households",511,
+"highcharts-u81slsh-3022","Oil: Final Consumption","Agriculture",425,
+"highcharts-u81slsh-3023","Oil: Final Consumption","Non-Energy use",117,
+"highcharts-u81slsh-3024","Electricity & Heat: Final Consumption","Households",1350,
+"highcharts-u81slsh-3025","Electricity & Heat: Final Consumption","Commerce",973,
+"highcharts-u81slsh-3026","BioFuels: Final Consumption","Households",32,

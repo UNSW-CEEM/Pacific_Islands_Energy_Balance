@@ -1,0 +1,23 @@
+﻿"Category"," (from)"," (to)"," (weight)"," (color)"
+"highcharts-q5740kz-1594","Oil Products: Imports","Oil Products",101,
+"highcharts-q5740kz-1595","Heat: Primary Production","Other Electricity & Heat",16,
+"highcharts-q5740kz-1596","BioFuels: Primary Production","BioFuels",1,
+"highcharts-q5740kz-1597","Oil Products","Oil: Supplied",101,
+"highcharts-q5740kz-1598","Other Electricity & Heat","Other Electricity & Heat 3",16,
+"highcharts-q5740kz-1599","BioFuels","BioFuels: Supplied",1,
+"highcharts-q5740kz-1600","Oil: Supplied","PowerStations",33,
+"highcharts-q5740kz-1601","PowerStations","Electricity & Heat: Supplied",12,
+"highcharts-q5740kz-1602","Other Electricity & Heat 3","Electricity & Heat: Supplied",16,
+"highcharts-q5740kz-1603","Oil: Supplied","Oil: Final Consumption",47,
+"highcharts-q5740kz-1604","Oil: Supplied","Bunkers",21,
+"highcharts-q5740kz-1605","Electricity & Heat: Supplied","Electricity & Heat: Final Consumption",27,
+"highcharts-q5740kz-1606","Electricity & Heat: Supplied","Losses",1,"#808080"
+"highcharts-q5740kz-1607","PowerStations","Transformation Losses",21,"#808080"
+"highcharts-q5740kz-1608","Oil: Final Consumption","Transport",41,
+"highcharts-q5740kz-1609","Oil: Final Consumption","Manufacturing",2,
+"highcharts-q5740kz-1610","Oil: Final Consumption","Households",2,
+"highcharts-q5740kz-1611","Oil: Final Consumption","Agriculture",1,
+"highcharts-q5740kz-1612","Oil: Final Consumption","Commerce",1,
+"highcharts-q5740kz-1613","Electricity & Heat: Final Consumption","Manufacturing",2,
+"highcharts-q5740kz-1614","Electricity & Heat: Final Consumption","Households",20,
+"highcharts-q5740kz-1615","Electricity & Heat: Final Consumption","Commerce",5,

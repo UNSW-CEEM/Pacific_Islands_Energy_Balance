@@ -1,0 +1,42 @@
+﻿"Category"," (from)"," (to)"," (weight)"," (color)"
+"highcharts-q5740kz-1347","Oil Products: Imports","Oil Products",38116,
+"highcharts-q5740kz-1348","Coal: Imports","Coal",26739,
+"highcharts-q5740kz-1349","Electricity: Primary Production","Other Electricity & Heat",1647,
+"highcharts-q5740kz-1350","Heat: Primary Production","Other Electricity & Heat",141,
+"highcharts-q5740kz-1351","BioFuels: Primary Production","BioFuels",124,
+"highcharts-q5740kz-1352","BioFuels: Imports","BioFuels",1,
+"highcharts-q5740kz-1353","Stock Draw","Coal",706,"#E59400"
+"highcharts-q5740kz-1354","Statistical Diff","Coal",676,"#E59400"
+"highcharts-q5740kz-1355","BioFuels","Other Transformation",16,
+"highcharts-q5740kz-1356","Oil Products","Oil: Supplied",38116,
+"highcharts-q5740kz-1357","Statistical Diff: Sec 2","Oil: Supplied",185,"#121212"
+"highcharts-q5740kz-1358","Coal","Coal: Supplied",28121,
+"highcharts-q5740kz-1359","Other Electricity & Heat","Other Electricity & Heat 3",1788,
+"highcharts-q5740kz-1360","BioFuels","BioFuels: Supplied",109,
+"highcharts-q5740kz-1361","Oil: Supplied","PowerStations",16397,
+"highcharts-q5740kz-1362","Coal: Supplied","PowerStations",18820,
+"highcharts-q5740kz-1363","BioFuels: Supplied","PowerStations",5,
+"highcharts-q5740kz-1364","PowerStations","Electricity & Heat: Supplied",10352,
+"highcharts-q5740kz-1365","Statistical Diff: Sec 2","Electricity & Heat: Supplied",347,"#121212"
+"highcharts-q5740kz-1366","Other Electricity & Heat 3","Electricity & Heat: Supplied",1788,
+"highcharts-q5740kz-1367","Oil: Supplied","Oil: Final Consumption",20092,
+"highcharts-q5740kz-1368","Oil: Supplied","Bunkers",1582,
+"highcharts-q5740kz-1369","Electricity & Heat: Supplied","Own Use",15,
+"highcharts-q5740kz-1370","Coal: Supplied","Coal: Final Consumption",9300,
+"highcharts-q5740kz-1371","Electricity & Heat: Supplied","Electricity & Heat: Final Consumption",12269,
+"highcharts-q5740kz-1372","BioFuels: Supplied","BioFuels: Final Consumption",103,
+"highcharts-q5740kz-1373","Oil: Supplied","Stock Changes: Sec",231,
+"highcharts-q5740kz-1374","Electricity & Heat: Supplied","Losses",204,"#808080"
+"highcharts-q5740kz-1375","PowerStations","Transformation Losses",24870,"#808080"
+"highcharts-q5740kz-1376","Oil: Final Consumption","Transport",8946,
+"highcharts-q5740kz-1377","Oil: Final Consumption","Manufacturing",9592,
+"highcharts-q5740kz-1378","Oil: Final Consumption","Households",362,
+"highcharts-q5740kz-1379","Oil: Final Consumption","Agriculture",224,
+"highcharts-q5740kz-1380","Oil: Final Consumption","Commerce",146,
+"highcharts-q5740kz-1381","Oil: Final Consumption","Non-Energy use",822,
+"highcharts-q5740kz-1382","Coal: Final Consumption","Manufacturing",3733,
+"highcharts-q5740kz-1383","Coal: Final Consumption","Non-Energy use",5568,
+"highcharts-q5740kz-1384","Electricity & Heat: Final Consumption","Manufacturing",9373,
+"highcharts-q5740kz-1385","Electricity & Heat: Final Consumption","Households",1065,
+"highcharts-q5740kz-1386","Electricity & Heat: Final Consumption","Commerce",1831,
+"highcharts-q5740kz-1387","BioFuels: Final Consumption","Households",103,

@@ -1,0 +1,159 @@
+"Section ID","Section","HS2 ID","HS2","HS4 ID","HS4","Trade Value"
+1,"Animal Products",103,"Fish and crustaceans, molluscs and other aquatic invertebrates",10301,"Live Fish",1300694
+1,"Animal Products",103,"Fish and crustaceans, molluscs and other aquatic invertebrates",10302,"Non-fillet Fresh Fish",1134822
+1,"Animal Products",103,"Fish and crustaceans, molluscs and other aquatic invertebrates",10303,"Non-fillet Frozen Fish",125831810
+1,"Animal Products",103,"Fish and crustaceans, molluscs and other aquatic invertebrates",10304,"Fish Fillets",6413633.000000001
+2,"Vegetable Products",212,"Oil seeds and oleaginous fruits",21203,"Copra",7307918
+3,"Animal and Vegetable Bi-Products",315,"Animal or vegetable fats and oils and their cleavage products",31513,"Coconut Oil",2017797
+4,"Foodstuffs",419,"Preparations of cereals, flour, starch or milk; pastrycooks' products",41902,"Pasta",59368.99999999999
+4,"Foodstuffs",420,"Preparations of vegetables, fruit, nuts or other parts of plants",42005,"Other Processed Vegetables",3261
+4,"Foodstuffs",420,"Preparations of vegetables, fruit, nuts or other parts of plants",42008,"Other Processed Fruits and Nuts",37500
+4,"Foodstuffs",423,"Food industries, residues and wastes thereof; prepared animal fodder",42309,"Animal Food",1468.0000000000002
+4,"Foodstuffs",424,"Tobacco and manufactured tobacco substitutes",42402,"Rolled Tobacco",158631
+5,"Mineral Products",527,"Mineral fuels, mineral oils and products of their distillation",52710,"Refined Petroleum",35
+5,"Mineral Products",527,"Mineral fuels, mineral oils and products of their distillation",52714,"Asphalt",34324
+6,"Chemical Products",629,"Organic chemicals",62905,"Acyclic Alcohols",302
+6,"Chemical Products",629,"Organic chemicals",62915,"Saturated Acyclic Monocarboxylic Acids",8074
+6,"Chemical Products",632,"Tanning or dyeing extracts; tannins and their derivatives; dyes, pigments and other colouring matter; paints, varnishes; putty, other mastics; inks",63204,"Synthetic Coloring Matter",1189
+6,"Chemical Products",632,"Tanning or dyeing extracts; tannins and their derivatives; dyes, pigments and other colouring matter; paints, varnishes; putty, other mastics; inks",63208,"Nonaqueous Paints",149
+6,"Chemical Products",632,"Tanning or dyeing extracts; tannins and their derivatives; dyes, pigments and other colouring matter; paints, varnishes; putty, other mastics; inks",63215,"Ink",73
+6,"Chemical Products",633,"Essential oils and resinoids; perfumery, cosmetic or toilet preparations",63304,"Beauty Products",293
+6,"Chemical Products",635,"Albuminoidal substances; modified starches; glues; enzymes",63506,"Glues",767
+6,"Chemical Products",638,"Chemical products n.e.s.",63822,"Laboratory Reagents",53
+6,"Chemical Products",638,"Chemical products n.e.s.",63823,"Industrial Fatty Acids, Oils and Alcohols",20619
+7,"Plastics and Rubbers",739,"Plastics and articles thereof",73901,"Ethylene Polymers",102456
+7,"Plastics and Rubbers",739,"Plastics and articles thereof",73915,"Scrap Plastic",16256
+7,"Plastics and Rubbers",739,"Plastics and articles thereof",73917,"Plastic Pipes",283
+7,"Plastics and Rubbers",739,"Plastics and articles thereof",73919,"Self-adhesive Plastics",53
+7,"Plastics and Rubbers",739,"Plastics and articles thereof",73920,"Raw Plastic Sheeting",474
+7,"Plastics and Rubbers",739,"Plastics and articles thereof",73921,"Other Plastic Sheetings",16
+7,"Plastics and Rubbers",739,"Plastics and articles thereof",73923,"Plastic Lids",26508.000000000004
+7,"Plastics and Rubbers",739,"Plastics and articles thereof",73925,"Plastic Building Materials",107
+7,"Plastics and Rubbers",739,"Plastics and articles thereof",73926,"Other Plastic Products",2665
+7,"Plastics and Rubbers",740,"Rubber and articles thereof",74009,"Rubber Pipes",20
+7,"Plastics and Rubbers",740,"Rubber and articles thereof",74010,"Rubber Belting",173.00000000000003
+7,"Plastics and Rubbers",740,"Rubber and articles thereof",74016,"Other Rubber Products",442
+8,"Animal Hides",842,"Articles of leather; saddlery and harness; travel goods, handbags and similar containers; articles of animal gut (other than silk-worm gut)",84202,"Trunks and Cases",5432.999999999999
+9,"Wood Products",944,"Wood and articles of wood; wood charcoal",94420,"Wood Ornaments",79
+9,"Wood Products",946,"Manufactures of straw, esparto or other plaiting materials; basketware and wickerwork",94602,"Basketwork",218.99999999999997
+10,"Paper Goods",1048,"Paper and paperboard; articles of paper pulp, of paper or paperboard",104819,"Paper Containers",138218
+10,"Paper Goods",1048,"Paper and paperboard; articles of paper pulp, of paper or paperboard",104820,"Paper Notebooks",35
+10,"Paper Goods",1048,"Paper and paperboard; articles of paper pulp, of paper or paperboard",104821,"Paper Labels",932
+10,"Paper Goods",1049,"Printed books, newspapers, pictures and other products of the printing industry; manuscripts, typescripts and plans",104901,"Brochures",2
+10,"Paper Goods",1049,"Printed books, newspapers, pictures and other products of the printing industry; manuscripts, typescripts and plans",104903,"Children's Picture Books",146
+10,"Paper Goods",1049,"Printed books, newspapers, pictures and other products of the printing industry; manuscripts, typescripts and plans",104911,"Other Printed Material",251
+11,"Textiles",1154,"Man-made filaments",115407,"Synthetic Filament Yarn Woven Fabric",8
+11,"Textiles",1158,"Woven fabrics",115804,"Tulles and Net Fabric",515
+11,"Textiles",1160,"Knitted or chrocheted fabrics",116001,"Pile Fabric",115.99999999999999
+11,"Textiles",1160,"Knitted or chrocheted fabrics",116002,"Light Rubberized Knitted Fabric",59.00000000000001
+11,"Textiles",1161,"Knitted or crocheted apparel and clothing accessories",116104,"Knit Women's Suits",384
+11,"Textiles",1161,"Knitted or crocheted apparel and clothing accessories",116105,"Knit Men's Shirts",1210.9999999999998
+11,"Textiles",1161,"Knitted or crocheted apparel and clothing accessories",116106,"Knit Women's Shirts",314
+11,"Textiles",1161,"Knitted or crocheted apparel and clothing accessories",116108,"Knit Women's Undergarments",144.00000000000003
+11,"Textiles",1161,"Knitted or crocheted apparel and clothing accessories",116109,"Knit T-shirts",133
+11,"Textiles",1161,"Knitted or crocheted apparel and clothing accessories",116110,"Knit Sweaters",39717
+11,"Textiles",1161,"Knitted or crocheted apparel and clothing accessories",116111,"Knit Babies' Garments",156
+11,"Textiles",1162,"Non-knit or crocheted apparel and clothing accessories",116201,"Non-Knit Men's Coats",32383
+11,"Textiles",1162,"Non-knit or crocheted apparel and clothing accessories",116203,"Non-Knit Men's Suits",21231
+11,"Textiles",1162,"Non-knit or crocheted apparel and clothing accessories",116204,"Non-Knit Women's Suits",14039
+11,"Textiles",1162,"Non-knit or crocheted apparel and clothing accessories",116205,"Non-Knit Men's Shirts",7178
+11,"Textiles",1162,"Non-knit or crocheted apparel and clothing accessories",116206,"Non-Knit Women's Shirts",1259.0000000000002
+11,"Textiles",1162,"Non-knit or crocheted apparel and clothing accessories",116215,"Neck Ties",376
+12,"Footwear and Headwear",1264,"Footwear; gaiters and the like; parts of such articles",126402,"Rubber Footwear",8356
+12,"Footwear and Headwear",1264,"Footwear; gaiters and the like; parts of such articles",126403,"Leather Footwear",25038
+12,"Footwear and Headwear",1264,"Footwear; gaiters and the like; parts of such articles",126404,"Textile Footwear",11246
+12,"Footwear and Headwear",1264,"Footwear; gaiters and the like; parts of such articles",126405,"Other Footwear",1571
+12,"Footwear and Headwear",1265,"Headgear and parts thereof",126505,"Knitted Hats",46
+13,"Stone And Glass",1368,"Stone, plaster, cement, asbestos, mica or similar materials; articles thereof",136815,"Other Stone Articles",78411
+13,"Stone And Glass",1369,"Ceramic products",136909,"Laboratory Ceramic Ware",203
+13,"Stone And Glass",1369,"Ceramic products",136910,"Bathroom Ceramics",45
+13,"Stone And Glass",1369,"Ceramic products",136911,"Porcelain Tableware",182
+13,"Stone And Glass",1369,"Ceramic products",136912,"Ceramic Tableware",322
+14,"Precious Metals",1471,"Precious metals, gems and jewelry",147117,"Imitation Jewellery",110
+14,"Precious Metals",1471,"Precious metals, gems and jewelry",147118,"Coin",4
+15,"Metals",1572,"Iron and steel",157204,"Scrap Iron",15138.999999999998
+15,"Metals",1572,"Iron and steel",157216,"Iron Blocks",2711.0000000000005
+15,"Metals",1573,"Iron or steel articles",157307,"Iron Pipe Fittings",132190
+15,"Metals",1573,"Iron or steel articles",157308,"Iron Structures",16
+15,"Metals",1573,"Iron or steel articles",157311,"Iron Gas Containers",109
+15,"Metals",1573,"Iron or steel articles",157315,"Iron Chains",138
+15,"Metals",1573,"Iron or steel articles",157318,"Iron Fasteners",3065
+15,"Metals",1573,"Iron or steel articles",157326,"Other Iron Products",4126
+15,"Metals",1574,"Copper and articles thereof",157411,"Copper Pipes",33
+15,"Metals",1574,"Copper and articles thereof",157419,"Other Copper Products",1478.0000000000002
+15,"Metals",1576,"Aluminium and articles thereof",157602,"Scrap Aluminium",23672
+15,"Metals",1576,"Aluminium and articles thereof",157616,"Other Aluminium Products",830
+15,"Metals",1582,"Tools and cutlery",158201,"Garden Tools",13.000000000000002
+15,"Metals",1582,"Tools and cutlery",158205,"Other Hand Tools",97
+15,"Metals",1582,"Tools and cutlery",158207,"Interchangeable Tool Parts",27.000000000000004
+15,"Metals",1583,"Metal; miscellaneous products of base metal",158301,"Padlocks",285
+15,"Metals",1583,"Metal; miscellaneous products of base metal",158304,"Filing Cabinets",55
+15,"Metals",1583,"Metal; miscellaneous products of base metal",158307,"Flexible Metal Tubing",568
+16,"Machines",1684,"Machinery and appliances",168409,"Engine Parts",1057
+16,"Machines",1684,"Machinery and appliances",168411,"Gas Turbines",291045
+16,"Machines",1684,"Machinery and appliances",168412,"Other Engines",2408
+16,"Machines",1684,"Machinery and appliances",168413,"Liquid Pumps",111
+16,"Machines",1684,"Machinery and appliances",168414,"Air Pumps",1517
+16,"Machines",1684,"Machinery and appliances",168415,"Air Conditioners",659.9999999999999
+16,"Machines",1684,"Machinery and appliances",168421,"Centrifuges",10443
+16,"Machines",1684,"Machinery and appliances",168423,"Scales",223.99999999999997
+16,"Machines",1684,"Machinery and appliances",168424,"Liquid Dispersing Machines",276
+16,"Machines",1684,"Machinery and appliances",168429,"Large Construction Vehicles",15628
+16,"Machines",1684,"Machinery and appliances",168430,"Other Construction Vehicles",2767
+16,"Machines",1684,"Machinery and appliances",168431,"Excavation Machinery",3598
+16,"Machines",1684,"Machinery and appliances",168461,"Metalworking Machines",166
+16,"Machines",1684,"Machinery and appliances",168467,"Motor-working Tools",852
+16,"Machines",1684,"Machinery and appliances",168470,"Calculators",9810
+16,"Machines",1684,"Machinery and appliances",168471,"Computers",9670.000000000002
+16,"Machines",1684,"Machinery and appliances",168472,"Other Office Machines",957.0000000000001
+16,"Machines",1684,"Machinery and appliances",168473,"Office Machine Parts",15964.000000000002
+16,"Machines",1684,"Machinery and appliances",168479,"Machinery Having Individual Functions",7528.000000000001
+16,"Machines",1684,"Machinery and appliances",168481,"Valves",12887
+16,"Machines",1684,"Machinery and appliances",168483,"Transmissions",3235
+16,"Machines",1684,"Machinery and appliances",168484,"Gaskets",6707.999999999999
+16,"Machines",1685,"Electrical machinery and equipment",168501,"Electric Motors",104578
+16,"Machines",1685,"Electrical machinery and equipment",168503,"Electric Motor Parts",4824
+16,"Machines",1685,"Electrical machinery and equipment",168507,"Electric Batteries",312
+16,"Machines",1685,"Electrical machinery and equipment",168508,"Vacuum Cleaners",1107
+16,"Machines",1685,"Electrical machinery and equipment",168511,"Electrical Ignitions",1320
+16,"Machines",1685,"Electrical machinery and equipment",168512,"Electrical Lighting and Signalling Equipment",2151
+16,"Machines",1685,"Electrical machinery and equipment",168518,"Microphones and Headphones",1094
+16,"Machines",1685,"Electrical machinery and equipment",168521,"Video Recording Equipment",1564
+16,"Machines",1685,"Electrical machinery and equipment",168523,"Blank Audio Media",23355
+16,"Machines",1685,"Electrical machinery and equipment",168525,"Broadcasting Equipment",10040
+16,"Machines",1685,"Electrical machinery and equipment",168528,"Video Displays",59.00000000000001
+16,"Machines",1685,"Electrical machinery and equipment",168531,"Audio Alarms",221
+16,"Machines",1685,"Electrical machinery and equipment",168532,"Electrical Capacitors",2284
+16,"Machines",1685,"Electrical machinery and equipment",168535,"High-voltage Protection Equipment",33
+16,"Machines",1685,"Electrical machinery and equipment",168536,"Low-voltage Protection Equipment",15791
+16,"Machines",1685,"Electrical machinery and equipment",168537,"Electrical Control Boards",7507.999999999999
+16,"Machines",1685,"Electrical machinery and equipment",168538,"Electrical Power Accessories",298
+16,"Machines",1685,"Electrical machinery and equipment",168539,"Electric Filament",66
+16,"Machines",1685,"Electrical machinery and equipment",168542,"Integrated Circuits",17176
+16,"Machines",1685,"Electrical machinery and equipment",168544,"Insulated Wire",446
+16,"Machines",1685,"Electrical machinery and equipment",168545,"Carbon-based Electronics",11371
+17,"Transportation",1786,"Railway and other rolling stock",178609,"Shipping containers",5155
+17,"Transportation",1787,"Vehicles and their parts",178703,"Cars",15316
+17,"Transportation",1787,"Vehicles and their parts",178704,"Delivery Trucks",30569
+17,"Transportation",1787,"Vehicles and their parts",178708,"Vehicle Parts",1566
+17,"Transportation",1787,"Vehicles and their parts",178711,"Motorcycles",14338
+17,"Transportation",1788,"Aircraft, spacecraft and parts thereof",178803,"Aircraft Parts",21869
+17,"Transportation",1789,"Ships, boats and floating structures",178901,"Passenger and Cargo Ships",425051.99999999994
+18,"Instruments",1890,"Instruments and apparatus",189007,"Video Cameras",27.000000000000004
+18,"Instruments",1890,"Instruments and apparatus",189014,"Compasses",2747
+18,"Instruments",1890,"Instruments and apparatus",189015,"Surveying Equipment",1809.0000000000002
+18,"Instruments",1890,"Instruments and apparatus",189017,"Drafting Tools",302
+18,"Instruments",1890,"Instruments and apparatus",189018,"Medical Instruments",208.00000000000003
+18,"Instruments",1890,"Instruments and apparatus",189021,"Orthopedic Appliances",2136
+18,"Instruments",1890,"Instruments and apparatus",189026,"Gas and Liquid Flow Measuring Instruments",6056
+18,"Instruments",1890,"Instruments and apparatus",189027,"Chemical Analysis Instruments",1420
+18,"Instruments",1890,"Instruments and apparatus",189030,"Oscilloscopes",607
+18,"Instruments",1890,"Instruments and apparatus",189031,"Other Measuring Instruments",7587.999999999999
+18,"Instruments",1890,"Instruments and apparatus",189032,"Thermostats",34383
+18,"Instruments",1891,"Clocks and watches",189113,"Watch Straps",76
+18,"Instruments",1892,"Musical instruments",189206,"Percussion",6
+20,"Miscellaneous",2094,"Furniture",209403,"Other Furniture",51
+20,"Miscellaneous",2094,"Furniture",209405,"Light Fixtures",1833
+20,"Miscellaneous",2095,"Toys and games",209503,"Models and Stuffed Animals",5478
+20,"Miscellaneous",2095,"Toys and games",209504,"Video and Card Games",168
+21,"Arts and Antiques",2197,"Works of art; collectors' pieces and antiques",219705,"Collector's Items",3255

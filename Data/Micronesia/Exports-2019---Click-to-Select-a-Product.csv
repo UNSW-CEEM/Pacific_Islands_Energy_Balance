@@ -1,0 +1,84 @@
+"Section ID","Section","HS2 ID","HS2","HS4 ID","HS4","Trade Value"
+1,"Animal Products",103,"Fish and crustaceans, molluscs and other aquatic invertebrates",10301,"Live Fish",118213
+1,"Animal Products",103,"Fish and crustaceans, molluscs and other aquatic invertebrates",10302,"Non-fillet Fresh Fish",3032741
+1,"Animal Products",103,"Fish and crustaceans, molluscs and other aquatic invertebrates",10303,"Non-fillet Frozen Fish",119092849
+1,"Animal Products",103,"Fish and crustaceans, molluscs and other aquatic invertebrates",10304,"Fish Fillets",5130707
+1,"Animal Products",103,"Fish and crustaceans, molluscs and other aquatic invertebrates",10307,"Molluscs",52002
+1,"Animal Products",105,"Animal originated products; not elsewhere specified or included",10508,"Coral and Shells",266722
+1,"Animal Products",105,"Animal originated products; not elsewhere specified or included",10511,"Other Inedible Animal Products",4
+4,"Foodstuffs",416,"Meat, fish or crustaceans, molluscs or other aquatic invertebrates",41604,"Processed Fish",269558
+4,"Foodstuffs",416,"Meat, fish or crustaceans, molluscs or other aquatic invertebrates",41605,"Processed Crustaceans",40608
+4,"Foodstuffs",417,"Sugars and sugar confectionery",41702,"Other Sugars",879
+4,"Foodstuffs",422,"Beverages, spirits and vinegar",42208,"Hard Liquor",117
+5,"Mineral Products",527,"Mineral fuels, mineral oils and products of their distillation",52710,"Refined Petroleum",31536
+6,"Chemical Products",630,"Pharmaceutical products",63002,"Blood, antisera, vaccines, toxins and cultures",2389.0000000000005
+6,"Chemical Products",638,"Chemical products n.e.s.",63822,"Laboratory Reagents",6212.999999999999
+6,"Chemical Products",638,"Chemical products n.e.s.",63823,"Industrial Fatty Acids, Oils and Alcohols",84276.00000000001
+7,"Plastics and Rubbers",739,"Plastics and articles thereof",73919,"Self-adhesive Plastics",737
+7,"Plastics and Rubbers",739,"Plastics and articles thereof",73926,"Other Plastic Products",174
+7,"Plastics and Rubbers",740,"Rubber and articles thereof",74009,"Rubber Pipes",453.99999999999994
+7,"Plastics and Rubbers",740,"Rubber and articles thereof",74016,"Other Rubber Products",1020.9999999999999
+8,"Animal Hides",842,"Articles of leather; saddlery and harness; travel goods, handbags and similar containers; articles of animal gut (other than silk-worm gut)",84202,"Trunks and Cases",5930
+8,"Animal Hides",842,"Articles of leather; saddlery and harness; travel goods, handbags and similar containers; articles of animal gut (other than silk-worm gut)",84203,"Leather Apparel",132
+9,"Wood Products",946,"Manufactures of straw, esparto or other plaiting materials; basketware and wickerwork",94602,"Basketwork",116585
+10,"Paper Goods",1049,"Printed books, newspapers, pictures and other products of the printing industry; manuscripts, typescripts and plans",104901,"Brochures",3159
+10,"Paper Goods",1049,"Printed books, newspapers, pictures and other products of the printing industry; manuscripts, typescripts and plans",104902,"Newspapers",50
+11,"Textiles",1156,"Wadding, felt and nonwovens, special yarns; twine, cordage, ropes and cables and articles thereof",115607,"Twine and Rope",15302
+11,"Textiles",1156,"Wadding, felt and nonwovens, special yarns; twine, cordage, ropes and cables and articles thereof",115608,"Netting",108592.99999999999
+11,"Textiles",1161,"Knitted or crocheted apparel and clothing accessories",116104,"Knit Women's Suits",672
+11,"Textiles",1161,"Knitted or crocheted apparel and clothing accessories",116105,"Knit Men's Shirts",3834
+11,"Textiles",1161,"Knitted or crocheted apparel and clothing accessories",116109,"Knit T-shirts",8734
+11,"Textiles",1161,"Knitted or crocheted apparel and clothing accessories",116110,"Knit Sweaters",4916
+11,"Textiles",1162,"Non-knit or crocheted apparel and clothing accessories",116204,"Non-Knit Women's Suits",6600
+11,"Textiles",1162,"Non-knit or crocheted apparel and clothing accessories",116210,"Felt or Coated Fabric Garments",2725
+11,"Textiles",1162,"Non-knit or crocheted apparel and clothing accessories",116211,"Non-Knit Active Wear",1440
+11,"Textiles",1163,"Textiles, made up articles; sets; worn clothing and worn textile articles; rags",116306,"Awnings, Tents, and Sails",9001
+11,"Textiles",1163,"Textiles, made up articles; sets; worn clothing and worn textile articles; rags",116310,"Textile Scraps",26219
+12,"Footwear and Headwear",1264,"Footwear; gaiters and the like; parts of such articles",126403,"Leather Footwear",502
+12,"Footwear and Headwear",1265,"Headgear and parts thereof",126505,"Knitted Hats",332.99999999999994
+15,"Metals",1572,"Iron and steel",157204,"Scrap Iron",183131.00000000003
+15,"Metals",1573,"Iron or steel articles",157307,"Iron Pipe Fittings",1650
+15,"Metals",1573,"Iron or steel articles",157326,"Other Iron Products",420
+15,"Metals",1574,"Copper and articles thereof",157404,"Scrap Copper",10161
+15,"Metals",1574,"Copper and articles thereof",157412,"Copper Pipe Fittings",1469
+15,"Metals",1576,"Aluminium and articles thereof",157602,"Scrap Aluminium",96689
+15,"Metals",1576,"Aluminium and articles thereof",157606,"Aluminium Plating",2505
+15,"Metals",1583,"Metal; miscellaneous products of base metal",158301,"Padlocks",225
+16,"Machines",1684,"Machinery and appliances",168409,"Engine Parts",500
+16,"Machines",1684,"Machinery and appliances",168412,"Other Engines",823
+16,"Machines",1684,"Machinery and appliances",168421,"Centrifuges",4788
+16,"Machines",1684,"Machinery and appliances",168422,"Washing and Bottling Machines",3111
+16,"Machines",1684,"Machinery and appliances",168431,"Excavation Machinery",2652.0000000000005
+16,"Machines",1684,"Machinery and appliances",168443,"Industrial Printers",1197
+16,"Machines",1684,"Machinery and appliances",168467,"Motor-working Tools",379
+16,"Machines",1684,"Machinery and appliances",168471,"Computers",21792
+16,"Machines",1684,"Machinery and appliances",168473,"Office Machine Parts",152222
+16,"Machines",1684,"Machinery and appliances",168479,"Machinery Having Individual Functions",12074
+16,"Machines",1684,"Machinery and appliances",168481,"Valves",15212
+16,"Machines",1684,"Machinery and appliances",168482,"Ball Bearings",3162.9999999999995
+16,"Machines",1685,"Electrical machinery and equipment",168501,"Electric Motors",10274
+16,"Machines",1685,"Electrical machinery and equipment",168504,"Electrical Transformers",125
+16,"Machines",1685,"Electrical machinery and equipment",168512,"Electrical Lighting and Signalling Equipment",164
+16,"Machines",1685,"Electrical machinery and equipment",168521,"Video Recording Equipment",701
+16,"Machines",1685,"Electrical machinery and equipment",168525,"Broadcasting Equipment",50664
+16,"Machines",1685,"Electrical machinery and equipment",168527,"Radio Receivers",369
+16,"Machines",1685,"Electrical machinery and equipment",168528,"Video Displays",2360
+16,"Machines",1685,"Electrical machinery and equipment",168532,"Electrical Capacitors",27533
+16,"Machines",1685,"Electrical machinery and equipment",168536,"Low-voltage Protection Equipment",66
+16,"Machines",1685,"Electrical machinery and equipment",168542,"Integrated Circuits",6425.999999999999
+16,"Machines",1685,"Electrical machinery and equipment",168543,"Other Electrical Machinery",12366
+16,"Machines",1685,"Electrical machinery and equipment",168544,"Insulated Wire",218.99999999999997
+17,"Transportation",1787,"Vehicles and their parts",178703,"Cars",4678
+17,"Transportation",1787,"Vehicles and their parts",178708,"Vehicle Parts",201.99999999999997
+17,"Transportation",1788,"Aircraft, spacecraft and parts thereof",178803,"Aircraft Parts",105469
+18,"Instruments",1890,"Instruments and apparatus",189015,"Surveying Equipment",3819
+18,"Instruments",1890,"Instruments and apparatus",189025,"Hydrometers",54.00000000000001
+18,"Instruments",1890,"Instruments and apparatus",189026,"Gas and Liquid Flow Measuring Instruments",2241
+18,"Instruments",1890,"Instruments and apparatus",189027,"Chemical Analysis Instruments",912.9999999999999
+18,"Instruments",1890,"Instruments and apparatus",189030,"Oscilloscopes",972
+18,"Instruments",1890,"Instruments and apparatus",189033,"Opto-Electric Instrument Parts",27646
+20,"Miscellaneous",2094,"Furniture",209401,"Seats",2432
+20,"Miscellaneous",2094,"Furniture",209403,"Other Furniture",15639.000000000002
+20,"Miscellaneous",2094,"Furniture",209405,"Light Fixtures",266
+21,"Arts and Antiques",2197,"Works of art; collectors' pieces and antiques",219703,"Sculptures",30976.999999999996
+21,"Arts and Antiques",2197,"Works of art; collectors' pieces and antiques",219706,"Antiques",3093

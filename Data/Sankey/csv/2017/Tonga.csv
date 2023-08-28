@@ -1,0 +1,28 @@
+﻿"Category"," (from)"," (to)"," (weight)"," (color)"
+"highcharts-q5740kz-2551","Oil Products: Imports","Oil Products",2337,
+"highcharts-q5740kz-2552","Electricity: Primary Production","Other Electricity & Heat",19,
+"highcharts-q5740kz-2553","BioFuels: Primary Production","BioFuels",19,
+"highcharts-q5740kz-2554","BioFuels: Imports","BioFuels",1,
+"highcharts-q5740kz-2555","BioFuels","Other Transformation",6,
+"highcharts-q5740kz-2556","Oil Products","Oil: Supplied",2337,
+"highcharts-q5740kz-2557","Statistical Diff: Sec 2","Oil: Supplied",1,"#121212"
+"highcharts-q5740kz-2558","Other Electricity & Heat","Other Electricity & Heat 3",19,
+"highcharts-q5740kz-2559","BioFuels","BioFuels: Supplied",14,
+"highcharts-q5740kz-2560","Oil: Supplied","PowerStations",542,
+"highcharts-q5740kz-2561","PowerStations","Electricity & Heat: Supplied",221,
+"highcharts-q5740kz-2562","Other Electricity & Heat 3","Electricity & Heat: Supplied",19,
+"highcharts-q5740kz-2563","Oil: Supplied","Oil: Final Consumption",1295,
+"highcharts-q5740kz-2564","Oil: Supplied","Bunkers",222,
+"highcharts-q5740kz-2565","Electricity & Heat: Supplied","Own Use",7,
+"highcharts-q5740kz-2566","Electricity & Heat: Supplied","Electricity & Heat: Final Consumption",212,
+"highcharts-q5740kz-2567","BioFuels: Supplied","BioFuels: Final Consumption",13,
+"highcharts-q5740kz-2568","Oil: Supplied","Stock Changes: Sec",279,
+"highcharts-q5740kz-2569","Electricity & Heat: Supplied","Losses",21,"#808080"
+"highcharts-q5740kz-2570","PowerStations","Transformation Losses",321,"#808080"
+"highcharts-q5740kz-2571","Oil: Final Consumption","Transport",1196,
+"highcharts-q5740kz-2572","Oil: Final Consumption","Households",97,
+"highcharts-q5740kz-2573","Oil: Final Consumption","Non-Energy use",1,
+"highcharts-q5740kz-2574","Electricity & Heat: Final Consumption","Households",77,
+"highcharts-q5740kz-2575","Electricity & Heat: Final Consumption","Commerce",69,
+"highcharts-q5740kz-2576","Electricity & Heat: Final Consumption","N.E.S",65,
+"highcharts-q5740kz-2577","BioFuels: Final Consumption","Households",13,
